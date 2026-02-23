@@ -13,6 +13,18 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Serve blog post images from the BlogPosts content directory
+var blogPostsPath = Path.Combine(builder.Environment.ContentRootPath, "BlogPosts");
+if (Directory.Exists(blogPostsPath))
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(blogPostsPath),
+        RequestPath = "/blog-content"
+    });
+}
+
 app.UseRouting();
 app.UseAuthorization();
 app.MapRazorPages();

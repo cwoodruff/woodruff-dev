@@ -4,12 +4,18 @@ namespace WoodruffDev.Models;
 
 public class BlogPostFrontMatter
 {
-    [YamlMember(Alias = "category")]
-    public string Category { get; set; } = string.Empty;
+    [YamlMember(Alias = "title")]
+    public string Title { get; set; } = string.Empty;
 
     [YamlMember(Alias = "date")]
     public DateTime Date { get; set; }
 
-    [YamlMember(Alias = "description")]
-    public string Description { get; set; } = string.Empty;
+    [YamlMember(Alias = "categories")]
+    public List<string> Categories { get; set; } = [];
+
+    [YamlMember(Alias = "tags")]
+    public List<string> Tags { get; set; } = [];
+
+    [YamlMember(Alias = "coverImage")]
+    public string CoverImage { get; set; } = string.Empty;
 }

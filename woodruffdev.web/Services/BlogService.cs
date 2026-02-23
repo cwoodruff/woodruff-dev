@@ -40,12 +40,19 @@ public partial class BlogService : IBlogService
 
         var posts = new List<BlogPost>();
 
-        foreach (var file in Directory.GetFiles(blogDir, "*.md"))
+        // Recursively find all index.md files in the year/month/slug/ structure
+        foreach (var file in Directory.GetFiles(blogDir, "index.md", SearchOption.AllDirectories))
         {
-            var content = File.ReadAllText(file);
-            var slug = Path.GetFileNameWithoutExtension(file);
+            var postDir = Path.GetDirectoryName(file)!;
+            var slug = Path.GetFileName(postDir);
 
-            var post = ParsePost(content, slug, pipeline, deserializer);
+            // Build relative path from blogDir to the post directory for image URLs
+            // e.g. "2023/02/accelerating-ef-core-with-compiled-queries"
+            var relativePath = Path.GetRelativePath(blogDir, postDir).Replace('\\', '/');
+
+            var content = File.ReadAllText(file);
+
+            var post = ParsePost(content, slug, relativePath, pipeline, deserializer);
             if (post is not null)
                 posts.Add(post);
         }
@@ -54,7 +61,8 @@ public partial class BlogService : IBlogService
     }
 
     private static BlogPost? ParsePost(
-        string content, string slug, MarkdownPipeline pipeline, IDeserializer deserializer)
+        string content, string slug, string relativePath,
+        MarkdownPipeline pipeline, IDeserializer deserializer)
     {
         var match = FrontMatterRegex().Match(content);
         if (!match.Success)
@@ -65,41 +73,88 @@ public partial class BlogService : IBlogService
 
         var frontMatter = deserializer.Deserialize<BlogPostFrontMatter>(yaml);
 
-        // Extract title from first # heading
-        var titleMatch = TitleRegex().Match(markdown);
-        var title = titleMatch.Success ? titleMatch.Groups[1].Value.Trim() : slug;
+        // Use title from front matter
+        var title = !string.IsNullOrWhiteSpace(frontMatter.Title)
+            ? frontMatter.Title
+            : slug;
 
-        // Extract subtitle from first *...* line after the title
-        string? subtitle = null;
-        if (titleMatch.Success)
-        {
-            var afterTitle = markdown[(titleMatch.Index + titleMatch.Length)..].TrimStart();
-            var subtitleMatch = SubtitleRegex().Match(afterTitle);
-            if (subtitleMatch.Success)
-                subtitle = subtitleMatch.Groups[1].Value.Trim();
-        }
+        // Use first category from the categories list
+        var category = frontMatter.Categories?.FirstOrDefault() ?? string.Empty;
 
+        // Build feature image path from coverImage front matter field
+        var featureImagePath = !string.IsNullOrWhiteSpace(frontMatter.CoverImage)
+            ? $"/blog-content/{relativePath}/images/{frontMatter.CoverImage}"
+            : string.Empty;
+
+        // Generate description from the first paragraph of markdown content
+        var description = ExtractDescription(markdown);
+
+        // Convert markdown to HTML
         var html = Markdown.ToHtml(markdown, pipeline);
+
+        // Rewrite relative image paths (images/...) to absolute paths
+        var imageBasePath = $"/blog-content/{relativePath}/";
+        html = RelativeImageRegex().Replace(html, m =>
+        {
+            var prefix = m.Groups[1].Value;    // src=" or src='
+            var imgPath = m.Groups[2].Value;   // images/...
+            var suffix = m.Groups[3].Value;    // " or '
+            return $"{prefix}{imageBasePath}{imgPath}{suffix}";
+        });
 
         return new BlogPost
         {
             Slug = slug,
             Title = title,
-            Subtitle = subtitle,
-            Description = frontMatter.Description,
-            Category = frontMatter.Category,
+            Description = description,
+            Category = category,
             PublishedDate = frontMatter.Date,
-            FeatureImagePath = $"/images/blog-posts/{slug}.png",
+            FeatureImagePath = featureImagePath,
             HtmlContent = html
         };
+    }
+
+    private static string ExtractDescription(string markdown)
+    {
+        // Strip the <!--more--> marker and everything after it for description purposes
+        var moreIndex = markdown.IndexOf("<!--more-->", StringComparison.OrdinalIgnoreCase);
+        var source = moreIndex > 0 ? markdown[..moreIndex] : markdown;
+
+        // Remove markdown formatting for a clean plaintext excerpt
+        var plainText = MarkdownStrippingRegex().Replace(source, "").Trim();
+
+        // Remove blockquote markers
+        plainText = BlockquoteRegex().Replace(plainText, "").Trim();
+
+        // Collapse whitespace
+        plainText = WhitespaceRegex().Replace(plainText, " ").Trim();
+
+        if (plainText.Length <= 200)
+            return plainText;
+
+        // Truncate at a word boundary
+        var truncated = plainText[..200];
+        var lastSpace = truncated.LastIndexOf(' ');
+        if (lastSpace > 100)
+            truncated = truncated[..lastSpace];
+
+        return truncated + "...";
     }
 
     [GeneratedRegex(@"^---\s*\n(.*?)\n---\s*\n", RegexOptions.Singleline)]
     private static partial Regex FrontMatterRegex();
 
-    [GeneratedRegex(@"^#\s+(.+)$", RegexOptions.Multiline)]
-    private static partial Regex TitleRegex();
+    // Match src="images/..." or src='images/...' in generated HTML
+    [GeneratedRegex(@"(src=[""'])(?!https?://|/)(images/[^""']+)([""'])")]
+    private static partial Regex RelativeImageRegex();
 
-    [GeneratedRegex(@"^\*(.+)\*\s*$", RegexOptions.Multiline)]
-    private static partial Regex SubtitleRegex();
+    // Strip common markdown syntax for plaintext description
+    [GeneratedRegex(@"(\*{1,2}|_{1,2}|`{1,3}|#{1,6}\s|!\[.*?\]\(.*?\)|\[|\]\(.*?\))")]
+    private static partial Regex MarkdownStrippingRegex();
+
+    [GeneratedRegex(@"^>\s?", RegexOptions.Multiline)]
+    private static partial Regex BlockquoteRegex();
+
+    [GeneratedRegex(@"\s+")]
+    private static partial Regex WhitespaceRegex();
 }

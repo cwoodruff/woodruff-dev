@@ -13,10 +13,6 @@
         <header class="blog-post-header">
             <span class="section-label">@Model.Post.Category</span>
             <h1>@Model.Post.Title</h1>
-            @if (!string.IsNullOrEmpty(Model.Post.Subtitle))
-            {
-                <p class="blog-post-subtitle">@Model.Post.Subtitle</p>
-            }
             <time class="blog-post-date" datetime="@Model.Post.PublishedDate.ToString("yyyy-MM-dd")">
                 @Model.Post.PublishedDate.ToString("MMMM d, yyyy")
             </time>
