@@ -1,17 +1,22 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WoodruffDev.Models;
+using WoodruffDev.Services;
 
 namespace WoodruffDev.Pages;
 
 public class BlogModel : PageModel
 {
-    private readonly ILogger<BlogModel> _logger;
+    private readonly IBlogService _blogService;
 
-    public BlogModel(ILogger<BlogModel> logger)
+    public BlogModel(IBlogService blogService)
     {
-        _logger = logger;
+        _blogService = blogService;
     }
+
+    public IReadOnlyList<BlogPost> Posts { get; private set; } = [];
 
     public void OnGet()
     {
+        Posts = _blogService.GetAllPosts();
     }
 }

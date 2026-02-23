@@ -61,7 +61,7 @@
             <h2>Explore a curated selection of my recent projects</h2>
         </div>
         <div class="projects-grid">
-            <a href="https://woodruff.dev/portfolio/aspnet-core-htmx-book/" class="project-card fade-in" target="_blank">
+            <a href="/Projects/AspNetCoreHtmxBook" class="project-card fade-in">
                 <div class="project-card-img">
                     <img src="/images/project-htmx-book.jpg" alt="ASP.NET Core Reimagined with htmx"
                          onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#128214;</div>'" />
@@ -71,7 +71,7 @@
                     <h3>ASP.NET Core Reimagined with htmx</h3>
                 </div>
             </a>
-            <a href="https://woodruff.dev/portfolio/the-breakpoint-show/" class="project-card fade-in" target="_blank">
+            <a href="/Projects/BreakpointShow" class="project-card fade-in">
                 <div class="project-card-img">
                     <img src="/images/project-breakpoint.jpg" alt="The Breakpoint Show"
                          onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#127908;</div>'" />
@@ -81,7 +81,7 @@
                     <h3>The Breakpoint Show</h3>
                 </div>
             </a>
-            <a href="https://woodruff.dev/portfolio/the-woody-show/" class="project-card fade-in" target="_blank">
+            <a href="/Projects/WoodyShow" class="project-card fade-in">
                 <div class="project-card-img">
                     <img src="/images/project-woody-show.jpg" alt="The Woody Show"
                          onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#127911;</div>'" />
@@ -91,7 +91,7 @@
                     <h3>The Woody Show</h3>
                 </div>
             </a>
-            <a href="https://woodruff.dev/portfolio/entity-framework-core-course/" class="project-card fade-in" target="_blank">
+            <a href="/Projects/EntityFrameworkCoreCourse" class="project-card fade-in">
                 <div class="project-card-img">
                     <img src="/images/project-ef-core.jpg" alt="Entity Framework Core Course"
                          onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#127891;</div>'" />
@@ -101,7 +101,7 @@
                     <h3>Entity Framework Core Course</h3>
                 </div>
             </a>
-            <a href="https://woodruff.dev/portfolio/htmx-razor-pages-workshop/" class="project-card fade-in" target="_blank">
+            <a href="/Projects/HtmxRazorPagesWorkshop" class="project-card fade-in">
                 <div class="project-card-img">
                     <img src="/images/project-htmx-workshop.jpg" alt="htmx &amp; Razor Pages Workshop"
                          onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#128187;</div>'" />
@@ -111,7 +111,7 @@
                     <h3>htmx &amp; Razor Pages Workshop</h3>
                 </div>
             </a>
-            <a href="https://woodruff.dev/portfolio/terraform-workshop/" class="project-card fade-in" target="_blank">
+            <a href="/Projects/TerraformWorkshop" class="project-card fade-in">
                 <div class="project-card-img">
                     <img src="/images/project-terraform.jpg" alt="Terraform Workshop"
                          onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#9729;&#65039;</div>'" />
@@ -245,45 +245,22 @@
             <h2>Latest articles and insights</h2>
         </div>
         <div class="blog-grid">
-            <a href="https://woodruff.dev/lease-pattern-in-net-a-lock-with-an-expiration-date-that-saves-your-data/" class="blog-card fade-in" target="_blank">
-                <div class="blog-card-img">
-                    <img src="/images/blog-lease-pattern.jpg" alt="Lease Pattern in .NET"
-                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-                </div>
-                <div class="blog-card-body">
-                    <div class="blog-card-meta">
-                        <span class="blog-card-tag">Patterns</span>
+            @foreach (var post in Model.RecentPosts)
+            {
+                <a href="/Blog/@post.Slug" class="blog-card fade-in">
+                    <div class="blog-card-img">
+                        <img src="@post.FeatureImagePath" alt="@post.Title"
+                             onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
                     </div>
-                    <h3>Lease Pattern in .NET: A Lock With an Expiration Date</h3>
-                    <p>Indefinite locks belong to a world where processes never crash and networks never split. A lease fixes that by putting a deadline on ownership.</p>
-                </div>
-            </a>
-            <a href="https://woodruff.dev/leader-election-in-net-picking-one-boss-without-creating-two/" class="blog-card fade-in" target="_blank">
-                <div class="blog-card-img">
-                    <img src="/images/blog-leader-election.jpg" alt="Leader Election in .NET"
-                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-                </div>
-                <div class="blog-card-body">
-                    <div class="blog-card-meta">
-                        <span class="blog-card-tag">Patterns</span>
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-tag">@post.Category</span>
+                        </div>
+                        <h3>@post.Title</h3>
+                        <p>@post.Description</p>
                     </div>
-                    <h3>Leader Election in .NET: Picking One Boss Without Creating Two</h3>
-                    <p>Leader election is the pattern that turns &ldquo;somebody should run this&rdquo; into &ldquo;exactly one node is allowed to run this.&rdquo;</p>
-                </div>
-            </a>
-            <a href="https://woodruff.dev/systems-thinking-meets-simplicity-first-a-decision-framework-for-software-architects/" class="blog-card fade-in" target="_blank">
-                <div class="blog-card-img">
-                    <img src="/images/blog-systems-thinking.jpg" alt="Systems Thinking Meets Simplicity-First"
-                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-                </div>
-                <div class="blog-card-body">
-                    <div class="blog-card-meta">
-                        <span class="blog-card-tag">Simplicity-First</span>
-                    </div>
-                    <h3>Systems Thinking Meets Simplicity-First</h3>
-                    <p>Our tools have never been more powerful, yet our systems have never felt more fragile. Two guiding philosophies emerge.</p>
-                </div>
-            </a>
+                </a>
+            }
         </div>
         <div style="text-align:center; margin-top: var(--space-lg)">
             <a href="/Blog" class="btn btn-outline">All Blog Posts <span class="btn-arrow">&rarr;</span></a>

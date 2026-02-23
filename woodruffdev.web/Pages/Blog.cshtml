@@ -14,145 +14,22 @@
 
 <section class="section">
     <div class="container">
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-lease-pattern.jpg" alt="Lease Pattern"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">Patterns</span>
-                    <span>February 2026</span>
+        @foreach (var post in Model.Posts)
+        {
+            <div class="blog-list-item fade-in">
+                <div class="blog-list-img">
+                    <img src="@post.FeatureImagePath" alt="@post.Title"
+                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
                 </div>
-                <h3><a href="https://woodruff.dev/lease-pattern-in-net-a-lock-with-an-expiration-date-that-saves-your-data/" target="_blank">Lease Pattern in .NET: A Lock With an Expiration Date That Saves Your Data</a></h3>
-                <p>Indefinite locks belong to a world where processes never crash and networks never split. That world does not exist. A lease fixes that by putting a deadline on ownership.</p>
-            </div>
-        </div>
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-leader-election.jpg" alt="Leader Election"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">Patterns</span>
-                    <span>February 2026</span>
+                <div class="blog-list-body">
+                    <div class="blog-list-meta">
+                        <span class="blog-card-tag">@post.Category</span>
+                        <span>@post.PublishedDate.ToString("MMMM yyyy")</span>
+                    </div>
+                    <h3><a href="/Blog/@post.Slug">@post.Title</a></h3>
+                    <p>@post.Description</p>
                 </div>
-                <h3><a href="https://woodruff.dev/leader-election-in-net-picking-one-boss-without-creating-two/" target="_blank">Leader Election in .NET: Picking One Boss Without Creating Two</a></h3>
-                <p>Leader election is the pattern that turns &ldquo;somebody should run this&rdquo; into &ldquo;exactly one node is allowed to run this, and it must be provable.&rdquo;</p>
             </div>
-        </div>
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-leader-followers.jpg" alt="Leader and Followers"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">Patterns</span>
-                    <span>January 2026</span>
-                </div>
-                <h3><a href="https://woodruff.dev/distributed-system-pattern-leader-and-followers-in-net-one-decision-maker-many-replicas-fewer-outages/" target="_blank">Distributed System Pattern: Leader and Followers in .NET</a></h3>
-                <p>Distributed systems rarely fail because you picked the wrong cloud service. They fail because two nodes believe they are in charge.</p>
-            </div>
-        </div>
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-systems-thinking.jpg" alt="Systems Thinking"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">Simplicity-First</span>
-                    <span>January 2026</span>
-                </div>
-                <h3><a href="https://woodruff.dev/systems-thinking-meets-simplicity-first-a-decision-framework-for-software-architects/" target="_blank">Systems Thinking Meets Simplicity-First: A Decision Framework for Software Architects</a></h3>
-                <p>Our tools have never been more powerful, yet our systems have never felt more fragile. Every framework claims to simplify development, but most end up multiplying dependencies.</p>
-            </div>
-        </div>
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-dto-pattern.jpg" alt="DTO Pattern"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">Patterns</span>
-                    <span>January 2026</span>
-                </div>
-                <h3><a href="https://woodruff.dev/enterprise-patterns-for-asp-net-core-minimal-api-data-transfer-object-pattern/" target="_blank">Enterprise Patterns for ASP.NET Core Minimal API: Data Transfer Object Pattern</a></h3>
-                <p>Your domain model exists to protect your business rules. Your API exists to protect your clients. DTOs are the line in the sand.</p>
-            </div>
-        </div>
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-htmx-workshop.jpg" alt="htmx Workshop"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">htmx</span>
-                    <span>January 2026</span>
-                </div>
-                <h3><a href="https://woodruff.dev/stop-building-spas-for-every-screen-htmx-asp-net-core-razor-pages-workshop-open/" target="_blank">Stop Building SPAs for Every Screen: htmx + ASP.NET Core Razor Pages Workshop</a></h3>
-                <p>If your default move for &ldquo;modern UX&rdquo; is a SPA, you are paying a tax you do not need. This workshop is a different bet.</p>
-            </div>
-        </div>
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-front-controller.jpg" alt="Front Controller"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">Patterns</span>
-                    <span>January 2026</span>
-                </div>
-                <h3><a href="https://woodruff.dev/enterprise-patterns-for-asp-net-core-front-controller-and-mvc-pattern/" target="_blank">Enterprise Patterns for ASP.NET Core: Front Controller and MVC Pattern</a></h3>
-                <p>If every controller does its own authentication, logging, and error handling, you don&rsquo;t have an architecture. You have a crowd of small frameworks pretending to cooperate.</p>
-            </div>
-        </div>
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-lazy-load.jpg" alt="Lazy Load Pattern"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">Patterns</span>
-                    <span>January 2026</span>
-                </div>
-                <h3><a href="https://woodruff.dev/enterprise-patterns-for-asp-net-core-minimal-api-lazy-load-pattern/" target="_blank">Enterprise Patterns for ASP.NET Core Minimal API: Lazy Load Pattern</a></h3>
-                <p>If a single endpoint pulls half your database just to render a small card on a mobile screen, your problem is not the database.</p>
-            </div>
-        </div>
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-unit-of-work.jpg" alt="Unit of Work Pattern"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">Patterns</span>
-                    <span>December 2025</span>
-                </div>
-                <h3><a href="https://woodruff.dev/enterprise-patterns-for-asp-net-core-minimal-api-unit-of-work-pattern/" target="_blank">Enterprise Patterns for ASP.NET Core Minimal API: Unit of Work Pattern</a></h3>
-                <p>If a single business operation calls SaveChangesAsync three times, you do not have a transaction. You have a sequence of partial commits.</p>
-            </div>
-        </div>
-        <div class="blog-list-item fade-in">
-            <div class="blog-list-img">
-                <img src="/images/blog-repository.jpg" alt="Repository Pattern"
-                     onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#c9a96e\'>&#128221;</div>'" />
-            </div>
-            <div class="blog-list-body">
-                <div class="blog-list-meta">
-                    <span class="blog-card-tag">Patterns</span>
-                    <span>December 2025</span>
-                </div>
-                <h3><a href="https://woodruff.dev/enterprise-patterns-for-asp-net-core-minimal-api-repository-pattern/" target="_blank">Enterprise Patterns for ASP.NET Core Minimal API: Repository Pattern</a></h3>
-                <p>If DbContext shows up in every corner of your codebase, you do not have a domain model. You have a thin layer of LINQ wrapped in HTTP.</p>
-            </div>
-        </div>
+        }
     </div>
 </section>

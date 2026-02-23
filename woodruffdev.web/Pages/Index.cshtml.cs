@@ -1,17 +1,22 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WoodruffDev.Models;
+using WoodruffDev.Services;
 
 namespace WoodruffDev.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    private readonly IBlogService _blogService;
 
-    public IndexModel(ILogger<IndexModel> logger)
+    public IndexModel(IBlogService blogService)
     {
-        _logger = logger;
+        _blogService = blogService;
     }
+
+    public IReadOnlyList<BlogPost> RecentPosts { get; private set; } = [];
 
     public void OnGet()
     {
+        RecentPosts = _blogService.GetRecentPosts(3);
     }
 }
