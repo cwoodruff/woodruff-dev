@@ -1231,6 +1231,30 @@ p {
     color: var(--ink-soft);
 }
 
+.service-cta {
+    margin-top: var(--space-xl);
+    padding: var(--space-lg);
+    background: var(--surface-warm);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--highlight);
+    border-radius: var(--radius);
+}
+
+.service-cta h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+}
+
+.service-cta p {
+    margin-bottom: var(--space-sm);
+    color: var(--ink-soft);
+}
+
 .service-nav {
     display: flex;
     justify-content: space-between;
