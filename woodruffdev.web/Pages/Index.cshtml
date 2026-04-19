@@ -58,69 +58,57 @@
     <div class="container">
         <div class="section-header fade-in">
             <span class="section-label">Portfolio</span>
-            <h2>Explore a curated selection of my recent projects</h2>
+            <h2>A curated selection of my recent work</h2>
         </div>
         <div class="projects-grid">
-            <a href="/Projects/AspNetCoreHtmxBook" class="project-card fade-in">
-                <div class="project-card-img">
-                    <img src="/images/project-htmx-book.jpg" alt="ASP.NET Core Reimagined with htmx"
-                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#128214;</div>'" />
-                </div>
-                <div class="project-card-body">
-                    <span class="project-card-type">Book</span>
-                    <h3>ASP.NET Core Reimagined with htmx</h3>
-                </div>
-            </a>
-            <a href="/Projects/BreakpointShow" class="project-card fade-in">
-                <div class="project-card-img">
-                    <img src="/images/project-breakpoint.jpg" alt="The Breakpoint Show"
-                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#127908;</div>'" />
-                </div>
-                <div class="project-card-body">
-                    <span class="project-card-type">Podcast</span>
-                    <h3>The Breakpoint Show</h3>
-                </div>
-            </a>
-            <a href="/Projects/WoodyShow" class="project-card fade-in">
-                <div class="project-card-img">
-                    <img src="/images/project-woody-show.jpg" alt="The Woody Show"
-                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#127911;</div>'" />
-                </div>
-                <div class="project-card-body">
-                    <span class="project-card-type">Podcast</span>
-                    <h3>The Woody Show</h3>
-                </div>
-            </a>
-            <a href="/Projects/EntityFrameworkCoreCourse" class="project-card fade-in">
-                <div class="project-card-img">
-                    <img src="/images/project-ef-core.jpg" alt="Entity Framework Core Course"
-                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#127891;</div>'" />
-                </div>
-                <div class="project-card-body">
-                    <span class="project-card-type">Course</span>
-                    <h3>Entity Framework Core Course</h3>
-                </div>
-            </a>
-            <a href="/Projects/HtmxRazorPagesWorkshop" class="project-card fade-in">
-                <div class="project-card-img">
-                    <img src="/images/project-htmx-workshop.jpg" alt="htmx &amp; Razor Pages Workshop"
-                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#128187;</div>'" />
-                </div>
-                <div class="project-card-body">
-                    <span class="project-card-type">Workshop</span>
-                    <h3>htmx &amp; Razor Pages Workshop</h3>
-                </div>
-            </a>
-            <a href="/Projects/TerraformWorkshop" class="project-card fade-in">
-                <div class="project-card-img">
-                    <img src="/images/project-terraform.jpg" alt="Terraform Workshop"
-                         onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#9729;&#65039;</div>'" />
-                </div>
-                <div class="project-card-body">
-                    <span class="project-card-type">Workshop</span>
-                    <h3>Terraform Workshop</h3>
-                </div>
-            </a>
+            @foreach (var item in Model.FeaturedProjects)
+            {
+                var target = item.IsExternal ? "_blank" : null;
+                var rel = item.IsExternal ? "noopener" : null;
+                <a href="@item.Href" class="project-card fade-in" target="@target" rel="@rel">
+                    <div class="project-card-img">
+                        <img src="@item.ImagePath" alt="@item.Title"
+                             onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#128221;</div>'" />
+                    </div>
+                    <div class="project-card-body">
+                        <span class="project-card-type">
+                            @item.CategoryLabel
+                            @if (item.IsExternal)
+                            {
+                                <span class="external-indicator" aria-label="External link">&#8599;</span>
+                            }
+                        </span>
+                        <h3>@item.Title</h3>
+                    </div>
+                </a>
+            }
+        </div>
+        <div style="text-align:center; margin-top: var(--space-lg)">
+            <a href="/Portfolio" class="btn btn-outline">See Full Portfolio <span class="btn-arrow">&rarr;</span></a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== SIMPLICITY-FIRST ========== -->
+<section class="section">
+    <div class="container">
+        <div class="sister-site fade-in">
+            <div class="sister-site-content">
+                <span class="section-label">A companion site</span>
+                <h2>Simplicity-First</h2>
+                <p>
+                    Essays, patterns, and case studies on the philosophy behind the architecture &mdash;
+                    choosing boring technology, resisting complexity, and designing systems that stay
+                    readable at year five. A home for the ideas I lean on when helping teams cut through
+                    noise and ship durable software.
+                </p>
+                <a href="https://simplicity-first.dev/" target="_blank" rel="noopener" class="btn btn-primary">
+                    Visit simplicity-first.dev <span class="btn-arrow">&rarr;</span>
+                </a>
+            </div>
+            <div class="sister-site-accent">
+                <div class="sister-site-mark">SF</div>
+            </div>
         </div>
     </div>
 </section>

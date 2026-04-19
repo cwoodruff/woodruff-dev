@@ -2,6 +2,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<WoodruffDev.Services.IBlogService, WoodruffDev.Services.BlogService>();
+builder.Services.AddSingleton<WoodruffDev.Services.IPortfolioService, WoodruffDev.Services.PortfolioService>();
+builder.Services.AddSingleton<WoodruffDev.Services.IMediaService, WoodruffDev.Services.MediaService>();
 
 var app = builder.Build();
 
