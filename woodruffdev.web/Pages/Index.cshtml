@@ -10,7 +10,7 @@
         <div class="hero-grid">
             <div class="hero-content">
                 <p class="hero-roles">Fractional Architect &bull; Strategic Advisor &bull; Expert Witness</p>
-                <h1>Designing software that works <em>effortlessly.</em></h1>
+                <h1>Designing solutions that work <em>effortlessly.</em></h1>
                 <p class="hero-description">
                     I help teams untangle complexity in software systems&mdash;whether it&rsquo;s modernizing aging platforms,
                     scaling new cloud-native solutions, or explaining technical decisions in high-stakes legal cases.
@@ -53,68 +53,8 @@
     </div>
 </section>
 
-<!-- ========== PROJECTS ========== -->
+<!-- ========== 1. WHY WORK WITH ME ========== -->
 <section class="section section-alt">
-    <div class="container">
-        <div class="section-header fade-in">
-            <span class="section-label">Portfolio</span>
-            <h2>A curated selection of my recent work</h2>
-        </div>
-        <div class="projects-grid">
-            @foreach (var item in Model.FeaturedProjects)
-            {
-                var target = item.IsExternal ? "_blank" : null;
-                var rel = item.IsExternal ? "noopener" : null;
-                <a href="@item.Href" class="project-card fade-in" target="@target" rel="@rel">
-                    <div class="project-card-img">
-                        <img src="@item.ImagePath" alt="@item.Title"
-                             onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#128221;</div>'" />
-                    </div>
-                    <div class="project-card-body">
-                        <span class="project-card-type">
-                            @item.CategoryLabel
-                            @if (item.IsExternal)
-                            {
-                                <span class="external-indicator" aria-label="External link">&#8599;</span>
-                            }
-                        </span>
-                        <h3>@item.Title</h3>
-                    </div>
-                </a>
-            }
-        </div>
-        <div style="text-align:center; margin-top: var(--space-lg)">
-            <a href="/Portfolio" class="btn btn-outline">See Full Portfolio <span class="btn-arrow">&rarr;</span></a>
-        </div>
-    </div>
-</section>
-
-<!-- ========== SIMPLICITY-FIRST ========== -->
-<section class="section">
-    <div class="container">
-        <div class="sister-site fade-in">
-            <div class="sister-site-content">
-                <span class="section-label">A companion site</span>
-                <h2>Simplicity-First</h2>
-                <p>
-                    Essays, patterns, and case studies on the philosophy behind the architecture &mdash;
-                    choosing boring technology, resisting complexity, and designing systems that stay
-                    readable at year five. A home for the ideas I lean on when helping teams cut through
-                    noise and ship durable software.
-                </p>
-                <a href="https://simplicity-first.dev/" target="_blank" rel="noopener" class="btn btn-primary">
-                    Visit simplicity-first.dev <span class="btn-arrow">&rarr;</span>
-                </a>
-            </div>
-            <div class="sister-site-accent">
-                <div class="sister-site-mark">SF</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ========== BENEFITS ========== -->
-<section class="section">
     <div class="container">
         <div class="section-header fade-in">
             <span class="section-label">Why Work With Me</span>
@@ -145,8 +85,8 @@
     </div>
 </section>
 
-<!-- ========== SERVICES ========== -->
-<section class="section section-alt">
+<!-- ========== 2. SERVICES ========== -->
+<section class="section">
     <div class="container">
         <div class="section-header fade-in">
             <span class="section-label">Services</span>
@@ -193,8 +133,68 @@
     </div>
 </section>
 
-<!-- ========== PROCESS ========== -->
+<!-- ========== 3. SIMPLICITY-FIRST ========== -->
+<section class="section section-alt">
+    <div class="container">
+        <div class="sister-site fade-in">
+            <div class="sister-site-content">
+                <span class="section-label">A companion site</span>
+                <h2>Simplicity-First</h2>
+                <p>
+                    Essays, patterns, and case studies on the philosophy behind the architecture &mdash;
+                    choosing boring technology, resisting complexity, and designing systems that stay
+                    readable at year five. A home for the ideas I lean on when helping teams cut through
+                    noise and ship durable software.
+                </p>
+                <a href="https://simplicity-first.dev/" target="_blank" rel="noopener" class="btn btn-primary">
+                    Visit simplicity-first.dev <span class="btn-arrow">&rarr;</span>
+                </a>
+            </div>
+            <div class="sister-site-accent">
+                <div class="sister-site-mark">SF</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== 4. PORTFOLIO ========== -->
 <section class="section">
+    <div class="container">
+        <div class="section-header fade-in">
+            <span class="section-label">Portfolio</span>
+            <h2>A curated selection of my recent work</h2>
+        </div>
+        <div class="projects-grid">
+            @foreach (var item in Model.FeaturedProjects)
+            {
+                var target = item.IsExternal ? "_blank" : null;
+                var rel = item.IsExternal ? "noopener" : null;
+                <a href="@item.Href" class="project-card fade-in" target="@target" rel="@rel">
+                    <div class="project-card-img">
+                        <img src="@item.ImagePath" alt="@item.Title"
+                             onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.5rem;color:#c9a96e\'>&#128221;</div>'" />
+                    </div>
+                    <div class="project-card-body">
+                        <span class="project-card-type">
+                            @item.CategoryLabel
+                            @if (item.IsExternal)
+                            {
+                                <span class="external-indicator" aria-label="External link">&#8599;</span>
+                            }
+                        </span>
+                        <h3>@item.Title</h3>
+                    </div>
+                </a>
+            }
+        </div>
+        <div style="text-align:center; margin-top: var(--space-lg)">
+            <a href="/Portfolio" class="btn btn-outline">See Full Portfolio <span class="btn-arrow">&rarr;</span></a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== 5. HOW I WORK ========== -->
+<section class="section section-alt">
     <div class="container">
         <div class="section-header fade-in">
             <span class="section-label">How I Work</span>
@@ -225,8 +225,8 @@
     </div>
 </section>
 
-<!-- ========== BLOG PREVIEW ========== -->
-<section class="section section-alt">
+<!-- ========== 6. BLOG & INSIGHTS ========== -->
+<section class="section">
     <div class="container">
         <div class="section-header fade-in">
             <span class="section-label">Blog &amp; Insights</span>
@@ -257,7 +257,7 @@
 </section>
 
 <!-- ========== TESTIMONIALS ========== -->
-<section class="section">
+<section class="section section-alt">
     <div class="container">
         <div class="section-header fade-in">
             <span class="section-label">Testimonials</span>
