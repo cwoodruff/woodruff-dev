@@ -640,6 +640,8 @@ Phase 0 was completed on 2026-10-04 (branch `claude/astro-site-phase0`).
 4. Add the `prebuild` script that copies `docs/Christopher_Woodruff_Executive_Resume.pdf` into `site/public/`.
 5. `npm run build` must pass with zero schema errors. Fix posts whose WordPress HTML the Astro 7 compiler rejects (unclosed tags). Expect a handful.
 
+Phase 1 was completed on 2026-10-04 (branch `claude/astro-site-phase1`). The tracked `woodruffdev.web/BlogPosts` folder was moved with `git mv` rather than copied, so the 557 MB of post images did not enter the repository a second time. Testimonial from Ted Neward carries the ASP.NET wording and needs confirmation; the third WordPress testimonial was theme placeholder text and was dropped.
+
 ### Phase 2: pages and components (two to three days)
 Home, Services (including the new Agentic Developer Relations page), Portfolio, Press & Media, Blog (index, pagination, post, category, tag), About, Contact, Training "coming soon", 404, RSS. Scroll animations, typed hero word, count-up stats, filter tabs, mobile nav. Lighthouse pass: performance and accessibility at 95+, every image with `alt`, visible focus states, reduced-motion respected.
 

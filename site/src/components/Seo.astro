@@ -1,9 +1,9 @@
 ---
 import { getImage } from 'astro:assets';
 import { site } from '../lib/site';
-import portrait from '../assets/portraits/woody-head-1000.png';
+import photo from '../assets/portraits/woody-photo.jpg';
 
-const defaultOg = await getImage({ src: portrait, width: 1000, height: 1000, format: 'png' });
+const defaultOg = await getImage({ src: photo, width: 1200, height: 630, fit: 'cover', position: 'top', format: 'jpeg' });
 
 interface Props {
   title?: string;
