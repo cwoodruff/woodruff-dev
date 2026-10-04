@@ -20,9 +20,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # Preview mode deploys to https://cwoodruff.github.io/woodruff-dev/ with a base path.
-  # Set to "false" (and add site/public/CNAME) at the woodruff.dev cutover.
-  PREVIEW: 'true'
+  # 'true' deploys to https://cwoodruff.github.io/woodruff-dev/ with a base path
+  # (and site/public/CNAME must not exist). 'false' builds for https://woodruff.dev.
+  PREVIEW: 'false'
 
 jobs:
   build:
