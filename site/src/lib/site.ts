@@ -12,7 +12,7 @@ export const site = {
   location: 'Wyoming, MI 49418',
   resume: '/Christopher_Woodruff_Executive_Resume.pdf',
   /** Web3Forms public access key. Paste the key from web3forms.com here. */
-  web3formsKey: 'REPLACE_WITH_WEB3FORMS_ACCESS_KEY',
+  web3formsKey: 'a512aa6c-77ab-4a5c-a245-24faae8a6c87',
   social: {
     linkedin: 'https://www.linkedin.com/in/chriswoodruff/',
     github: 'https://github.com/cwoodruff',
