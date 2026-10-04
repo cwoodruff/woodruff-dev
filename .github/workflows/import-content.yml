@@ -1,0 +1,87 @@
+name: Import content
+
+# Drop files into incoming/blog/ or incoming/media/ and push to main. This
+# workflow turns them into content entries, commits the result, and then
+# builds and deploys the site. On a pull request it only validates (no commit).
+#
+# The commit is made with GITHUB_TOKEN, which never triggers other workflows,
+# so the deploy is called from here as a reusable workflow instead.
+
+on:
+  push:
+    branches: [main]
+    paths: ['incoming/**']
+  pull_request:
+    paths: ['incoming/**']
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: import-content
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'push' && 'main' || github.sha }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install
+        run: npm ci
+        working-directory: site
+
+      - name: Import blog posts
+        run: node scripts/import-blog.mjs
+        working-directory: site
+
+      - name: Import press & media
+        run: node scripts/import-media.mjs
+        working-directory: site
+
+      - name: Validate with a full build
+        run: npm run build
+        working-directory: site
+        env:
+          PREVIEW: 'true'
+
+      - name: Commit imported content
+        id: commit
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A incoming site/src/content
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git commit -m "chore(content): import from incoming/
+
+          Imported by the import-content workflow from ${GITHUB_SHA::7}."
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: import
+    if: github.event_name == 'push' && needs.import.outputs.changed == 'true'
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

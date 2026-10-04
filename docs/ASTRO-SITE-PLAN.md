@@ -650,6 +650,8 @@ Phase 2 was completed on 2026-10-04 (branch `claude/astro-site-phase2`): 328 pag
 ### Phase 3: importers (half a day)
 `import-blog.mjs`, `import-media.mjs`, `import-content.yml`, `incoming/*/README.md` with the two front matter templates. Test with one post and one media item on a branch before merging.
 
+Phase 3 was completed on 2026-10-04 (branch `claude/astro-site-phase3`). Both importers were exercised locally with fixtures: a post with an H1-derived title, a same-name cover, and an inline image; a media item with a new logo and one reusing an existing logo. The import workflow also runs on pull requests as a dry run.
+
 ### Phase 4: cutover
 1. Export the WordPress permalink list (`wp post list --format=csv` or the sitemap) and confirm every post maps to `/blog/<slug>/`. The old URLs appear to be `/YYYY/MM/DD/slug/` or `/slug/`; GitHub Pages cannot do server redirects, so for the top-linked old URLs generate stub pages with `<meta http-equiv="refresh">` plus `<link rel="canonical">` from a `redirects.json` list. Because the new slug is the last segment of the old path in every case, the stub list can be generated mechanically from the WordPress export rather than by hand. Low-traffic URLs can be left to the 404 page, which will offer search-by-title.
 2. RSS moves from `/feed/` to `/rss.xml`. Generate `/feed/index.html` as a refresh stub to the new feed for human visitors and announce the new URL once.
