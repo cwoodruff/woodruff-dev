@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/url';
+---
+
+<Base title="Page not found" noindex>
+  <section class="section">
+    <div class="container container--narrow text-center stack">
+      <span class="label label--center">404</span>
+      <h1>That page isn't here.</h1>
+      <p class="lead" style="margin-inline:auto">
+        The site recently moved to a new home, so some older links have changed. Try the blog or head back to the start.
+      </p>
+      <p>
+        <a class="btn" href={href('/blog/')}>Browse the blog <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn--outline" href={href('/')}>Home</a>
+      </p>
+    </div>
+  </section>
+</Base>

@@ -227,10 +227,9 @@ site/
 ├── package.json
 ├── tsconfig.json
 ├── public/
-│   ├── CNAME                      "woodruff.dev"
+│   ├── CNAME                      "woodruff.dev" (added at cutover, not before; see Phase 0 step 4)
 │   ├── Christopher_Woodruff_Executive_Resume.pdf   copied from /docs by `npm run prebuild`
-│   ├── favicon.svg, favicon.ico, apple-touch-icon.png
-│   ├── fonts/PlusJakartaSans-*.woff2
+│   ├── favicon.svg
 │   └── robots.txt
 ├── src/
 │   ├── content.config.ts          collection definitions (section 5)
@@ -244,6 +243,7 @@ site/
 │   │   ├── training/<slug>.md
 │   │   └── testimonials/<slug>.md
 │   ├── assets/
+│   │   ├── fonts/                 Plus Jakarta Sans variable woff2 (bundled by Vite so the base path applies)
 │   │   ├── portraits/             downscaled portrait PNGs
 │   │   └── badges/                MVP, JBCC
 │   ├── layouts/
@@ -278,7 +278,8 @@ site/
 │   │   ├── tokens.css, base.css, components.css, utilities.css
 │   └── lib/
 │       ├── posts.ts               sorting, excerpt, reading time, grouping
-│       └── site.ts                constants: name, email, phone, socials
+│       ├── site.ts                constants: name, email, phone, socials, nav, services
+│       └── url.ts                 href(): prefixes internal links with the base path in preview builds
 ├── scripts/
 │   ├── import-blog.mjs            used by the import workflow (section 6)
 │   ├── import-media.mjs
@@ -296,9 +297,11 @@ Dependencies: `astro`, `@astrojs/sitemap`, `@astrojs/rss`, `sharp` (image servic
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+const preview = process.env.PREVIEW === 'true'; // set in deploy.yml until cutover
+
 export default defineConfig({
-  site: 'https://woodruff.dev',
-  // no `base`: custom domain is served from the root
+  site: preview ? 'https://cwoodruff.github.io' : 'https://woodruff.dev',
+  base: preview ? '/woodruff-dev' : undefined,
   trailingSlash: 'always',
   integrations: [sitemap()],
   image: { service: { entrypoint: 'astro/assets/services/sharp' } },
@@ -497,7 +500,7 @@ name: Build and deploy
 on:
   push:
     branches: [main]
-    paths-ignore: ['incoming/**', 'docs/**', 'woodruffdev.web/**', 'images/**']
+    paths: ['site/**', 'docs/Christopher_Woodruff_Executive_Resume.pdf', '.github/workflows/deploy.yml']
   workflow_call:
   workflow_dispatch:
 
@@ -510,6 +513,9 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  PREVIEW: 'true'   # flip to 'false' and add site/public/CNAME at cutover
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -519,6 +525,7 @@ jobs:
         with:
           path: ./site
           node-version: 24
+          package-manager: npm@latest
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -619,7 +626,9 @@ Built in the first pass as structure only, content planned later:
 1. `npm create astro@latest site` (empty template, TypeScript strict), add sitemap, rss, sharp.
 2. Commit `astro.config.mjs`, `public/CNAME`, tokens, fonts, `Base.astro`, header and footer.
 3. Add `deploy.yml`, enable GitHub Pages with source "GitHub Actions" in repo settings (`gh api repos/cwoodruff/woodruff-dev/pages` currently returns 404, so Pages is not yet enabled).
-4. First deploy to `cwoodruff.github.io/woodruff-dev` for review. Because `site` is set to `https://woodruff.dev` and `base` is unset, absolute links on the preview will point at the real domain; use the deployment URL only for visual review, or temporarily set `base` in a preview branch.
+4. First deploy to `cwoodruff.github.io/woodruff-dev` for review. The deploy workflow sets `PREVIEW=true`, which switches `site` and `base` so every internal link works on the GitHub Pages URL. Every internal link goes through `href()` in `src/lib/url.ts` for that reason. `public/CNAME` must not exist until cutover: GitHub Pages would claim the custom domain on the first deploy and redirect the preview URL to it. At cutover, flip `PREVIEW` to `false` in `deploy.yml` and add `CNAME` in the same commit.
+
+Phase 0 was completed on 2026-10-04 (branch `claude/astro-site-phase0`).
 
 ### Phase 1: content migration (one day)
 1. `scripts/migrate-aspnet-content.mjs`:
