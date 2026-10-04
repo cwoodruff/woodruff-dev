@@ -1,0 +1,39 @@
+---
+import { href } from '../lib/url';
+
+interface Props {
+  label?: string;
+  heading?: string;
+  text?: string;
+  buttonText?: string;
+  buttonHref?: string;
+}
+
+const {
+  label = "Let's connect",
+  heading = 'Ready to untangle your system?',
+  text = 'Whether in the boardroom or the courtroom, I bring clarity to complex software challenges and help people make better decisions through better understanding.',
+  buttonText = 'Hire me',
+  buttonHref = '/contact/',
+} = Astro.props;
+---
+
+<section class="cta section section--dark">
+  <div class="container cta__inner reveal">
+    <span class="label">{label}</span>
+    <h2>{heading}</h2>
+    <p class="lead">{text}</p>
+    <a class="btn" href={href(buttonHref)}>{buttonText} <span class="arrow" aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<style>
+  .cta__inner {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: var(--sp-30);
+  }
+  .cta h2 { font-size: var(--fs-huge); max-width: 16ch; }
+  .cta .lead { color: var(--c-text-on-dark-muted); max-width: 58ch; }
+</style>

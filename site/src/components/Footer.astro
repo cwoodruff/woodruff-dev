@@ -1,0 +1,165 @@
+---
+import { services, site } from '../lib/site';
+import { href } from '../lib/url';
+
+const year = new Date().getFullYear();
+const navigate = [
+  { label: 'Home', path: '/' },
+  { label: 'Portfolio', path: '/portfolio/' },
+  { label: 'Press & Media', path: '/press-media/' },
+  { label: 'Blog & Insights', path: '/blog/' },
+  { label: 'Training', path: '/training/' },
+  { label: 'About', path: '/about/' },
+  { label: 'Contact', path: '/contact/' },
+];
+---
+
+<footer class="site-footer section--dark">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a class="brand" href={href('/')} aria-label={`${site.name}, home`}>
+          <span class="brand__mark" aria-hidden="true">{site.initials}</span>
+          <span class="brand__name">Chris Woody<br />Woodruff</span>
+        </a>
+        <p class="site-footer__tagline">{site.roles.join(' · ')}</p>
+        <ul class="site-footer__social" role="list" aria-label="Social links">
+          <li><a href={site.social.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href={site.social.github} target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href={site.social.youtube} target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href={site.social.bluesky} target="_blank" rel="noopener">Bluesky</a></li>
+          <li><a href={site.social.mastodon} target="_blank" rel="noopener me">Mastodon</a></li>
+          <li><a href={href('/rss.xml')}>RSS</a></li>
+        </ul>
+      </div>
+
+      <nav class="site-footer__col" aria-label="Services">
+        <h2 class="site-footer__heading">Services</h2>
+        <ul role="list">
+          {services.map((s) => (
+            <li><a href={href(`/services/${s.slug}/`)}>{s.name}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="site-footer__col" aria-label="Navigate">
+        <h2 class="site-footer__heading">Navigate</h2>
+        <ul role="list">
+          {navigate.map((n) => (
+            <li><a href={href(n.path)}>{n.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__heading">Network</h2>
+        <ul role="list">
+          {site.network.map((n) => (
+            <li><a href={n.url} target="_blank" rel="noopener">{n.name} <span class="ext" aria-hidden="true">↗</span></a></li>
+          ))}
+        </ul>
+        <h2 class="site-footer__heading site-footer__heading--spaced">Contact</h2>
+        <ul role="list">
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a href={site.phoneHref}>{site.phone}</a></li>
+          <li class="site-footer__muted">{site.location}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {year} Christopher Woodruff. All rights reserved.</p>
+      <a class="site-footer__cv" href={href(site.resume)} download>Download CV</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: var(--sp-70) var(--sp-40);
+    background: var(--c-bg-dark);
+    color: var(--c-text-on-dark);
+  }
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: var(--sp-50);
+  }
+  @media (max-width: 900px) {
+    .site-footer__grid { grid-template-columns: 1fr 1fr; }
+    .site-footer__brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .site-footer__grid { grid-template-columns: 1fr; }
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .brand__mark {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 10px;
+    background: var(--c-white);
+    color: var(--c-text);
+    font-size: 0.95rem;
+    letter-spacing: -0.04em;
+    box-shadow: inset 0 -4px 0 var(--c-accent);
+  }
+  .site-footer__tagline {
+    margin-top: var(--sp-20);
+    color: var(--c-text-on-dark-muted);
+    font-size: var(--fs-tiny);
+  }
+  .site-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-top: var(--sp-30);
+    font-size: var(--fs-tiny);
+    font-weight: 600;
+  }
+  .site-footer__social a:hover { color: var(--c-accent); }
+
+  .site-footer__heading {
+    font-size: var(--fs-micro);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    margin-bottom: var(--sp-20);
+  }
+  .site-footer__heading--spaced { margin-top: var(--sp-40); }
+  .site-footer__col ul { display: grid; gap: 0.5rem; }
+  .site-footer__col a {
+    font-size: var(--fs-tiny);
+    color: var(--c-text-on-dark);
+    transition: color var(--dur) var(--ease);
+  }
+  .site-footer__col a:hover { color: var(--c-accent); }
+  .site-footer__muted { color: var(--c-text-on-dark-muted); font-size: var(--fs-tiny); }
+  .ext { color: var(--c-text-on-dark-muted); font-size: 0.8em; }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sp-20);
+    margin-top: var(--sp-60);
+    padding-top: var(--sp-30);
+    border-top: 1px solid var(--c-border-dark);
+    font-size: var(--fs-micro);
+    color: var(--c-text-on-dark-muted);
+  }
+  .site-footer__cv { font-weight: 700; color: var(--c-text-on-dark); }
+  .site-footer__cv:hover { color: var(--c-accent); }
+</style>

@@ -1,0 +1,68 @@
+/* ============================================================
+   woodruff.dev design tokens
+   Layout and type rhythm follow the kalogirourania.com reference;
+   the accent is the warm gold carried over from the previous design.
+   ============================================================ */
+:root {
+  color-scheme: light;
+
+  /* Color */
+  --c-bg: #ffffff;
+  --c-bg-alt: #f7f7f7;
+  --c-bg-dark: #111111;
+  --c-text: #1c1c1c;
+  --c-text-muted: #5c5c5c;
+  --c-text-on-dark: #f5f5f5;
+  --c-text-on-dark-muted: #a8a8a8;
+  --c-border: #e0e0e0;
+  --c-border-dark: #2a2a2a;
+  --c-accent: #c9a96e;
+  --c-accent-soft: rgba(201, 169, 110, 0.14);
+  --c-accent-ink: #8a6b36;
+  --c-black: #000000;
+  --c-white: #ffffff;
+
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --fs-gigantic: clamp(3.5rem, 2.9rem + 3vw, 6rem);
+  --fs-huge: clamp(2.85rem, 2.4rem + 2vw, 4.5rem);
+  --fs-large: clamp(2.25rem, 2rem + 1vw, 3rem);
+  --fs-medium-plus: clamp(1.75rem, 1.6rem + 0.6vw, 2.25rem);
+  --fs-medium: clamp(1.5rem, 1.4rem + 0.5vw, 1.875rem);
+  --fs-small-plus: clamp(1.35rem, 1.3rem + 0.2vw, 1.5rem);
+  --fs-small: clamp(1.125rem, 1.1rem + 0.15vw, 1.25rem);
+  --fs-normal: 1rem;
+  --fs-tiny: clamp(0.875rem, 0.85rem + 0.15vw, 1rem);
+  --fs-micro: 0.8125rem;
+
+  --lh-tight: 1.1;
+  --lh-snug: 1.3;
+  --lh-body: 1.7;
+
+  /* Spacing (fluid) */
+  --sp-10: 0.5rem;
+  --sp-20: clamp(0.875rem, 0.8rem + 0.25vw, 1rem);
+  --sp-30: clamp(1.125rem, 1rem + 0.7vw, 1.5rem);
+  --sp-40: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --sp-50: clamp(2.25rem, 2rem + 1.4vw, 3rem);
+  --sp-60: clamp(3rem, 2.5rem + 2vw, 4rem);
+  --sp-70: clamp(3.75rem, 3rem + 2.4vw, 5rem);
+  --sp-80: clamp(5rem, 4rem + 3vw, 7rem);
+
+  /* Layout */
+  --container: 1200px;
+  --container-narrow: 760px;
+  --gutter: 1.5rem;
+  --radius-sm: 8px;
+  --radius: 16px;
+  --radius-pill: 999px;
+  --header-h: 84px;
+  --header-h-compact: 64px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.35s;
+  --dur-slow: 0.7s;
+}
