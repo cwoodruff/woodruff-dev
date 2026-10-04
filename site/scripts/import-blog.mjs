@@ -103,15 +103,21 @@ for (const file of files) {
   // Move the featured image.
   renameSync(join(INCOMING, cover), join(imagesDir, cover));
 
-  // Move other referenced images and rewrite their paths.
+  // Move other referenced images and rewrite their paths. Only whole
+  // references are rewritten (inside "](…)" or src="…"), so a short name
+  // never matches inside a longer one.
   const moved = [cover];
+  const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   for (const ref of localImageRefs(body)) {
     const name = basename(ref);
     const src = join(INCOMING, name);
     if (!existsSync(src)) continue;
     renameSync(src, join(imagesDir, name));
     moved.push(name);
-    body = body.split(ref).join(`images/${name}`);
+    const target = `images/${name}`;
+    body = body
+      .replace(new RegExp(`\\]\\(\\s*<?${escape(ref)}>?(\\s+"[^"]*")?\\s*\\)`, 'g'), (_m, title) => `](${target}${title ?? ''})`)
+      .replace(new RegExp(`(<img[^>]+src=["'])${escape(ref)}(["'])`, 'gi'), `$1${target}$2`);
   }
 
   const categories = Array.isArray(fm.categories) ? fm.categories : fm.categories ? [fm.categories] : ['blog'];

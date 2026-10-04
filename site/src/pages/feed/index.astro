@@ -1,0 +1,23 @@
+---
+// WordPress served the RSS feed at /feed/. Feed readers that still ask for it
+// get a redirect to /rss.xml. (Astro's `redirects` config would append a
+// trailing slash to the target, so this stub is written by hand.)
+import { href } from '../../lib/url';
+const target = href('/rss.xml');
+const canonical = new URL(target, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting to the RSS feed</title>
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title="Chris Woody Woodruff: Blog & Insights" href={target} />
+  </head>
+  <body>
+    <p>The feed moved to <a href={target}>{canonical.href}</a>.</p>
+  </body>
+</html>

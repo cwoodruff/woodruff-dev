@@ -661,6 +661,8 @@ Phase 3 was completed on 2026-10-04 (branch `claude/astro-site-phase3`). Both im
 
 ---
 
+Phase 4 preparation was completed on 2026-10-04 (branch `claude/astro-site-phase4`): WordPress permalinks turned out to be flat (`/<slug>/`), so `astro.config.mjs` generates a meta-refresh stub for every post slug plus the category and service URLs; `/feed/` is a hand-written stub to `/rss.xml`. The WordPress REST API showed 237 posts against 217 in the repo; `scripts/fetch-wp-posts.mjs` pulled the 20 missing posts (Feb to Aug 2026) through `incoming/blog/` and the importer. The step-by-step cutover is in `docs/CUTOVER.md`; the DNS and CNAME switch itself is a separate PR to merge on the day.
+
 ## 10. Decisions (resolved 2026-10-04)
 
 | # | Decision | Outcome |
