@@ -1,16 +1,41 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { site, services } from '../lib/site';
+import SectionHeader from '../components/SectionHeader.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import LogoStrip from '../components/LogoStrip.astro';
+import Stats from '../components/Stats.astro';
+import CompanionSites from '../components/CompanionSites.astro';
+import { site } from '../lib/site';
 import { href } from '../lib/url';
-import portrait from '../assets/portraits/woody-head.webp';
+import { getPosts } from '../lib/posts';
+import portrait from '../assets/portraits/woody-full.webp';
+import head from '../assets/portraits/woody-head.webp';
+import mvp from '../assets/badges/microsoft-mvp-2025.png';
+import jbcc from '../assets/badges/jetbrains-jbcc.png';
 
-const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.', 'for year five.'];
+const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.', 'at year five.'];
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const featured = (await getCollection('portfolio', ({ data }) => data.featured)).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+const testimonials = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
+const posts = (await getPosts()).slice(0, 3);
+
+const stats = [
+  { value: 25, suffix: '+', label: 'Years building software' },
+  { value: 50, suffix: '+', label: 'Conference talks, North America and Europe' },
+  { value: 200, suffix: '+', label: 'Articles on this blog' },
+  { value: 3, label: 'Books written or in print' },
+];
 ---
 
 <Base>
-  <!-- Hero -->
+  <!-- 1. Hero -->
   <section class="hero">
     <div class="container hero__grid">
       <div class="hero__content">
@@ -22,9 +47,9 @@ const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.'
           </span>
         </h1>
         <p class="lead reveal">
-          I help teams untangle complexity in software systems, whether that means modernizing aging platforms,
-          scaling cloud-native solutions, making a platform work for AI coding agents, or explaining technical
-          decisions in high-stakes legal cases.
+          I help teams untangle complexity in software systems: modernizing aging platforms, scaling cloud-native
+          solutions, making a platform work for AI coding agents, and explaining technical decisions in high-stakes
+          legal cases.
         </p>
         <div class="hero__actions reveal">
           <a class="btn" href={href('/contact/')}>Let's work <span class="arrow" aria-hidden="true">→</span></a>
@@ -35,6 +60,7 @@ const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.'
           <li><a href={site.social.github} target="_blank" rel="noopener">GitHub</a></li>
           <li><a href={site.social.youtube} target="_blank" rel="noopener">YouTube</a></li>
           <li><a href={site.social.podcast} target="_blank" rel="noopener">Podcast</a></li>
+          <li><a href={href('/rss.xml')}>RSS</a></li>
         </ul>
       </div>
       <div class="hero__media reveal">
@@ -42,63 +68,173 @@ const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.'
         <Image
           src={portrait}
           alt="Chris Woody Woodruff"
-          widths={[320, 480, 640, 960]}
-          sizes="(max-width: 900px) 70vw, 460px"
+          widths={[360, 540, 720, 1080]}
+          sizes="(max-width: 900px) 80vw, 480px"
           loading="eager"
           fetchpriority="high"
           class="hero__photo"
         />
+        <ul class="hero__badges" role="list" aria-label="Credentials">
+          <li><Image src={mvp} alt="Microsoft MVP 2025" width={88} height={88} loading="eager" /></li>
+          <li><Image src={jbcc} alt="JetBrains Community Contributor" width={88} height={88} loading="eager" /></li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- Build status (Phase 0 placeholder) -->
-  <section class="section section--alt">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="label">Under construction</span>
-        <h2>The new woodruff.dev is being built in the open.</h2>
+  <!-- 2. Problem / Solution -->
+  <section class="section section--alt problem">
+    <div class="container grid grid--2">
+      <div class="reveal">
+        <span class="label">The problem</span>
+        <h2 class="problem__h">Your system has outgrown the people who can hold it in their heads.</h2>
         <p class="lead">
-          This is the Phase 0 scaffold: design tokens, typography, navigation, and deployment. Content, the blog
-          archive, Portfolio, Press &amp; Media, and Training arrive in the next phases.
+          Architecture decisions get deferred or re-litigated every sprint. A migration, a rewrite, or a lawsuit is on the
+          horizon. A full-time principal architect is the right role, but not the right spend yet.
         </p>
       </div>
-      <div class="grid grid--3">
-        {
-          services.map((s, i) => (
-            <a class="card service reveal" href={href(`/services/${s.slug}/`)}>
-              <span class="service__num">{String(i + 1).padStart(2, '0')}</span>
-              <h3>{s.name}</h3>
-              <span class="link-arrow">Learn more <span aria-hidden="true">→</span></span>
-            </a>
-          ))
-        }
+      <div class="reveal">
+        <span class="label">The solution</span>
+        <h2 class="problem__h">Senior technical judgment, on the schedule the decision actually needs.</h2>
+        <p class="lead">
+          Fractional architecture, a 90-minute decision brief, a fixed-fee assessment, expert testimony, or a seat at the
+          board table. Every engagement ends with written decisions your team can point to and push back on.
+        </p>
       </div>
     </div>
   </section>
 
-  <CtaBand />
+  <!-- 3. Intro -->
+  <section class="section intro">
+    <div class="container intro__grid">
+      <div class="intro__photo reveal reveal--left">
+        <Image src={head} alt="" widths={[320, 480, 640]} sizes="(max-width: 900px) 60vw, 320px" loading="lazy" />
+      </div>
+      <div class="intro__content reveal">
+        <span class="label">Hi there</span>
+        <h2>I'm Woody. Allow me to introduce myself.</h2>
+        <p class="lead">
+          After two decades building distributed systems with .NET, C#, and Azure, I've shifted from full-time execution
+          to strategic impact. Today I work as a fractional architect, technology advisor, and software expert witness,
+          offering focused expertise exactly when and where it's needed.
+        </p>
+        <p>
+          I'm a Microsoft MVP (first awarded in 2008), co-host of The Breakpoint Show, author of
+          <em>ASP.NET Core Reimagined with htmx</em> and <em>Beyond Boundaries</em>, and the person who coined the term
+          Agentic Developer Relations. As AI writes more of the world's software, the scarce skill is knowing what not to
+          build.
+        </p>
+        <a class="link-arrow" href={href('/about/')}>About me <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Logo strip -->
+  <LogoStrip />
+
+  <!-- 5. Numbers -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeader label="The numbers don't lie" title="Notable milestones from a career that started before the first .COM boom" />
+      <Stats items={stats} />
+    </div>
+  </section>
+
+  <!-- 6. What I do / How I do it -->
+  <section class="section">
+    <div class="container grid grid--2 whathow">
+      <div class="whathow__col reveal">
+        <span class="label">What I do</span>
+        <h2>I focus on the architecture so you can focus on the business.</h2>
+        <p class="lead">
+          Embedded architecture leadership, forensic code analysis for litigation, agentic developer relations, scoped
+          modernization projects, and an independent technical voice for boards and founders.
+        </p>
+        <a class="link-arrow" href={href('/services/')}>See the six services <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="whathow__col reveal">
+        <span class="label">How I do it</span>
+        <h2>Discovery, engagement, execution, iteration.</h2>
+        <ol class="whathow__steps" role="list">
+          <li><strong>Discovery.</strong> We define your goals, pain points, and existing tech landscape in a focused kickoff.</li>
+          <li><strong>Engagement.</strong> I embed with your team on a fractional basis: guidance, architecture reviews, decision support.</li>
+          <li><strong>Execution.</strong> Clear deliverables and actionable recommendations, backed by experience and empathy.</li>
+          <li><strong>Iteration.</strong> As your needs evolve, so does my involvement: deeper during transitions, lighter when stable.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Services -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeader label="Services" title="Six ways to work together" />
+      <div class="grid grid--3">
+        {services.map((s, i) => <ServiceCard item={s} index={i + 1} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Portfolio -->
+  <section class="section">
+    <div class="container">
+      <SectionHeader label="Portfolio" title="A curated selection of recent work" />
+      <div class="grid grid--3">
+        {featured.map((item) => <ProjectCard item={item} compact />)}
+      </div>
+      <p class="text-center mt-60 reveal">
+        <a class="btn btn--outline" href={href('/portfolio/')}>See the full portfolio <span class="arrow" aria-hidden="true">→</span></a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 9. Testimonials -->
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeader label="Testimonials" title="Some love from clients" center />
+      <div class="grid grid--2 testimonials">
+        {testimonials.map((t) => <TestimonialCard item={t} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Blog -->
+  <section class="section">
+    <div class="container">
+      <SectionHeader label="Blog & Insights" title="Useful articles from the blog" />
+      <div class="grid grid--3">
+        {posts.map((p) => <BlogCard post={p} />)}
+      </div>
+      <p class="text-center mt-60 reveal">
+        <a class="btn btn--outline" href={href('/blog/')}>All blog posts <span class="arrow" aria-hidden="true">→</span></a>
+      </p>
+    </div>
+  </section>
+
+  <!-- 11. Companion sites -->
+  <CompanionSites />
+
+  <!-- 12. CTA -->
+  <CtaBand heading="Ready to untangle your system?" buttonText="Hire me" />
 </Base>
 
 <style>
-  .hero {
-    padding-block: var(--sp-60) var(--sp-80);
-    overflow: hidden;
-  }
+  /* Hero */
+  .hero { padding-block: var(--sp-50) 0; overflow: hidden; }
   .hero__grid {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    align-items: center;
+    align-items: end;
     gap: var(--sp-60);
   }
   @media (max-width: 900px) {
     .hero__grid { grid-template-columns: 1fr; }
-    .hero__media { order: -1; max-width: 420px; }
+    .hero__media { order: -1; max-width: 380px; }
   }
-  .hero__content { display: grid; gap: var(--sp-30); justify-items: start; }
+  .hero__content { display: grid; gap: var(--sp-30); justify-items: start; padding-bottom: var(--sp-80); }
   .hero__title { font-size: var(--fs-gigantic); }
   .hero__typed { display: block; min-height: 1.1em; }
-  .hero__typed .caret {
+  .hero__typed :global(.caret) {
     display: inline-block;
     width: 0.06em;
     height: 0.9em;
@@ -109,45 +245,97 @@ const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.'
   }
   @keyframes blink { to { visibility: hidden; } }
   .hero__actions { display: flex; flex-wrap: wrap; gap: var(--sp-20); }
-  .hero__social {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.25rem;
-    font-size: var(--fs-tiny);
-    font-weight: 700;
-  }
+  .hero__social { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: var(--fs-tiny); font-weight: 700; }
   .hero__social a { text-decoration: underline; text-underline-offset: 0.2em; }
   .hero__social a:hover { color: var(--c-accent-ink); }
 
-  .hero__media {
-    position: relative;
-    justify-self: center;
-    width: 100%;
-    max-width: 460px;
-    aspect-ratio: 1;
-  }
+  .hero__media { position: relative; justify-self: center; width: 100%; max-width: 480px; }
   .hero__shape {
     position: absolute;
-    inset: 8% 4% 0 4%;
+    left: 0;
+    right: 0;
+    top: 14%;
+    bottom: 0;
     background: var(--c-accent);
-    border-radius: 48% 48% var(--radius) var(--radius);
+    border-radius: 999px 999px 0 0;
   }
-  .hero__photo {
-    position: relative;
+  .hero__photo { position: relative; width: 100%; height: auto; display: block; }
+  .hero__badges {
+    position: absolute;
+    left: -0.5rem;
+    bottom: 2rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .hero__badges li {
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0.4rem;
+    background: var(--c-bg);
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  .hero__badges img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+  @media (max-width: 900px) {
+    .hero__badges { left: 0; bottom: 1rem; }
+    .hero__badges li { width: 3.5rem; height: 3.5rem; }
+  }
+
+  /* Problem / solution */
+  .problem .label { margin-bottom: var(--sp-20); }
+  .problem__h { font-size: var(--fs-medium-plus); margin-bottom: var(--sp-20); }
+
+  /* Intro */
+  .intro__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: center;
+    gap: var(--sp-60);
+  }
+  @media (max-width: 900px) { .intro__grid { grid-template-columns: 1fr; } }
+  .intro__photo { justify-self: center; width: 100%; max-width: 340px; aspect-ratio: 1; }
+  .intro__photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
-    border-radius: 48% 48% var(--radius) var(--radius);
+    border-radius: var(--radius);
+    background: var(--c-bg-alt);
+    box-shadow: inset 0 -8px 0 var(--c-accent);
   }
+  .intro__content { display: grid; gap: var(--sp-20); justify-items: start; }
+  .intro__content h2 { margin-top: 0.25rem; }
 
-  .service { display: grid; gap: var(--sp-20); align-content: start; }
-  .service__num {
-    font-size: var(--fs-micro);
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    color: var(--c-accent-ink);
+  /* What / how */
+  .whathow { align-items: start; }
+  .whathow__col { display: grid; gap: var(--sp-20); justify-items: start; }
+  .whathow__steps { display: grid; gap: var(--sp-20); counter-reset: step; }
+  .whathow__steps li {
+    position: relative;
+    padding-left: 3rem;
+    color: var(--c-text-muted);
+    counter-increment: step;
   }
+  .whathow__steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--c-text);
+    color: var(--c-white);
+    font-weight: 800;
+    font-size: 0.85rem;
+    box-shadow: inset 0 -3px 0 var(--c-accent);
+  }
+  .whathow__steps strong { color: var(--c-text); }
+
+  .testimonials { max-width: 1000px; margin-inline: auto; }
 </style>
 
 <script>
@@ -174,7 +362,7 @@ const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.'
         i += 1;
       } else if (!deleting && i === word.length) {
         deleting = true;
-        setTimeout(tick, 1800);
+        setTimeout(tick, 2200);
         return;
       } else if (deleting && i > 0) {
         i -= 1;
@@ -183,8 +371,8 @@ const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.'
         w = (w + 1) % words.length;
       }
       mark.textContent = words[w].slice(0, i);
-      setTimeout(tick, deleting ? 45 : 85);
+      setTimeout(tick, deleting ? 40 : 80);
     };
-    setTimeout(tick, 1800);
+    setTimeout(tick, 2200);
   }
 </script>

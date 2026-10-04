@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { href } from '../lib/url';
+
+interface Props {
+  item: CollectionEntry<'services'>;
+  index: number;
+  linkText?: string;
+}
+const { item, index, linkText = 'Learn more' } = Astro.props;
+---
+
+<a class="service-card card reveal" href={href(`/services/${item.id}/`)}>
+  <span class="service-card__num">{String(index).padStart(2, '0')}</span>
+  <h3>{item.data.navTitle ?? item.data.title}</h3>
+  <p>{item.data.short}</p>
+  <span class="link-arrow">{linkText} <span aria-hidden="true">→</span></span>
+</a>
+
+<style>
+  .service-card { display: grid; gap: var(--sp-20); align-content: start; }
+  .service-card__num {
+    font-size: var(--fs-micro);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--c-accent-ink);
+  }
+  .service-card h3 { font-size: var(--fs-small-plus); }
+  .service-card p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+  .service-card .link-arrow { margin-top: auto; }
+</style>

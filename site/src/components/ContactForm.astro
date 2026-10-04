@@ -1,0 +1,136 @@
+---
+import { site } from '../lib/site';
+
+const subjects = [
+  'Fractional Leadership',
+  'Advisory & Board Roles',
+  'Consulting',
+  'Legal Work',
+  'Agentic Developer Relations',
+  'Training',
+  'Something else',
+];
+const redirect = new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/contact/?sent=1`, Astro.site).toString();
+---
+
+<form class="contact-form card" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value={site.web3formsKey} />
+  <input type="hidden" name="from_name" value="woodruff.dev contact form" />
+  <input type="hidden" name="redirect" value={redirect} />
+  <input type="checkbox" name="botcheck" class="contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <div class="contact-form__sent" id="contact-sent" hidden>
+    <strong>Message sent.</strong> Thanks for reaching out. I'll respond within 24 hours.
+  </div>
+
+  <h2 class="contact-form__title">Send a message</h2>
+
+  <div class="contact-form__row">
+    <div class="field">
+      <label for="cf-name">Name <span aria-hidden="true">*</span></label>
+      <input id="cf-name" name="name" type="text" required autocomplete="name" placeholder="Your full name" />
+    </div>
+    <div class="field">
+      <label for="cf-email">Email <span aria-hidden="true">*</span></label>
+      <input id="cf-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
+    </div>
+  </div>
+
+  <div class="contact-form__row">
+    <div class="field">
+      <label for="cf-phone">Phone</label>
+      <input id="cf-phone" name="phone" type="tel" autocomplete="tel" placeholder="+1 555.123.4567" />
+    </div>
+    <div class="field">
+      <label for="cf-company">Company</label>
+      <input id="cf-company" name="company" type="text" autocomplete="organization" placeholder="Your company" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="cf-subject">Subject <span aria-hidden="true">*</span></label>
+    <select id="cf-subject" name="subject" required>
+      <option value="">Your inquiry is about…</option>
+      {subjects.map((s) => <option value={s}>{s}</option>)}
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="cf-message">Message</label>
+    <textarea id="cf-message" name="message" rows="6" placeholder="Tell me about your project or challenge…"></textarea>
+  </div>
+
+  <button class="btn btn--block" type="submit">Send message <span class="arrow" aria-hidden="true">→</span></button>
+  <p class="contact-form__note">Delivered by Web3Forms. No account, no tracking, no newsletter.</p>
+</form>
+
+<style>
+  .contact-form { display: grid; gap: var(--sp-30); }
+  .contact-form:hover { transform: none; border-color: var(--c-border); }
+  .contact-form__title { font-size: var(--fs-medium); }
+  .contact-form__row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--sp-30); }
+  .field { display: grid; gap: 0.4rem; }
+  .field label { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--c-text-muted); }
+  .field label span { color: var(--c-accent-ink); }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font: inherit;
+    color: var(--c-text);
+    background: var(--c-bg);
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus { outline: none; border-color: var(--c-text); box-shadow: 0 0 0 3px var(--c-accent-soft); }
+  .field textarea { resize: vertical; min-height: 9rem; }
+  .contact-form__honeypot { position: absolute; left: -9999px; }
+  .contact-form__sent {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background: var(--c-accent-soft);
+    border: 1px solid var(--c-accent);
+    color: var(--c-accent-ink);
+  }
+  .contact-form__note { font-size: var(--fs-micro); color: var(--c-text-muted); text-align: center; }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const sent = document.getElementById('contact-sent');
+  if (new URLSearchParams(location.search).get('sent') === '1' && sent) {
+    sent.hidden = false;
+    sent.scrollIntoView({ block: 'center' });
+  }
+  form?.addEventListener('submit', async (e) => {
+    if (!('fetch' in window)) return; // plain POST + redirect fallback
+    e.preventDefault();
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]');
+    const original = btn?.innerHTML ?? '';
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+    }
+    try {
+      const data = new FormData(form);
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      if (sent) {
+        sent.hidden = false;
+        sent.scrollIntoView({ block: 'center' });
+      }
+    } catch {
+      form.submit(); // let the provider handle it with a full-page redirect
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = original;
+      }
+    }
+  });
+</script>

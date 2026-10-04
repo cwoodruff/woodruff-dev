@@ -1,0 +1,242 @@
+---
+import { Image } from 'astro:assets';
+import Page from '../layouts/Page.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { site } from '../lib/site';
+import { href } from '../lib/url';
+import head from '../assets/portraits/woody-head.webp';
+import mvp from '../assets/badges/microsoft-mvp-2025.png';
+import jbcc from '../assets/badges/jetbrains-jbcc.png';
+
+const tabs = [
+  {
+    id: 'mission',
+    label: 'My Mission',
+    heading: 'To simplify the complex and empower others through clear, strategic software architecture and honest technical insight.',
+    text: "Whether I'm advising a team, reviewing a system, or testifying in court, my mission is to bring clarity, value, and forward momentum to every challenge I take on.",
+  },
+  {
+    id: 'vision',
+    label: 'My Vision',
+    heading: 'To be the trusted expert that teams, leaders, and legal professionals turn to when software decisions, and disputes, really matter.',
+    text: "I envision a world where great architecture is accessible, where legacy doesn't mean liability, and where technical truth can be clearly communicated and confidently acted upon.",
+  },
+  {
+    id: 'goal',
+    label: 'My Goal',
+    heading: 'To deliver meaningful impact through every project, consult, or conversation.',
+    text: 'I do this by showing that thoughtful architecture, expert guidance, and simplicity-first thinking lead to lasting success.',
+  },
+];
+
+const credentials = [
+  'Microsoft MVP in .NET and Web Development, first awarded 2008, re-awarded 2025',
+  'Board director, .NET Foundation',
+  'JetBrains Community Contributor',
+  '50+ conference talks across North America and Europe',
+  'Co-host, The Breakpoint Show',
+  'Author of the Simplicity-First Review newsletter',
+  'Coined the term Agentic Developer Relations',
+  'Founder, EcoSynt',
+];
+---
+
+<Page
+  title="About"
+  description="Chris Woody Woodruff: 25+ years simplifying complex software as an architect, Microsoft MVP, author, podcast host, and software forensic expert witness."
+  label="About"
+  heading="Chris Woody Woodruff"
+  text={site.roles.join(' · ')}
+  cta={{ heading: 'Ready to work together?', text: "Whether you need architectural guidance, expert testimony, or strategic advice, let's talk.", buttonText: 'Get in touch' }}
+>
+  <section class="section">
+    <div class="container about__grid">
+      <div class="about__photo reveal reveal--left">
+        <Image src={head} alt="Chris Woody Woodruff" widths={[360, 540, 720]} sizes="(max-width: 900px) 70vw, 420px" loading="eager" />
+        <ul class="about__badges" role="list" aria-label="Credentials">
+          <li><Image src={mvp} alt="Microsoft MVP 2025" width={80} height={80} /></li>
+          <li><Image src={jbcc} alt="JetBrains Community Contributor" width={80} height={80} /></li>
+        </ul>
+      </div>
+
+      <div class="about__content reveal">
+        <div class="tabs" role="tablist" aria-label="Mission, vision, and goal">
+          {
+            tabs.map((t, i) => (
+              <button
+                class:list={['tab', { 'is-active': i === 0 }]}
+                type="button"
+                role="tab"
+                id={`tab-${t.id}`}
+                aria-controls={`panel-${t.id}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                tabindex={i === 0 ? 0 : -1}
+              >
+                {t.label}
+              </button>
+            ))
+          }
+        </div>
+        {
+          tabs.map((t, i) => (
+            <div class="panel" role="tabpanel" id={`panel-${t.id}`} aria-labelledby={`tab-${t.id}`} hidden={i !== 0}>
+              <h2 class="panel__heading">{t.heading}</h2>
+              <p class="lead">{t.text}</p>
+            </div>
+          ))
+        }
+
+        <dl class="about__contact">
+          <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+          <div><dt>Phone</dt><dd><a href={site.phoneHref}>{site.phone}</a></dd></div>
+          <div><dt>Location</dt><dd>{site.location}</dd></div>
+        </dl>
+        <p class="about__actions">
+          <a class="btn" href={href(site.resume)} download>Download CV</a>
+          <a class="btn btn--outline" href={href('/contact/')}>Get in touch</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container about__bio">
+      <SectionHeader label="Bio" title="My journey in the world of software architecture" />
+      <div class="prose reveal">
+        <p>
+          Chris Woodruff has been at the forefront of software development since before the first .COM boom, building a
+          career that spans enterprise web development, cloud solutions, software analytics, and developer relations. As
+          an architect he applies deep technical expertise to complex challenges, with a particular focus on API design,
+          distributed systems, and scalable architectures. He is recognized as a Microsoft MVP specializing in .NET and
+          Web Development, first awarded in 2008 and re-awarded in 2025, and serves as a board director of the .NET
+          Foundation.
+        </p>
+        <p>
+          Woody's impact extends beyond his professional responsibilities; he is a dedicated mentor and educator,
+          teaching courses that help individuals transition into tech careers. His passion for sharing knowledge has
+          made him a sought-after speaker at international conferences, with more than fifty talks across North America
+          and Europe on database development, web APIs, and software architecture. He contributes to the developer
+          community by co-hosting <strong>The Breakpoint Show</strong> podcast, writing the Simplicity-First Review
+          newsletter, and creating content that helps engineers refine their skills.
+        </p>
+        <p>
+          He is the author of <em>ASP.NET Core Reimagined with htmx</em> and <em>Beyond Boundaries: Network Programming
+          with C# 12 and .NET 8</em>, and co-author of <em>Developer Relations Activity Patterns</em> (Apress, 2026).
+          His current focus is <a href="https://agenticairelations.com/" target="_blank" rel="noopener">Agentic Developer
+          Relations</a>, a discipline he named: helping companies make their APIs, documentation, and SDKs work for the AI
+          coding agents that now write a growing share of every integration. As AI writes more of the world's software,
+          the scarce skill is knowing what not to build.
+        </p>
+        <p>
+          Previously, Woody led engineering teams at Rocket Homes, developed event-driven integration platforms, and
+          spearheaded developer relations initiatives at Rocket Mortgage. His experience also includes serving as a
+          Developer Advocate at JetBrains and architecting cloud-based analytics platforms at Eidex. Through his
+          consulting work he has assisted companies including Microsoft and MLB Advanced Media in building robust
+          software solutions.
+        </p>
+        <p>
+          Beyond technology, Woody is an avid bourbon enthusiast (neat, please), often exploring the Bourbon Trail in
+          search of unique selections to share with friends. He lives in West Michigan and writes about his experiences
+          in tech and life on this blog. You can stay connected with him on
+          <a href={site.social.bluesky} target="_blank" rel="noopener">Bluesky</a> and
+          <a href={site.social.mastodon} target="_blank" rel="noopener me">Mastodon</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader label="Credentials" title="At a glance" />
+      <ul class="credentials grid grid--2" role="list">
+        {credentials.map((c) => <li class="credentials__item reveal">{c}</li>)}
+      </ul>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--sp-60);
+    align-items: start;
+  }
+  @media (max-width: 900px) { .about__grid { grid-template-columns: 1fr; } }
+  .about__photo { position: relative; justify-self: center; width: 100%; max-width: 420px; }
+  .about__photo > img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); background: var(--c-accent-soft); }
+  .about__badges { position: absolute; right: -0.75rem; bottom: -0.75rem; display: flex; gap: 0.5rem; }
+  .about__badges li {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    padding: 0.35rem;
+    background: var(--c-bg);
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  .about__badges img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+
+  .about__content { display: grid; gap: var(--sp-30); }
+  .tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tab {
+    padding: 0.55rem 1.1rem;
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-tiny);
+    font-weight: 700;
+  }
+  .tab:hover { border-color: var(--c-text); }
+  .tab.is-active { background: var(--c-text); border-color: var(--c-text); color: var(--c-white); }
+  .panel { display: grid; gap: var(--sp-20); }
+  .panel__heading { font-size: var(--fs-medium-plus); }
+
+  .about__contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--sp-20); }
+  .about__contact dt { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-text-muted); }
+  .about__contact dd { font-weight: 600; }
+  .about__contact a:hover { color: var(--c-accent-ink); }
+  .about__actions { display: flex; flex-wrap: wrap; gap: var(--sp-20); }
+
+  .about__bio .prose { max-width: 760px; }
+
+  .credentials__item {
+    position: relative;
+    padding: var(--sp-20) 0 var(--sp-20) 2rem;
+    border-bottom: 1px solid var(--c-border);
+    font-weight: 600;
+  }
+  .credentials__item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: calc(var(--sp-20) + 0.55em);
+    width: 1rem;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--c-accent);
+  }
+</style>
+
+<script>
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('.tab')];
+  const panels = [...document.querySelectorAll<HTMLElement>('.panel')];
+  const activate = (i: number) => {
+    tabs.forEach((t, j) => {
+      t.classList.toggle('is-active', i === j);
+      t.setAttribute('aria-selected', String(i === j));
+      t.tabIndex = i === j ? 0 : -1;
+    });
+    panels.forEach((p, j) => (p.hidden = i !== j));
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => activate(i));
+    t.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        const next = (i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+        activate(next);
+        tabs[next].focus();
+      }
+    });
+  });
+</script>

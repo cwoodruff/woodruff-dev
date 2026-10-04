@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import MediaCard from '../../components/MediaCard.astro';
+import FilterTabs from '../../components/FilterTabs.astro';
+
+const items = (await getCollection('media')).sort(
+  (a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0) || a.data.order - b.data.order,
+);
+const types = [...new Set(items.map((i) => i.data.type))];
+const labels: Record<string, string> = { podcast: 'Podcasts', video: 'Videos', article: 'Articles', talk: 'Talks' };
+---
+
+<Page
+  title="Press & Media"
+  description="Podcast appearances, conference talks, videos, and articles featuring Chris Woody Woodruff."
+  label="Press & Media"
+  heading="Podcasts, videos & articles"
+  text="Conversations I've hosted or joined, talks I've given, and articles published on other sites."
+  cta={{ label: 'Media inquiries', heading: 'Need a guest, a speaker, or a quote?', text: 'I talk about software architecture, .NET, developer relations in the age of AI agents, and what it is like to explain code in a courtroom.', buttonText: 'Get in touch' }}
+>
+  <section class="section">
+    <div class="container">
+      <FilterTabs label="Media filters" target="#media-grid" tabs={types.map((t) => ({ key: t, label: labels[t] ?? t }))} />
+      <div class="grid grid--3" id="media-grid">
+        {items.map((item) => <MediaCard item={item} />)}
+      </div>
+    </div>
+  </section>
+</Page>

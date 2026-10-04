@@ -1,0 +1,27 @@
+---
+import Base from './Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  label?: string;
+  heading?: string;
+  text?: string;
+  align?: 'left' | 'center';
+  image?: string;
+  cta?: boolean | { label?: string; heading?: string; text?: string; buttonText?: string; buttonHref?: string };
+}
+
+const { title, description, label, heading, text, align, image, cta = true } = Astro.props;
+const ctaProps = typeof cta === 'object' ? cta : {};
+---
+
+<Base title={title} description={description} image={image}>
+  <PageHeader label={label} title={heading ?? title} text={text} align={align}>
+    <slot name="header" />
+  </PageHeader>
+  <slot />
+  {cta && <CtaBand {...ctaProps} />}
+</Base>

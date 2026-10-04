@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import { href } from '../../lib/url';
+
+const all = (await getCollection('training')).sort((a, b) => a.data.order - b.data.order);
+const live = all.filter((t) => !t.data.draft);
+const fmt: Record<string, string> = { workshop: 'Workshop', course: 'Course', bootcamp: 'Bootcamp' };
+---
+
+<Page
+  title="In-Person Training"
+  description="In-person workshops and courses on Entity Framework Core, C# network programming, htmx with ASP.NET Core Razor Pages, and software architecture, delivered by Chris Woody Woodruff."
+  label="Training"
+  heading="In-person training"
+  text="Hands-on workshops and multi-day courses for teams that want to level up together, taught by the author of the books and the host of the podcast."
+  cta={{ label: 'Private delivery', heading: 'Bring a workshop to your team.', text: 'Every course can be delivered privately, on site or remote, and tailored to your codebase. Tell me what your team needs.', buttonText: 'Tell me what you need' }}
+>
+  <section class="section">
+    <div class="container">
+      {
+        live.length === 0 ? (
+          <div class="soon card reveal">
+            <span class="label">Coming soon</span>
+            <h2>Workshop dates are being scheduled.</h2>
+            <p class="lead">
+              Public sessions on Entity Framework Core, C# network programming, and htmx with ASP.NET Core Razor Pages are
+              on the way. If your team can't wait, private delivery is available now.
+            </p>
+            <p>
+              <a class="btn" href={href('/contact/')}>
+                Tell me what your team needs <span class="arrow" aria-hidden="true">→</span>
+              </a>
+            </p>
+          </div>
+        ) : (
+          <div class="grid grid--3">
+            {live.map((t) => (
+              <a class="card course reveal" href={href(`/training/${t.id}/`)} style={`--course-accent:${t.data.accent ?? 'var(--c-accent)'}`}>
+                <span class="course__format">
+                  {fmt[t.data.format]} · {t.data.duration} · {t.data.level}
+                </span>
+                <h3>{t.data.title}</h3>
+                <p>{t.data.short}</p>
+                <span class="link-arrow">
+                  Course details <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Page>
+
+<style>
+  .soon { display: grid; gap: var(--sp-30); max-width: 760px; justify-items: start; }
+  .soon:hover { transform: none; border-color: var(--c-border); }
+  .course { display: grid; gap: var(--sp-20); align-content: start; border-top: 6px solid var(--course-accent); }
+  .course__format { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-text-muted); }
+  .course h3 { font-size: var(--fs-small-plus); }
+  .course p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+</style>

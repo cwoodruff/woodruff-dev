@@ -645,6 +645,8 @@ Phase 1 was completed on 2026-10-04 (branch `claude/astro-site-phase1`). The tra
 ### Phase 2: pages and components (two to three days)
 Home, Services (including the new Agentic Developer Relations page), Portfolio, Press & Media, Blog (index, pagination, post, category, tag), About, Contact, Training "coming soon", 404, RSS. Scroll animations, typed hero word, count-up stats, filter tabs, mobile nav. Lighthouse pass: performance and accessibility at 95+, every image with `alt`, visible focus states, reduced-motion respected.
 
+Phase 2 was completed on 2026-10-04 (branch `claude/astro-site-phase2`): 328 pages, 1,769 optimized images, 28-second local build. One global CSS rule (`[hidden] { display: none !important }`) was needed because component display rules otherwise override the `hidden` attribute used by tabs and filters.
+
 ### Phase 3: importers (half a day)
 `import-blog.mjs`, `import-media.mjs`, `import-content.yml`, `incoming/*/README.md` with the two front matter templates. Test with one post and one media item on a branch before merging.
 

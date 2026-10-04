@@ -1,0 +1,51 @@
+---
+import { site } from '../lib/site';
+import SectionHeader from './SectionHeader.astro';
+---
+
+<section class="section section--alt">
+  <div class="container">
+    <SectionHeader label="Network" title="Two companion sites, one philosophy" text="The thinking behind the architecture, and the discipline for a developer community whose newest members are AI agents." />
+    <div class="grid grid--2">
+      {
+        site.network.map((n) => (
+          <a class="card companion reveal" href={n.url} target="_blank" rel="noopener">
+            <span class="companion__mark" aria-hidden="true">
+              {n.name
+                .split(/[\s-]+/)
+                .map((w) => w[0])
+                .join('')
+                .slice(0, 2)}
+            </span>
+            <h3>
+              {n.name} <span class="ext" aria-label="opens in a new tab">↗</span>
+            </h3>
+            <p>{n.blurb}</p>
+            <span class="link-arrow">
+              Visit {new URL(n.url).hostname} <span aria-hidden="true">→</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .companion { display: grid; gap: var(--sp-20); align-content: start; }
+  .companion__mark {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 12px;
+    background: var(--c-text);
+    color: var(--c-white);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    box-shadow: inset 0 -5px 0 var(--c-accent);
+  }
+  .companion h3 { font-size: var(--fs-medium); }
+  .ext { color: var(--c-text-muted); font-size: 0.7em; }
+  .companion p { color: var(--c-text-muted); }
+</style>

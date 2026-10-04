@@ -1,0 +1,78 @@
+---
+interface Props {
+  items: Array<{ value: number; suffix?: string; label: string }>;
+}
+const { items } = Astro.props;
+---
+
+<ul class="stats" role="list">
+  {
+    items.map((s) => (
+      <li class="stats__item reveal">
+        <span class="stats__value">
+          <span class="stats__number" data-count={s.value}>
+            {s.value}
+          </span>
+          {s.suffix && <span class="stats__suffix">{s.suffix}</span>}
+        </span>
+        <span class="stats__label">{s.label}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: var(--sp-40);
+  }
+  .stats__item {
+    display: grid;
+    gap: 0.35rem;
+    padding: var(--sp-40);
+    border-radius: var(--radius);
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+  }
+  .stats__value {
+    font-size: var(--fs-huge);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .stats__suffix { color: var(--c-accent-ink); }
+  .stats__label { font-size: var(--fs-tiny); font-weight: 600; color: var(--c-text-muted); }
+</style>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const nums = document.querySelectorAll<HTMLElement>('.stats__number');
+  if (!reduce && 'IntersectionObserver' in window) {
+    const run = (el: HTMLElement) => {
+      const target = Number(el.dataset.count ?? '0');
+      const start = performance.now();
+      const dur = 1400;
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          run(e.target as HTMLElement);
+          io.unobserve(e.target);
+        }
+      }
+    }, { threshold: 0.4 });
+    nums.forEach((el) => {
+      el.textContent = '0';
+      io.observe(el);
+    });
+  }
+</script>

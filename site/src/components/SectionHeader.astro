@@ -1,0 +1,15 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+  text?: string;
+  center?: boolean;
+}
+const { label, title, text, center = false } = Astro.props;
+---
+
+<div class:list={['section-header reveal', { 'section-header--center': center }]}>
+  {label && <span class:list={['label', { 'label--center': center }]}>{label}</span>}
+  <h2>{title}</h2>
+  {text && <p class="lead">{text}</p>}
+</div>
