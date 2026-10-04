@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import { href } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const items = (await getCollection('portfolio', ({ data }) => !data.url)).sort((a, b) => a.data.order - b.data.order);
+  return items.map((item, i) => ({
+    params: { slug: item.id },
+    props: { item, prev: items[(i - 1 + items.length) % items.length], next: items[(i + 1) % items.length] },
+  }));
+}
+
+const { item, prev, next } = Astro.props;
+const { Content } = await render(item);
+const { data } = item;
+const labels: Record<string, string> = {
+  'open-source': 'Open Source',
+  book: 'Book',
+  course: 'Course',
+  workshop: 'Workshop',
+  podcast: 'Podcast',
+  article: 'Article',
+};
+---
+
+<Page
+  title={data.title}
+  description={data.description}
+  label={labels[data.category]}
+  heading={data.title}
+  text={data.description}
+  cta={{ heading: 'Want this for your team?', text: 'Books, courses, and workshops can all be delivered privately. Tell me what your team needs.', buttonText: 'Get in touch' }}
+>
+  <article class="section">
+    <div class="container project">
+      <div class="prose project__body reveal">
+        <Content />
+      </div>
+      <aside class="project__aside reveal">
+        {
+          data.image && (
+            <div class:list={['project__image', { 'project__image--book': data.category === 'book' }]}>
+              <Image src={data.image} alt="" widths={[320, 640]} sizes="320px" />
+            </div>
+          )
+        }
+        <dl class="project__facts">
+          <div><dt>Type</dt><dd>{labels[data.category]}</dd></div>
+          {data.year && <div><dt>Year</dt><dd>{data.year}</dd></div>}
+          {
+            data.tech.length > 0 && (
+              <div>
+                <dt>Topics</dt>
+                <dd>{data.tech.join(', ')}</dd>
+              </div>
+            )
+          }
+        </dl>
+      </aside>
+    </div>
+    <nav class="container project__nav" aria-label="Other work">
+      <a href={href(`/portfolio/${prev.id}/`)}>← {prev.data.title}</a>
+      <a href={href('/portfolio/')}>All work</a>
+      <a href={href(`/portfolio/${next.id}/`)}>{next.data.title} →</a>
+    </nav>
+  </article>
+</Page>
+
+<style>
+  .project { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--sp-60); align-items: start; }
+  @media (max-width: 1000px) { .project { grid-template-columns: 1fr; } }
+  .project__body { max-width: 760px; }
+  .project__aside { display: grid; gap: var(--sp-30); }
+  .project__image img { width: 100%; border-radius: var(--radius); }
+  .project__image--book { display: grid; place-items: center; padding: var(--sp-40); background: var(--c-accent-soft); border-radius: var(--radius); }
+  .project__image--book img { width: 70%; border-radius: 4px; box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2); }
+  .project__facts { display: grid; gap: var(--sp-20); }
+  .project__facts dt { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-text-muted); }
+  .project__facts dd { font-weight: 600; }
+  .project__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sp-20);
+    margin-top: var(--sp-60);
+    padding-top: var(--sp-30);
+    border-top: 1px solid var(--c-border);
+    font-weight: 700;
+    font-size: var(--fs-tiny);
+  }
+  .project__nav a:hover { color: var(--c-accent-ink); }
+</style>

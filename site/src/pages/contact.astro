@@ -1,0 +1,61 @@
+---
+import Page from '../layouts/Page.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../lib/site';
+---
+
+<Page
+  title="Contact"
+  description="Get in touch with Chris Woody Woodruff about fractional architecture, expert witness work, agentic developer relations, advisory roles, or training."
+  label="Contact"
+  heading="Get in touch"
+  text="I will respond to your request within 24 hours."
+  cta={false}
+>
+  <section class="section">
+    <div class="container contact__grid">
+      <div class="contact__info reveal">
+        <h2>Let's work together</h2>
+        <p class="lead">
+          Whether in the boardroom or the courtroom, I bring clarity to complex software challenges and help people
+          make better decisions through better understanding.
+        </p>
+        <dl class="contact__details">
+          <div><dt>Phone</dt><dd><a href={site.phoneHref}>{site.phone}</a></dd></div>
+          <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+          <div><dt>Location</dt><dd>{site.location}</dd></div>
+        </dl>
+        <h3 class="contact__h3">Connect</h3>
+        <ul class="contact__social" role="list">
+          <li><a href={site.social.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href={site.social.github} target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href={site.social.youtube} target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href={site.social.bluesky} target="_blank" rel="noopener">Bluesky</a></li>
+          <li><a href={site.social.mastodon} target="_blank" rel="noopener me">Mastodon</a></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .contact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--sp-60);
+    align-items: start;
+  }
+  @media (max-width: 900px) { .contact__grid { grid-template-columns: 1fr; } }
+  .contact__info { display: grid; gap: var(--sp-30); justify-items: start; }
+  .contact__details { display: grid; gap: var(--sp-20); }
+  .contact__details dt { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-text-muted); }
+  .contact__details dd { font-weight: 600; font-size: var(--fs-small); }
+  .contact__details a:hover { color: var(--c-accent-ink); }
+  .contact__h3 { font-size: var(--fs-small); margin-top: var(--sp-20); }
+  .contact__social { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-weight: 700; font-size: var(--fs-tiny); }
+  .contact__social a { text-decoration: underline; text-underline-offset: 0.2em; }
+  .contact__social a:hover { color: var(--c-accent-ink); }
+</style>

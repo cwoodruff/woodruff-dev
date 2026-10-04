@@ -1,0 +1,162 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from './Base.astro';
+import BlogCard from '../components/BlogCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { categoryHref, categoryLabel, excerpt, formatDate, isoDate, postHref, readingTime, tagHref, tagLabel, type Post } from '../lib/posts';
+import { site } from '../lib/site';
+import { href } from '../lib/url';
+import cartoon from '../assets/portraits/woody-cartoon-150.png';
+
+interface Props {
+  post: Post;
+  prev?: Post;
+  next?: Post;
+  related: Post[];
+}
+const { post, prev, next, related } = Astro.props;
+const { data } = post;
+const og = data.coverImage ? (await getImage({ src: data.coverImage, width: 1200, format: 'jpeg' })).src : undefined;
+const shareUrl = new URL(postHref(post), Astro.site).toString();
+---
+
+<Base title={data.title} description={excerpt(post, 160)} image={og} type="article" publishedTime={data.date}>
+  <article class="post">
+    <header class="post__header">
+      <div class="container container--narrow post__header-inner">
+        <div class="post__meta">
+          {
+            data.categories.map((c) => (
+              <a class="chip" href={categoryHref(c)}>
+                {categoryLabel(c)}
+              </a>
+            ))
+          }
+          <time datetime={isoDate(data.date)}>{formatDate(data.date)}</time>
+          <span>{readingTime(post.body)} min read</span>
+        </div>
+        <h1>{data.title}</h1>
+        <div class="post__author">
+          <Image src={cartoon} alt="" width={44} height={44} />
+          <span><strong>{site.name}</strong><span class="post__author-role">{site.roles[0]} · {site.roles[2]}</span></span>
+        </div>
+      </div>
+      {
+        data.coverImage && (
+          <div class="container post__cover">
+            <Image src={data.coverImage} alt="" widths={[720, 1080, 1440]} sizes="(max-width: 1200px) 94vw, 1152px" loading="eager" fetchpriority="high" />
+          </div>
+        )
+      }
+    </header>
+
+    <div class="container container--narrow prose post__body">
+      <slot />
+    </div>
+
+    <footer class="container container--narrow post__footer">
+      {
+        data.tags.length > 0 && (
+          <ul class="post__tags" role="list" aria-label="Tags">
+            {data.tags.map((t) => (
+              <li>
+                <a href={tagHref(t)}>#{tagLabel(t)}</a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+      <div class="post__share">
+        <span>Share</span>
+        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener">LinkedIn</a>
+        <a href={`https://bsky.app/intent/compose?text=${encodeURIComponent(`${data.title} ${shareUrl}`)}`} target="_blank" rel="noopener">Bluesky</a>
+        <a href={`mailto:?subject=${encodeURIComponent(data.title)}&body=${encodeURIComponent(shareUrl)}`}>Email</a>
+      </div>
+      <nav class="post__nav" aria-label="Adjacent posts">
+        {next ? <a href={postHref(next)} rel="next"><span class="post__nav-label">Newer</span>{next.data.title}</a> : <span></span>}
+        {prev ? <a href={postHref(prev)} rel="prev" class="post__nav-right"><span class="post__nav-label">Older</span>{prev.data.title}</a> : <span></span>}
+      </nav>
+    </footer>
+  </article>
+
+  {
+    related.length > 0 && (
+      <section class="section section--alt">
+        <div class="container">
+          <div class="section-header reveal">
+            <span class="label">Keep reading</span>
+            <h2>More from this series</h2>
+          </div>
+          <div class="grid grid--3">
+            {related.map((r) => (
+              <BlogCard post={r} showExcerpt={false} />
+            ))}
+          </div>
+          <p class="text-center mt-60 reveal">
+            <a class="btn btn--outline" href={href('/blog/')}>All blog posts <span class="arrow" aria-hidden="true">→</span></a>
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <CtaBand label="Work with me" heading="Need this kind of thinking on your team?" text="Fractional architecture, a decision brief, or a workshop built around the problems in these articles." buttonText="Get in touch" />
+</Base>
+
+<style>
+  .post__header { padding-block: var(--sp-60) 0; }
+  .post__header-inner { display: grid; gap: var(--sp-30); justify-items: start; }
+  .post__header h1 { font-size: var(--fs-huge); max-width: 22ch; }
+  .post__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; font-size: var(--fs-micro); color: var(--c-text-muted); }
+  .chip {
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-accent-soft);
+    color: var(--c-accent-ink);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+  }
+  .chip:hover { background: var(--c-accent); color: var(--c-black); }
+  .post__author { display: flex; align-items: center; gap: 0.75rem; }
+  .post__author img { border-radius: 50%; background: var(--c-bg-alt); }
+  .post__author > span { display: grid; line-height: 1.3; font-size: var(--fs-tiny); }
+  .post__author-role { color: var(--c-text-muted); font-size: var(--fs-micro); }
+  .post__cover { margin-top: var(--sp-50); }
+  .post__cover img { width: 100%; max-height: 640px; object-fit: cover; border-radius: var(--radius); background: var(--c-bg-alt); }
+
+  .post__body { padding-block: var(--sp-60); }
+
+  .post__footer { display: grid; gap: var(--sp-40); padding-bottom: var(--sp-80); }
+  .post__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .post__tags a {
+    display: inline-block;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-micro);
+    font-weight: 600;
+    color: var(--c-text-muted);
+  }
+  .post__tags a:hover { border-color: var(--c-text); color: var(--c-text); }
+  .post__share { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; font-size: var(--fs-tiny); font-weight: 700; }
+  .post__share span { color: var(--c-text-muted); }
+  .post__share a { text-decoration: underline; text-underline-offset: 0.2em; }
+  .post__share a:hover { color: var(--c-accent-ink); }
+  .post__nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-30);
+    padding-top: var(--sp-30);
+    border-top: 1px solid var(--c-border);
+  }
+  .post__nav a { display: grid; gap: 0.25rem; font-weight: 700; line-height: 1.3; }
+  .post__nav a:hover { color: var(--c-accent-ink); }
+  .post__nav-right { text-align: right; }
+  .post__nav-label { font-size: var(--fs-micro); letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-text-muted); }
+  @media (max-width: 600px) {
+    .post__nav { grid-template-columns: 1fr; }
+    .post__nav-right { text-align: left; }
+  }
+</style>

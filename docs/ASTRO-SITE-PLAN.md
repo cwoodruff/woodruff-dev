@@ -640,11 +640,17 @@ Phase 0 was completed on 2026-10-04 (branch `claude/astro-site-phase0`).
 4. Add the `prebuild` script that copies `docs/Christopher_Woodruff_Executive_Resume.pdf` into `site/public/`.
 5. `npm run build` must pass with zero schema errors. Fix posts whose WordPress HTML the Astro 7 compiler rejects (unclosed tags). Expect a handful.
 
+Phase 1 was completed on 2026-10-04 (branch `claude/astro-site-phase1`). The tracked `woodruffdev.web/BlogPosts` folder was moved with `git mv` rather than copied, so the 557 MB of post images did not enter the repository a second time. Testimonial from Ted Neward carries the ASP.NET wording and needs confirmation; the third WordPress testimonial was theme placeholder text and was dropped.
+
 ### Phase 2: pages and components (two to three days)
 Home, Services (including the new Agentic Developer Relations page), Portfolio, Press & Media, Blog (index, pagination, post, category, tag), About, Contact, Training "coming soon", 404, RSS. Scroll animations, typed hero word, count-up stats, filter tabs, mobile nav. Lighthouse pass: performance and accessibility at 95+, every image with `alt`, visible focus states, reduced-motion respected.
 
+Phase 2 was completed on 2026-10-04 (branch `claude/astro-site-phase2`): 328 pages, 1,769 optimized images, 28-second local build. One global CSS rule (`[hidden] { display: none !important }`) was needed because component display rules otherwise override the `hidden` attribute used by tabs and filters.
+
 ### Phase 3: importers (half a day)
 `import-blog.mjs`, `import-media.mjs`, `import-content.yml`, `incoming/*/README.md` with the two front matter templates. Test with one post and one media item on a branch before merging.
+
+Phase 3 was completed on 2026-10-04 (branch `claude/astro-site-phase3`). Both importers were exercised locally with fixtures: a post with an H1-derived title, a same-name cover, and an inline image; a media item with a new logo and one reusing an existing logo. The import workflow also runs on pull requests as a dry run.
 
 ### Phase 4: cutover
 1. Export the WordPress permalink list (`wp post list --format=csv` or the sitemap) and confirm every post maps to `/blog/<slug>/`. The old URLs appear to be `/YYYY/MM/DD/slug/` or `/slug/`; GitHub Pages cannot do server redirects, so for the top-linked old URLs generate stub pages with `<meta http-equiv="refresh">` plus `<link rel="canonical">` from a `redirects.json` list. Because the new slug is the last segment of the old path in every case, the stub list can be generated mechanically from the WordPress export rather than by hand. Low-traffic URLs can be left to the 404 page, which will offer search-by-title.
@@ -654,6 +660,8 @@ Home, Services (including the new Agentic Developer Relations page), Portfolio, 
 5. Delete `woodruffdev.web/`, `woodruffdev.sln`, and `.idea/` once the Astro site is the only source of truth. Update the root `README.md`.
 
 ---
+
+Phase 4 preparation was completed on 2026-10-04 (branch `claude/astro-site-phase4`): WordPress permalinks turned out to be flat (`/<slug>/`), so `astro.config.mjs` generates a meta-refresh stub for every post slug plus the category and service URLs; `/feed/` is a hand-written stub to `/rss.xml`. The WordPress REST API showed 237 posts against 217 in the repo; `scripts/fetch-wp-posts.mjs` pulled the 20 missing posts (Feb to Aug 2026) through `incoming/blog/` and the importer. The step-by-step cutover is in `docs/CUTOVER.md`; the DNS and CNAME switch itself is a separate PR to merge on the day.
 
 ## 10. Decisions (resolved 2026-10-04)
 

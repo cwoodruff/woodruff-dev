@@ -1,0 +1,83 @@
+---
+interface Props {
+  current: number;
+  total: number;
+  prevUrl?: string;
+  nextUrl?: string;
+  urlFor: (page: number) => string;
+}
+const { current, total, prevUrl, nextUrl, urlFor } = Astro.props;
+
+// Compact page list: 1 … c-1 c c+1 … total
+const pages = new Set<number>([1, total, current - 1, current, current + 1]);
+const list = [...pages].filter((p) => p >= 1 && p <= total).sort((a, b) => a - b);
+---
+
+{
+  total > 1 && (
+    <nav class="pagination" aria-label="Pagination">
+      {prevUrl ? (
+        <a class="pagination__arrow" href={prevUrl} rel="prev">
+          ← Newer
+        </a>
+      ) : (
+        <span class="pagination__arrow is-disabled">← Newer</span>
+      )}
+      <ol class="pagination__pages" role="list">
+        {list.map((p, i) => (
+          <>
+            {i > 0 && list[i - 1] !== p - 1 && <li class="pagination__gap">…</li>}
+            <li>
+              {p === current ? (
+                <span class="pagination__page is-current" aria-current="page">
+                  {p}
+                </span>
+              ) : (
+                <a class="pagination__page" href={urlFor(p)}>
+                  {p}
+                </a>
+              )}
+            </li>
+          </>
+        ))}
+      </ol>
+      {nextUrl ? (
+        <a class="pagination__arrow" href={nextUrl} rel="next">
+          Older →
+        </a>
+      ) : (
+        <span class="pagination__arrow is-disabled">Older →</span>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-20);
+    margin-top: var(--sp-60);
+    padding-top: var(--sp-30);
+    border-top: 1px solid var(--c-border);
+  }
+  .pagination__pages { display: flex; gap: 0.35rem; }
+  .pagination__page {
+    display: grid;
+    place-items: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding-inline: 0.5rem;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    font-size: var(--fs-tiny);
+  }
+  a.pagination__page:hover { background: var(--c-bg-alt); }
+  .pagination__page.is-current { background: var(--c-text); color: var(--c-white); }
+  .pagination__gap { display: grid; place-items: center; min-width: 1.5rem; color: var(--c-text-muted); }
+  .pagination__arrow { font-weight: 700; font-size: var(--fs-tiny); }
+  .pagination__arrow:hover { color: var(--c-accent-ink); }
+  .pagination__arrow.is-disabled { color: var(--c-text-muted); opacity: 0.5; }
+</style>

@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, isoDate } from '../lib/posts';
+
+interface Props {
+  item: CollectionEntry<'media'>;
+}
+const { item } = Astro.props;
+const { data } = item;
+const typeLabel: Record<string, string> = { podcast: 'Podcast', video: 'Video', article: 'Article', talk: 'Talk' };
+---
+
+<a class="media-card card reveal" href={data.url} target="_blank" rel="noopener" data-filter-item={data.type}>
+  <div class="media-card__logo">
+    <Image src={data.image} alt={data.outlet ?? ''} widths={[240, 480]} sizes="240px" loading="lazy" />
+  </div>
+  <div class="media-card__body">
+    <div class="media-card__meta">
+      <span class="media-card__type">{typeLabel[data.type]}</span>
+      {data.outlet && <span>{data.outlet}</span>}
+      {data.date && <time datetime={isoDate(data.date)}>{formatDate(data.date)}</time>}
+    </div>
+    <h3>
+      {data.title} <span class="ext" aria-label="opens in a new tab">↗</span>
+    </h3>
+    {data.description && <p>{data.description}</p>}
+  </div>
+</a>
+
+<style>
+  .media-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+  .media-card__logo {
+    display: grid;
+    place-items: center;
+    height: 150px;
+    padding: var(--sp-30);
+    background: var(--c-bg-alt);
+    border-bottom: 1px solid var(--c-border);
+  }
+  .media-card__logo img { max-height: 96px; width: auto; max-width: 100%; object-fit: contain; }
+  .media-card__body { display: grid; gap: 0.6rem; padding: var(--sp-30) var(--sp-30) var(--sp-40); align-content: start; }
+  .media-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.9rem;
+    font-size: var(--fs-micro);
+    color: var(--c-text-muted);
+  }
+  .media-card__type {
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-accent-soft);
+    color: var(--c-accent-ink);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+  }
+  .media-card h3 { font-size: var(--fs-small); line-height: 1.3; }
+  .ext { color: var(--c-text-muted); font-size: 0.8em; }
+  .media-card p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+</style>

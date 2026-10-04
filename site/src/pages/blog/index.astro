@@ -1,0 +1,21 @@
+---
+import Page from '../../layouts/Page.astro';
+import BlogListing from '../../components/BlogListing.astro';
+import { getPosts, POSTS_PER_PAGE } from '../../lib/posts';
+import { href } from '../../lib/url';
+
+const posts = await getPosts();
+const total = Math.ceil(posts.length / POSTS_PER_PAGE);
+const urlFor = (p: number) => (p === 1 ? href('/blog/') : href(`/blog/page/${p}/`));
+---
+
+<Page
+  title="Blog & Insights"
+  description="Articles on .NET, C#, EF Core, htmx, Rust, Terraform, distributed systems, enterprise patterns, and software architecture by Chris Woody Woodruff."
+  label="Blog & Insights"
+  heading="Latest articles and insights"
+  text={`${posts.length} articles on .NET, architecture, data, and the craft of building software that lasts.`}
+  cta={false}
+>
+  <BlogListing posts={posts.slice(0, POSTS_PER_PAGE)} current={1} total={total} nextUrl={total > 1 ? urlFor(2) : undefined} urlFor={urlFor} />
+</Page>

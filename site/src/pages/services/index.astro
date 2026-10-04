@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Page
+  title="Services"
+  description="Fractional architecture, expert witness work, micro-consulting, project-based contracts, agentic developer relations, and advisory roles."
+  label="Services"
+  heading="Essential services"
+  text="Senior technical leadership, forensic analysis, and developer-relations programs, shaped to the decision in front of you."
+  cta={{ label: 'Ready to start?', heading: "Let's solve what's slowing you down.", text: "Whether you need a fractional architect, expert witness, agentic developer relations lead, or strategic advisor, let's talk about the decision in front of you.", buttonText: 'Get in touch' }}
+>
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--3">
+        {services.map((s, i) => <ServiceCard item={s} index={i + 1} linkText="Service details" />)}
+      </div>
+    </div>
+  </section>
+</Page>

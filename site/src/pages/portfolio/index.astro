@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import FilterTabs from '../../components/FilterTabs.astro';
+
+const items = (await getCollection('portfolio')).sort(
+  (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order,
+);
+---
+
+<Page
+  title="Portfolio"
+  description="Books, courses, workshops, podcasts, and open-source work by Chris Woody Woodruff."
+  label="Portfolio"
+  heading="Open source & writing"
+  text="Code I've shipped, books I've written, podcasts I host, and courses and workshops I've built over the years."
+  cta={{ heading: 'Got an idea worth building?', text: "If any of this work resonates, let's talk about what we could build together.", buttonText: 'Get in touch' }}
+>
+  <section class="section">
+    <div class="container">
+      <FilterTabs
+        label="Portfolio filters"
+        target="#portfolio-grid"
+        tabs={[
+          { key: 'open-source', label: 'Open Source' },
+          { key: 'writing', label: 'Writing' },
+        ]}
+      />
+      <div class="grid grid--3" id="portfolio-grid">
+        {items.map((item) => <ProjectCard item={item} />)}
+      </div>
+    </div>
+  </section>
+</Page>

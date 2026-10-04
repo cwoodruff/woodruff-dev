@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { href } from '../lib/url';
+
+const items = (await getCollection('media', ({ data }) => data.featured)).sort((a, b) => a.data.order - b.data.order);
+// One logo per outlet.
+const seen = new Set<string>();
+const logos = items.filter((i) => {
+  const key = i.data.outlet ?? i.id;
+  if (seen.has(key)) return false;
+  seen.add(key);
+  return true;
+});
+---
+
+{
+  logos.length > 0 && (
+    <section class="logos section--tight" aria-labelledby="logos-heading">
+      <div class="container">
+        <p class="logos__heading reveal" id="logos-heading">
+          Heard and read on
+        </p>
+        <ul class="logos__list reveal" role="list">
+          {logos.map((l) => (
+            <li>
+              <a href={l.data.url} target="_blank" rel="noopener" title={l.data.title}>
+                <Image src={l.data.image} alt={l.data.outlet ?? ''} widths={[200, 400]} sizes="160px" loading="lazy" />
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="logos__more reveal">
+          <a class="link-arrow" href={href('/press-media/')}>
+            All press and media <span aria-hidden="true">→</span>
+          </a>
+        </p>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .logos { padding-block: var(--sp-60); border-top: 1px solid var(--c-border); border-bottom: 1px solid var(--c-border); }
+  .logos__heading {
+    margin: 0 auto var(--sp-40);
+    text-align: center;
+    font-size: var(--fs-micro);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+  .logos__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-40) var(--sp-60);
+  }
+  .logos__list img {
+    height: 48px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.7;
+    transition: filter var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  }
+  .logos__list a:hover img { filter: none; opacity: 1; }
+  .logos__more { margin: var(--sp-40) auto 0; text-align: center; }
+</style>

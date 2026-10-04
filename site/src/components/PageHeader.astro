@@ -1,0 +1,30 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+  text?: string;
+  align?: 'left' | 'center';
+}
+const { label, title, text, align = 'left' } = Astro.props;
+---
+
+<header class:list={['page-header', { 'page-header--center': align === 'center' }]}>
+  <div class="container page-header__inner">
+    {label && <span class="label">{label}</span>}
+    <h1>{title}</h1>
+    {text && <p class="lead">{text}</p>}
+    <slot />
+  </div>
+</header>
+
+<style>
+  .page-header {
+    padding-block: var(--sp-60) var(--sp-50);
+    border-bottom: 1px solid var(--c-border);
+  }
+  .page-header__inner { display: grid; gap: var(--sp-20); justify-items: start; }
+  .page-header h1 { font-size: var(--fs-huge); max-width: 18ch; }
+  .page-header .lead { max-width: 60ch; }
+  .page-header--center .page-header__inner { justify-items: center; text-align: center; }
+  .page-header--center h1 { max-width: 24ch; }
+</style>

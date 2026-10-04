@@ -1,0 +1,65 @@
+---
+import BlogCard from './BlogCard.astro';
+import Pagination from './Pagination.astro';
+import { categoryHref, getCategories, type Post } from '../lib/posts';
+import { href } from '../lib/url';
+
+interface Props {
+  posts: Post[];
+  current: number;
+  total: number;
+  prevUrl?: string;
+  nextUrl?: string;
+  urlFor: (page: number) => string;
+  activeCategory?: string;
+}
+const { posts, current, total, prevUrl, nextUrl, urlFor, activeCategory } = Astro.props;
+const categories = await getCategories();
+---
+
+<section class="section">
+  <div class="container">
+    <nav class="cats reveal" aria-label="Categories">
+      <a class:list={['cat', { 'is-active': !activeCategory }]} href={href('/blog/')}>All</a>
+      {
+        categories.map((c) => (
+          <a class:list={['cat', { 'is-active': c.slug === activeCategory }]} href={categoryHref(c.slug)}>
+            {c.label} <span class="cat__count">{c.count}</span>
+          </a>
+        ))
+      }
+    </nav>
+
+    {
+      posts.length === 0 ? (
+        <p class="lead">No posts here yet.</p>
+      ) : (
+        <div class="grid grid--3">
+          {posts.map((p, i) => (
+            <BlogCard post={p} eager={current === 1 && i < 3} />
+          ))}
+        </div>
+      )
+    }
+
+    <Pagination current={current} total={total} prevUrl={prevUrl} nextUrl={nextUrl} urlFor={urlFor} />
+  </div>
+</section>
+
+<style>
+  .cats { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: var(--sp-50); }
+  .cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-micro);
+    font-weight: 700;
+  }
+  .cat:hover { border-color: var(--c-text); }
+  .cat.is-active { background: var(--c-text); border-color: var(--c-text); color: var(--c-white); }
+  .cat__count { color: var(--c-text-muted); font-weight: 600; }
+  .cat.is-active .cat__count { color: var(--c-accent); }
+</style>

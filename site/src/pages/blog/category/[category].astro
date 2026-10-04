@@ -1,0 +1,27 @@
+---
+import Page from '../../../layouts/Page.astro';
+import BlogListing from '../../../components/BlogListing.astro';
+import { categoryLabel, getCategories, getPosts } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const categories = await getCategories();
+  return categories.map((c) => ({
+    params: { category: c.slug },
+    props: { slug: c.slug, label: c.label, posts: posts.filter((p) => p.data.categories.includes(c.slug)) },
+  }));
+}
+
+const { slug, label, posts } = Astro.props;
+---
+
+<Page
+  title={`${label} articles`}
+  description={`Blog posts filed under ${label} by Chris Woody Woodruff.`}
+  label="Category"
+  heading={categoryLabel(slug)}
+  text={`${posts.length} ${posts.length === 1 ? 'article' : 'articles'}.`}
+  cta={false}
+>
+  <BlogListing posts={posts} current={1} total={1} urlFor={() => '#'} activeCategory={slug} />
+</Page>

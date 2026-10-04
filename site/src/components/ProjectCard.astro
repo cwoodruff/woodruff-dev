@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { href } from '../lib/url';
+
+interface Props {
+  item: CollectionEntry<'portfolio'>;
+  compact?: boolean;
+}
+const { item, compact = false } = Astro.props;
+const { data } = item;
+const external = Boolean(data.url);
+const link = external ? data.url! : href(`/portfolio/${item.id}/`);
+const labels: Record<string, string> = {
+  'open-source': 'Open Source',
+  book: 'Book',
+  course: 'Course',
+  workshop: 'Workshop',
+  podcast: 'Podcast',
+  article: 'Article',
+};
+const filter = data.category === 'open-source' ? 'open-source' : 'writing';
+---
+
+<a
+  class:list={['project-card card reveal', `project-card--${data.category}`]}
+  href={link}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+  data-filter-item={filter}
+>
+  <div class="project-card__media">
+    {
+      data.image ? (
+        <Image src={data.image} alt="" widths={[360, 540, 720]} sizes="(max-width: 700px) 92vw, 360px" loading="lazy" />
+      ) : (
+        <div class="project-card__placeholder" aria-hidden="true">
+          <span>{labels[data.category]}</span>
+        </div>
+      )
+    }
+  </div>
+  <div class="project-card__body">
+    <span class="project-card__type">
+      {labels[data.category]}
+      {external && <span class="ext" aria-label="opens in a new tab">↗</span>}
+    </span>
+    <h3>{data.title}</h3>
+    {!compact && <p class="project-card__desc">{data.description}</p>}
+    {
+      !compact && data.tech.length > 0 && (
+        <ul class="project-card__tech" role="list">
+          {data.tech.map((t) => (
+            <li>{t}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</a>
+
+<style>
+  .project-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+  .project-card__media { aspect-ratio: 4 / 3; background: var(--c-bg-alt); overflow: hidden; }
+  .project-card--book .project-card__media { aspect-ratio: 4 / 3; display: grid; place-items: center; background: var(--c-accent-soft); }
+  .project-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+  .project-card--book .project-card__media img { width: auto; height: 86%; object-fit: contain; border-radius: 4px; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18); }
+  .project-card:hover .project-card__media img { transform: scale(1.03); }
+  .project-card__placeholder {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    background: linear-gradient(135deg, var(--c-bg-alt), var(--c-accent-soft));
+    color: var(--c-accent-ink);
+    font-weight: 800;
+    font-size: var(--fs-medium);
+    letter-spacing: -0.02em;
+  }
+  .project-card__body { display: grid; gap: 0.75rem; padding: var(--sp-30) var(--sp-30) var(--sp-40); align-content: start; }
+  .project-card__type {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-accent-ink);
+  }
+  .ext { color: var(--c-text-muted); }
+  .project-card h3 { font-size: var(--fs-small-plus); line-height: 1.25; }
+  .project-card__desc { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+  .project-card__tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.25rem; }
+  .project-card__tech li {
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--c-text-muted);
+  }
+</style>

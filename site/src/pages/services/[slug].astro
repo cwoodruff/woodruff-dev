@@ -1,0 +1,84 @@
+---
+import { getCollection, render } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import { href } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+  return services.map((service, i) => ({
+    params: { slug: service.id },
+    props: {
+      service,
+      prev: services[(i - 1 + services.length) % services.length],
+      next: services[(i + 1) % services.length],
+    },
+  }));
+}
+
+const { service, prev, next } = Astro.props;
+const { Content } = await render(service);
+const { data } = service;
+---
+
+<Page
+  title={data.title}
+  description={data.short}
+  label="Service"
+  heading={data.title}
+  text={data.tagline}
+  cta={{ label: 'Next step', heading: data.ctaHeading, text: data.ctaText, buttonText: data.ctaButton }}
+>
+  <article class="section">
+    <div class="container service">
+      <div class="prose service__body reveal">
+        <Content />
+      </div>
+      <aside class="service__aside">
+        <div class="card service__card reveal">
+          <span class="label">In short</span>
+          <p>{data.short}</p>
+          <a class="btn btn--block" href={href('/contact/')}>{data.ctaButton} <span class="arrow" aria-hidden="true">→</span></a>
+          {
+            data.externalLink && (
+              <a class="link-arrow" href={data.externalLink.url} target="_blank" rel="noopener">
+                {data.externalLink.label} <span aria-hidden="true">↗</span>
+              </a>
+            )
+          }
+        </div>
+      </aside>
+    </div>
+    <nav class="container service__nav" aria-label="Other services">
+      <a href={href(`/services/${prev.id}/`)}>← {prev.data.navTitle ?? prev.data.title}</a>
+      <a href={href('/services/')}>All services</a>
+      <a href={href(`/services/${next.id}/`)}>{next.data.navTitle ?? next.data.title} →</a>
+    </nav>
+  </article>
+</Page>
+
+<style>
+  .service {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--sp-60);
+    align-items: start;
+  }
+  @media (max-width: 1000px) { .service { grid-template-columns: 1fr; } }
+  .service__body { max-width: 760px; }
+  .service__aside { position: sticky; top: calc(var(--header-h-compact) + 1.5rem); }
+  .service__card { display: grid; gap: var(--sp-20); }
+  .service__card:hover { transform: none; border-color: var(--c-border); }
+  .service__card p { color: var(--c-text-muted); font-size: var(--fs-tiny); }
+  .service__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sp-20);
+    margin-top: var(--sp-60);
+    padding-top: var(--sp-30);
+    border-top: 1px solid var(--c-border);
+    font-weight: 700;
+    font-size: var(--fs-tiny);
+  }
+  .service__nav a:hover { color: var(--c-accent-ink); }
+</style>

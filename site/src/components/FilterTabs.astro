@@ -1,0 +1,64 @@
+---
+/**
+ * Client-side filter tabs. Items to filter carry data-filter-item="<key>";
+ * "all" shows everything. Works without JS (everything visible).
+ */
+interface Props {
+  tabs: Array<{ key: string; label: string }>;
+  label: string;
+  target: string; // CSS selector for the container whose children are filtered
+}
+const { tabs, label, target } = Astro.props;
+---
+
+<div class="filter-tabs reveal" role="tablist" aria-label={label} data-filter-target={target}>
+  <button class="filter-tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">All</button>
+  {
+    tabs.map((t) => (
+      <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter={t.key}>
+        {t.label}
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  .filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: var(--sp-50);
+  }
+  .filter-tab {
+    padding: 0.55rem 1.1rem;
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-tiny);
+    font-weight: 700;
+    transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .filter-tab:hover { border-color: var(--c-text); }
+  .filter-tab.is-active { background: var(--c-text); border-color: var(--c-text); color: var(--c-white); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.filter-tabs').forEach((group) => {
+    const container = document.querySelector<HTMLElement>(group.dataset.filterTarget ?? '');
+    if (!container) return;
+    const items = container.querySelectorAll<HTMLElement>('[data-filter-item]');
+    group.querySelectorAll<HTMLButtonElement>('.filter-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const key = tab.dataset.filter;
+        group.querySelectorAll('.filter-tab').forEach((t) => {
+          t.classList.toggle('is-active', t === tab);
+          t.setAttribute('aria-selected', String(t === tab));
+        });
+        items.forEach((el) => {
+          const show = key === 'all' || el.dataset.filterItem === key;
+          el.hidden = !show;
+          if (show) el.classList.add('is-visible');
+        });
+      });
+    });
+  });
+</script>

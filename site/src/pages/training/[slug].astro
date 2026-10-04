@@ -1,0 +1,122 @@
+---
+import { getCollection, render } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import { formatDate, isoDate } from '../../lib/posts';
+import { href } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const items = (await getCollection('training', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+  return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+const { data } = item;
+const fmt: Record<string, string> = { workshop: 'Workshop', course: 'Course', bootcamp: 'Bootcamp' };
+const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 86400000);
+---
+
+<Page
+  title={data.title}
+  description={data.short}
+  label={`${fmt[data.format]} · ${data.duration} · ${data.level}`}
+  heading={data.title}
+  text={data.short}
+  cta={{ label: 'Private delivery', heading: 'Bring this to your team.', text: 'Delivered on site or remote and tailored to your codebase.', buttonText: 'Request a private session' }}
+>
+  <article class="section">
+    <div class="container course" style={`--course-accent:${data.accent ?? 'var(--c-accent)'}`}>
+      <div class="course__main">
+        <div class="prose reveal"><Content /></div>
+
+        <section class="reveal">
+          <h2 class="course__h2">Who it's for</h2>
+          <p class="lead">{data.audience}</p>
+        </section>
+
+        {
+          data.prerequisites.length > 0 && (
+            <section class="reveal">
+              <h2 class="course__h2">Prerequisites</h2>
+              <ul class="course__list">
+                {data.prerequisites.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          data.modules.length > 0 && (
+            <section class="reveal">
+              <h2 class="course__h2">Agenda</h2>
+              <ol class="course__modules" role="list">
+                {data.modules.map((m, i) => (
+                  <li>
+                    <span class="course__num">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="course__module">{m.title}</span>
+                    {m.length && <span class="course__len">{m.length}</span>}
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )
+        }
+      </div>
+
+      <aside class="course__aside">
+        <div class="card course__card reveal">
+          <span class="label">Upcoming dates</span>
+          {
+            upcoming.length === 0 ? (
+              <p>No public dates scheduled. Private delivery is available now.</p>
+            ) : (
+              <ul class="course__dates" role="list">
+                {upcoming.map((d) => (
+                  <li>
+                    <time datetime={isoDate(d.date)}>{formatDate(d.date)}</time>
+                    <span>{d.city}</span>
+                    {d.url && (
+                      <a href={d.url} target="_blank" rel="noopener">
+                        Register ↗
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+          <a class="btn btn--block" href={href('/contact/')}>Request a private session <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </aside>
+    </div>
+  </article>
+</Page>
+
+<style>
+  .course { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--sp-60); align-items: start; }
+  @media (max-width: 1000px) { .course { grid-template-columns: 1fr; } }
+  .course__main { display: grid; gap: var(--sp-60); max-width: 760px; }
+  .course__h2 { font-size: var(--fs-medium-plus); margin-bottom: var(--sp-20); }
+  .course__list { padding-left: 1.3em; display: grid; gap: 0.4rem; }
+  .course__modules { display: grid; }
+  .course__modules li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .course__num { font-weight: 800; color: var(--course-accent); font-size: var(--fs-micro); letter-spacing: 0.08em; }
+  .course__module { font-weight: 600; }
+  .course__len { font-size: var(--fs-micro); color: var(--c-text-muted); white-space: nowrap; }
+  .course__aside { position: sticky; top: calc(var(--header-h-compact) + 1.5rem); }
+  .course__card { display: grid; gap: var(--sp-20); border-top: 6px solid var(--course-accent); }
+  .course__card:hover { transform: none; border-color: var(--c-border); border-top-color: var(--course-accent); }
+  .course__card p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+  .course__dates { display: grid; gap: 0.75rem; }
+  .course__dates li { display: grid; gap: 0.15rem; font-size: var(--fs-tiny); }
+  .course__dates time { font-weight: 700; }
+</style>

@@ -1,0 +1,74 @@
+/* Long-form Markdown content (blog posts, service pages, portfolio details). */
+.prose {
+  font-size: var(--fs-small);
+  line-height: 1.75;
+  color: var(--c-text);
+}
+.prose > * + * { margin-top: 1.25em; }
+.prose > h2 { margin-top: 2em; font-size: var(--fs-medium-plus); }
+.prose > h3 { margin-top: 1.6em; font-size: var(--fs-medium); }
+.prose > h4 { margin-top: 1.4em; font-size: var(--fs-small-plus); }
+.prose h2 + *, .prose h3 + *, .prose h4 + * { margin-top: 0.75em; }
+.prose p { max-width: none; }
+.prose a {
+  color: var(--c-accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+.prose a:hover { color: var(--c-text); }
+.prose strong { font-weight: 700; }
+.prose ul, .prose ol { padding-left: 1.4em; }
+.prose li + li { margin-top: 0.4em; }
+.prose li > p + p { margin-top: 0.5em; }
+.prose blockquote {
+  margin-inline: 0;
+  padding: 0.25em 0 0.25em 1.25em;
+  border-left: 4px solid var(--c-accent);
+  color: var(--c-text-muted);
+  font-style: italic;
+}
+.prose blockquote p { margin-top: 0.5em; }
+.prose hr { border: 0; border-top: 1px solid var(--c-border); margin-block: 2.5em; }
+.prose img, .prose picture img, .prose video {
+  border-radius: var(--radius-sm);
+  margin-inline: auto;
+}
+.prose figure { margin-inline: 0; }
+.prose figcaption { margin-top: 0.5em; font-size: var(--fs-tiny); color: var(--c-text-muted); text-align: center; }
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+.prose :not(pre) > code {
+  padding: 0.15em 0.4em;
+  background: var(--c-bg-alt);
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.prose pre {
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-bg-alt) !important;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  tab-size: 4;
+}
+.prose pre code { display: block; min-width: max-content; background: none; border: 0; padding: 0; }
+
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: var(--fs-tiny);
+}
+.prose th, .prose td { padding: 0.6em 0.9em; border: 1px solid var(--c-border); text-align: left; vertical-align: top; }
+.prose th { background: var(--c-bg-alt); font-weight: 700; }
+
+.prose iframe { max-width: 100%; }
+.prose .wp-block-image, .prose .wp-block-embed { margin-inline: 0; }
