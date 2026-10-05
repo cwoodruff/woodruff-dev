@@ -19,7 +19,7 @@ import head from '../assets/portraits/woody-head.webp';
 import mvp from '../assets/badges/microsoft-mvp-2025.png';
 import jbcc from '../assets/badges/jetbrains-jbcc.png';
 
-const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.', 'at year five.'];
+const typedWords = ['effortlessly.', 'at scale.', 'with AI agents.', 'at year five.'];
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 const featured = (await getCollection('portfolio', ({ data }) => data.featured)).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
@@ -231,9 +231,10 @@ const stats = [
     .hero__grid { grid-template-columns: 1fr; }
     .hero__media { order: -1; max-width: 380px; }
   }
-  .hero__content { display: grid; gap: var(--sp-30); justify-items: start; padding-bottom: var(--sp-80); }
-  .hero__title { font-size: var(--fs-gigantic); }
-  .hero__typed { display: block; min-height: 1.1em; }
+  .hero__content { display: grid; gap: var(--sp-30); justify-items: start; padding-bottom: var(--sp-80); container-type: inline-size; }
+  /* Cap the size so the longest typed phrase ("with AI agents." + caret, ~7.2em) fits on one line. */
+  .hero__title { font-size: min(var(--fs-gigantic), 13.5cqi); }
+  .hero__typed { display: block; min-height: 1.1em; white-space: nowrap; }
   .hero__typed :global(.caret) {
     display: inline-block;
     width: 0.06em;
