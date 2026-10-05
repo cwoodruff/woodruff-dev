@@ -19,7 +19,7 @@ import head from '../assets/portraits/woody-head.webp';
 import mvp from '../assets/badges/microsoft-mvp-2025.png';
 import jbcc from '../assets/badges/jetbrains-jbcc.png';
 
-const typedWords = ['effortlessly.', 'at scale.', 'in court.', 'with AI agents.', 'at year five.'];
+const typedWords = ['effortlessly.', 'at scale.', 'with AI agents.', 'at year five.'];
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 const featured = (await getCollection('portfolio', ({ data }) => data.featured)).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
