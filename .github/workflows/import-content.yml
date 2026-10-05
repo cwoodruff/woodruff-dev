@@ -26,6 +26,8 @@ concurrency:
 jobs:
   import:
     runs-on: ubuntu-latest
+    # Counts only once a runner picks the job up; time spent queued is not included.
+    timeout-minutes: 15
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
     steps:
