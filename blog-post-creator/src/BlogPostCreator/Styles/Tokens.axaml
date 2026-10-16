@@ -1,0 +1,48 @@
+<!-- Mirrors site/src/styles/tokens.css. Keep the two in step. -->
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <FontFamily x:Key="FontSans">avares://BlogPostCreator/Assets/Fonts#Plus Jakarta Sans</FontFamily>
+  <FontFamily x:Key="FontMono">SF Mono, Menlo, Consolas, Liberation Mono, monospace</FontFamily>
+
+  <Color x:Key="CBg">#ffffff</Color>
+  <Color x:Key="CBgAlt">#f7f7f7</Color>
+  <Color x:Key="CBgDark">#111111</Color>
+  <Color x:Key="CText">#1c1c1c</Color>
+  <Color x:Key="CTextMuted">#5c5c5c</Color>
+  <Color x:Key="CTextOnDark">#f5f5f5</Color>
+  <Color x:Key="CTextOnDarkMuted">#a8a8a8</Color>
+  <Color x:Key="CBorder">#e0e0e0</Color>
+  <Color x:Key="CBorderDark">#2a2a2a</Color>
+  <Color x:Key="CAccent">#c9a96e</Color>
+  <Color x:Key="CAccentSoft">#24c9a96e</Color>
+  <Color x:Key="CAccentInk">#8a6b36</Color>
+
+  <SolidColorBrush x:Key="Bg" Color="{StaticResource CBg}" />
+  <SolidColorBrush x:Key="BgAlt" Color="{StaticResource CBgAlt}" />
+  <SolidColorBrush x:Key="BgDark" Color="{StaticResource CBgDark}" />
+  <SolidColorBrush x:Key="Text" Color="{StaticResource CText}" />
+  <SolidColorBrush x:Key="TextMuted" Color="{StaticResource CTextMuted}" />
+  <SolidColorBrush x:Key="TextOnDark" Color="{StaticResource CTextOnDark}" />
+  <SolidColorBrush x:Key="TextOnDarkMuted" Color="{StaticResource CTextOnDarkMuted}" />
+  <SolidColorBrush x:Key="Border" Color="{StaticResource CBorder}" />
+  <SolidColorBrush x:Key="BorderDark" Color="{StaticResource CBorderDark}" />
+  <SolidColorBrush x:Key="Accent" Color="{StaticResource CAccent}" />
+  <SolidColorBrush x:Key="AccentSoft" Color="{StaticResource CAccentSoft}" />
+  <SolidColorBrush x:Key="AccentInk" Color="{StaticResource CAccentInk}" />
+  <SolidColorBrush x:Key="Danger" Color="#b3261e" />
+  <SolidColorBrush x:Key="DangerSoft" Color="#14b3261e" />
+  <SolidColorBrush x:Key="DangerOnDark" Color="#ff8a80" />
+
+  <CornerRadius x:Key="RadiusSm">8</CornerRadius>
+  <CornerRadius x:Key="Radius">16</CornerRadius>
+  <CornerRadius x:Key="RadiusPill">999</CornerRadius>
+
+  <!-- Fluent accent → the site's warm gold. -->
+  <Color x:Key="SystemAccentColor">#c9a96e</Color>
+  <Color x:Key="SystemAccentColorDark1">#b8975c</Color>
+  <Color x:Key="SystemAccentColorDark2">#8a6b36</Color>
+  <Color x:Key="SystemAccentColorDark3">#6b5229</Color>
+  <Color x:Key="SystemAccentColorLight1">#d4b98a</Color>
+  <Color x:Key="SystemAccentColorLight2">#e2cfad</Color>
+  <Color x:Key="SystemAccentColorLight3">#efe4cf</Color>
+</ResourceDictionary>

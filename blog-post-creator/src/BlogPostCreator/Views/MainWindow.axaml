@@ -1,0 +1,340 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:BlogPostCreator.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="1440" d:DesignHeight="920"
+        x:Class="BlogPostCreator.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="{Binding WindowTitle}"
+        Width="1440" Height="920" MinWidth="1100" MinHeight="700"
+        WindowStartupLocation="CenterScreen">
+
+  <Window.Resources>
+    <StreamGeometry x:Key="IconCheck">M4,12.5 L9.5,18 L20,6.5</StreamGeometry>
+    <StreamGeometry x:Key="IconCross">M6,6 L18,18 M18,6 L6,18</StreamGeometry>
+    <StreamGeometry x:Key="IconBang">M12,5 L12,14 M12,18.5 L12,19</StreamGeometry>
+    <StreamGeometry x:Key="IconDash">M7,12 L17,12</StreamGeometry>
+    <StreamGeometry x:Key="IconArrow">M4,12 L19,12 M13,6 L19,12 L13,18</StreamGeometry>
+  </Window.Resources>
+
+  <Grid RowDefinitions="Auto,*">
+
+    <!-- ================= Header (mirrors the site header) ================= -->
+    <Border Grid.Row="0" Background="White" BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1" Padding="28,0" Height="76">
+      <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
+          <!-- favicon.svg: dark tile, white CW, gold bar -->
+          <Border Width="40" Height="40" CornerRadius="10" Background="{StaticResource Text}" ClipToBounds="True">
+            <Grid>
+              <TextBlock Text="CW" Foreground="White" FontWeight="ExtraBold" FontSize="15" LetterSpacing="-0.5"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,6" />
+              <Border Height="4" CornerRadius="2" Background="{StaticResource Accent}" VerticalAlignment="Bottom" Margin="6,0,6,6" />
+            </Grid>
+          </Border>
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="Blog Post Creator" FontWeight="ExtraBold" FontSize="17" LetterSpacing="-0.3" />
+            <TextBlock Text="woodruff.dev · Blog &amp; Insights" Classes="muted small" />
+          </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="18" VerticalAlignment="Center">
+          <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right">
+            <TextBlock Text="{Binding RepoPath}" FontSize="12.5" FontWeight="SemiBold" HorizontalAlignment="Right"
+                       MaxWidth="460" TextTrimming="PrefixCharacterEllipsis" />
+            <TextBlock Text="{Binding RepoSummary}" Classes="muted" FontSize="12" HorizontalAlignment="Right" />
+          </StackPanel>
+          <Button Classes="link" Command="{Binding ChooseRepoCommand}" VerticalAlignment="Center">
+            <TextBlock Text="Change repo" />
+          </Button>
+          <Button Classes="btn outline sm" Command="{Binding NewPostCommand}" Content="New post" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1" ColumnDefinitions="*,480">
+
+      <!-- ================= Compose ================= -->
+      <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="48,40,40,24" MaxWidth="920">
+
+          <StackPanel Orientation="Horizontal">
+            <Border Classes="label-bar" />
+            <TextBlock Classes="label" Text="NEW BLOG POST" />
+          </StackPanel>
+          <Grid ColumnDefinitions="*,Auto" Margin="0,12,0,8">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Classes="h1" Text="Write it, then " />
+              <Grid>
+                <Border Classes="mark" />
+                <TextBlock Classes="h1" Text="ship it." />
+              </Grid>
+            </StackPanel>
+            <Button Grid.Column="1" Classes="btn outline sm" Command="{Binding OpenMarkdownCommand}" VerticalAlignment="Center"
+                    Content="Open Markdown file…" />
+          </Grid>
+          <TextBlock Classes="muted" TextWrapping="Wrap" Margin="0,0,0,28" MaxWidth="680" HorizontalAlignment="Left"
+                     Text="The app drops the post into incoming/blog/, pushes to main, and follows the Import content workflow until the page is live." />
+
+          <!-- Details -->
+          <Border Classes="card">
+            <StackPanel Spacing="20">
+              <TextBlock Classes="h3" Text="Details" />
+
+              <StackPanel>
+                <TextBlock Classes="field" Text="Title" />
+                <TextBox Classes="title" Text="{Binding Title}" Watermark="Leader Election in .NET: Picking One Boss Without Creating Two" />
+              </StackPanel>
+
+              <Grid ColumnDefinitions="*,20,200,20,Auto">
+                <StackPanel Grid.Column="0">
+                  <TextBlock Classes="field" Text="Slug" />
+                  <TextBox Text="{Binding Slug}" FontFamily="{StaticResource FontMono}" FontSize="13" Watermark="derived-from-the-title" />
+                  <TextBlock Text="{Binding PostUrlPreview}" Classes="muted" FontSize="12" Margin="2,6,0,0" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                  <TextBlock Classes="field" Text="Date" />
+                  <CalendarDatePicker SelectedDate="{Binding Date}" HorizontalAlignment="Stretch" SelectedDateFormat="Custom" CustomDateFormatString="yyyy-MM-dd" />
+                </StackPanel>
+                <StackPanel Grid.Column="4">
+                  <TextBlock Classes="field" Text="Draft" />
+                  <ToggleSwitch IsChecked="{Binding Draft}" OnContent="Hidden" OffContent="Public" />
+                </StackPanel>
+              </Grid>
+
+              <StackPanel>
+                <TextBlock Classes="field" Text="Description" />
+                <TextBox Text="{Binding Description}" AcceptsReturn="False" TextWrapping="Wrap" MinHeight="64"
+                         Watermark="One-sentence summary used for cards and the RSS feed. Leave blank to use the first paragraph." />
+              </StackPanel>
+
+              <StackPanel>
+                <TextBlock Classes="field" Text="Categories" />
+                <ItemsControl ItemsSource="{Binding Categories}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:CategoryOption">
+                      <ToggleButton Classes="chip" IsChecked="{Binding IsSelected}" Content="{Binding Display}" />
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+
+              <StackPanel>
+                <TextBlock Classes="field" Text="Tags" />
+                <TextBox Text="{Binding Tags}" Watermark="dotnet, csharp, distributed" />
+              </StackPanel>
+            </StackPanel>
+          </Border>
+
+          <!-- Featured image -->
+          <Border Classes="card">
+            <Grid ColumnDefinitions="320,28,*">
+              <Border Grid.Column="0" CornerRadius="{StaticResource RadiusSm}" Background="{StaticResource BgAlt}" ClipToBounds="True" Height="180">
+                <Panel>
+                  <Image Source="{Binding FeaturedImage}" Stretch="UniformToFill" IsVisible="{Binding HasFeaturedImage}" />
+                  <StackPanel IsVisible="{Binding !HasFeaturedImage}" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+                    <TextBlock Text="No featured image" Classes="muted" FontWeight="Bold" HorizontalAlignment="Center" />
+                    <TextBlock Text="Required by the importer" Classes="muted small" HorizontalAlignment="Center" />
+                  </StackPanel>
+                </Panel>
+              </Border>
+              <StackPanel Grid.Column="2" VerticalAlignment="Center" Spacing="10">
+                <TextBlock Classes="h3" Text="Featured image" />
+                <TextBlock Classes="muted small" TextWrapping="Wrap"
+                           Text="PNG, JPG, or WebP. It's renamed to the slug when it's dropped into incoming/blog/." />
+                <Border Classes="pill" HorizontalAlignment="Left">
+                  <TextBlock Text="{Binding FeaturedImageName}" />
+                </Border>
+                <Button Classes="btn sm" Command="{Binding ChooseFeaturedImageCommand}" Content="Choose image…" HorizontalAlignment="Left" Margin="0,4,0,0" />
+              </StackPanel>
+            </Grid>
+          </Border>
+
+          <!-- Body -->
+          <Border Classes="card">
+            <StackPanel Spacing="14">
+              <Grid ColumnDefinitions="*,Auto,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                  <TextBlock Classes="h3" Text="Body" />
+                  <Border Classes="pill" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding BodyStats}" />
+                  </Border>
+                </StackPanel>
+                <TextBlock Grid.Column="1" Classes="muted small" Text="Markdown · reference images by file name" VerticalAlignment="Center" Margin="0,0,16,0" />
+                <Button Grid.Column="2" Classes="btn outline sm" Command="{Binding AddImagesCommand}" Content="Add images…" />
+              </Grid>
+
+              <TextBox Classes="mono" Text="{Binding Body}" CaretIndex="{Binding BodyCaret, Mode=TwoWay}"
+                       AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap" MinHeight="460" VerticalContentAlignment="Top"
+                       Watermark="## Start writing&#x0a;&#x0a;![Lease diagram](diagram-1.png)" />
+
+              <ItemsControl ItemsSource="{Binding ExtraImages}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:AttachedImage">
+                    <Border BorderBrush="{StaticResource Border}" BorderThickness="1.5" CornerRadius="{StaticResource RadiusPill}"
+                            Padding="14,4,6,4" Margin="0,0,8,8">
+                      <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="{Binding Name}" FontSize="12.5" FontWeight="Bold" VerticalAlignment="Center" />
+                        <TextBlock Text="referenced" Foreground="{StaticResource AccentInk}" FontSize="11.5" VerticalAlignment="Center"
+                                   IsVisible="{Binding IsReferenced}" />
+                        <Button Classes="link" IsVisible="{Binding IsUnreferenced}" VerticalAlignment="Center"
+                                Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).InsertImageCommand}" CommandParameter="{Binding}">
+                          <TextBlock Text="Insert" FontSize="11.5" />
+                        </Button>
+                        <Button Classes="icon" ToolTip.Tip="Remove"
+                                Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).RemoveImageCommand}" CommandParameter="{Binding}">
+                          <Path Data="{StaticResource IconCross}" Stroke="{StaticResource TextMuted}" StrokeThickness="2" Width="10" Height="10" Stretch="Uniform" />
+                        </Button>
+                      </StackPanel>
+                    </Border>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+
+      <!-- ================= Publish panel ================= -->
+      <Border Grid.Column="1" Background="{StaticResource BgAlt}" BorderBrush="{StaticResource Border}" BorderThickness="1,0,0,0">
+        <Grid RowDefinitions="*,250">
+          <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel>
+          <StackPanel Margin="32,32,32,0" Spacing="12">
+            <StackPanel Orientation="Horizontal">
+              <Border Classes="label-bar" />
+              <TextBlock Classes="label" Text="PUBLISH" />
+            </StackPanel>
+            <TextBlock Classes="h2" Text="{Binding Headline}" TextWrapping="Wrap" />
+            <TextBlock Classes="muted small" Text="{Binding Subhead}" TextWrapping="Wrap" />
+            <ProgressBar Value="{Binding Progress}" Maximum="100" Margin="0,4,0,0" />
+
+            <!-- Validation issues (live while editing) -->
+            <ItemsControl ItemsSource="{Binding Issues}" IsVisible="{Binding IsIdle}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:Issue">
+                  <Grid ColumnDefinitions="Auto,*" Margin="0,4,0,0">
+                    <Border Width="7" Height="7" CornerRadius="4" Margin="0,6,10,0" VerticalAlignment="Top"
+                            Background="{StaticResource Accent}" />
+                    <Border Width="7" Height="7" CornerRadius="4" Margin="0,6,10,0" VerticalAlignment="Top"
+                            Background="{StaticResource Danger}" IsVisible="{Binding IsError}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Text}" TextWrapping="Wrap" FontSize="12.5" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Actions -->
+            <Grid ColumnDefinitions="*,12,Auto" Margin="0,8,0,0" IsVisible="{Binding !IsConfirmingPublish}">
+              <Button Grid.Column="0" Classes="btn" HorizontalAlignment="Stretch" Command="{Binding PublishCommand}" IsVisible="{Binding IsIdle}">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                  <TextBlock Text="Publish post" />
+                  <Path Data="{StaticResource IconArrow}" Stroke="{Binding $parent[Button].Foreground}" StrokeThickness="2.2" Width="14" Height="12" Stretch="Uniform" VerticalAlignment="Center" />
+                </StackPanel>
+              </Button>
+              <Button Grid.Column="0" Classes="btn outline" HorizontalAlignment="Stretch" Command="{Binding CancelCommand}" IsVisible="{Binding IsRunning}"
+                      Content="Stop" />
+              <Button Grid.Column="2" Classes="btn outline" Command="{Binding CheckCommand}" Content="Check only" IsVisible="{Binding IsIdle}" />
+            </Grid>
+
+            <!-- Confirm before anything goes to main -->
+            <Border Background="White" BorderBrush="{StaticResource Text}" BorderThickness="1.5" CornerRadius="{StaticResource Radius}" Padding="20"
+                    IsVisible="{Binding IsConfirmingPublish}" Margin="0,8,0,0">
+              <StackPanel Spacing="12">
+                <TextBlock Classes="h3" Text="Push this post to main?" />
+                <TextBlock Classes="muted small" TextWrapping="Wrap"
+                           Text="This commits the post to incoming/blog/ and pushes to origin/main. The Import content workflow then builds and deploys woodruff.dev." />
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                  <Button Classes="btn accent sm" Command="{Binding ConfirmPublishCommand}" Content="Yes, publish" />
+                  <Button Classes="btn outline sm" Command="{Binding CancelConfirmCommand}" Content="Not yet" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" Spacing="18">
+              <Button Classes="link" Command="{Binding OpenUrlCommand}" CommandParameter="{Binding LivePostUrl}" IsVisible="{Binding HasLivePostUrl}">
+                <TextBlock Text="Open the live post →" />
+              </Button>
+              <Button Classes="link" Command="{Binding OpenUrlCommand}" CommandParameter="{Binding RunUrl}" IsVisible="{Binding HasRunUrl}">
+                <TextBlock Text="Workflow run on GitHub →" />
+              </Button>
+            </StackPanel>
+          </StackPanel>
+
+          <!-- Steps -->
+          <ItemsControl ItemsSource="{Binding Steps}" Margin="32,22,32,12">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:StepViewModel">
+                <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,10">
+                  <Panel Width="28" Height="28" VerticalAlignment="Top">
+                    <Border Classes="step-dot"
+                            Classes.running="{Binding IsRunning}" Classes.done="{Binding IsDone}"
+                            Classes.warning="{Binding IsWarning}" Classes.failed="{Binding IsFailed}" Classes.skipped="{Binding IsSkipped}" />
+                    <TextBlock Text="{Binding Number}" FontSize="11.5" FontWeight="Bold" Foreground="{StaticResource TextMuted}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding IsPending}" />
+                    <Arc Classes="spinner" Width="20" Height="20" StartAngle="0" SweepAngle="270" StrokeThickness="2.5"
+                         Stroke="{StaticResource Accent}" StrokeLineCap="Round" IsVisible="{Binding IsRunning}"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Path Data="{StaticResource IconCheck}" Stroke="White" StrokeThickness="2.4" Width="12" Height="12" Stretch="Uniform"
+                          StrokeLineCap="Round" StrokeJoin="Round" IsVisible="{Binding IsDone}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Path Data="{StaticResource IconBang}" Stroke="Black" StrokeThickness="2.6" Width="3" Height="12" Stretch="Fill"
+                          StrokeLineCap="Round" IsVisible="{Binding IsWarning}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Path Data="{StaticResource IconCross}" Stroke="White" StrokeThickness="2.4" Width="10" Height="10" Stretch="Uniform"
+                          StrokeLineCap="Round" IsVisible="{Binding IsFailed}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Path Data="{StaticResource IconDash}" Stroke="{StaticResource TextMuted}" StrokeThickness="2" Width="10" Height="2" Stretch="Fill"
+                          IsVisible="{Binding IsSkipped}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                  </Panel>
+                  <StackPanel Grid.Column="1" Margin="14,3,8,0">
+                    <TextBlock Classes="step-title" Classes.active="{Binding !IsPending}" Text="{Binding Title}" />
+                    <TextBlock Text="{Binding DisplayDetail}" FontSize="12" Classes="muted" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis" Margin="0,1,0,0" />
+                  </StackPanel>
+                  <TextBlock Grid.Column="2" Text="{Binding Elapsed}" FontSize="11.5" Classes="muted" Margin="0,5,0,0"
+                             FontFamily="{StaticResource FontMono}" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          </StackPanel>
+          </ScrollViewer>
+
+          <!-- Activity log: a dark section, like the site footer and dark bands -->
+          <Border Grid.Row="1" Background="{StaticResource BgDark}" CornerRadius="16,16,0,0" Margin="16,0,16,0">
+            <Grid RowDefinitions="Auto,*">
+              <Grid ColumnDefinitions="*,Auto" Margin="20,14,14,8">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                  <Border Classes="label-bar" />
+                  <TextBlock Classes="label" Text="ACTIVITY" Foreground="{StaticResource Accent}" />
+                </StackPanel>
+                <Button Grid.Column="1" Classes="btn sm on-dark" Padding="12,5" FontSize="11.5" Command="{Binding ClearLogCommand}" Content="Clear" />
+              </Grid>
+              <ScrollViewer Grid.Row="1" x:Name="LogScroller" Margin="20,0,12,12">
+                <ItemsControl ItemsSource="{Binding Log}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:LogEntry">
+                      <Grid ColumnDefinitions="64,*" Margin="0,1">
+                        <TextBlock Text="{Binding Time}" FontFamily="{StaticResource FontMono}" FontSize="11.5" Foreground="#6b6b6b" />
+                        <SelectableTextBlock Grid.Column="1" Classes="log" Text="{Binding Text}"
+                                             Classes.command="{Binding IsCommand}" Classes.output="{Binding IsOutput}"
+                                             Classes.success="{Binding IsSuccess}" Classes.warning="{Binding IsWarning}" Classes.error="{Binding IsError}" />
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </ScrollViewer>
+            </Grid>
+          </Border>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</Window>

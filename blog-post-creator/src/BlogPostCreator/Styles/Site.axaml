@@ -1,0 +1,354 @@
+<!-- Component styles translated from site/src/styles/base.css (.btn, .label, .card, .chip, .filter-tab). -->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <Style Selector="Window">
+    <Setter Property="FontFamily" Value="{StaticResource FontSans}" />
+    <Setter Property="Background" Value="{StaticResource Bg}" />
+    <Setter Property="Foreground" Value="{StaticResource Text}" />
+  </Style>
+
+  <!-- Typography -->
+  <Style Selector="TextBlock.h1">
+    <Setter Property="FontSize" Value="34" />
+    <Setter Property="FontWeight" Value="ExtraBold" />
+    <Setter Property="LetterSpacing" Value="-0.7" />
+    <Setter Property="LineHeight" Value="38" />
+  </Style>
+  <Style Selector="TextBlock.h2">
+    <Setter Property="FontSize" Value="24" />
+    <Setter Property="FontWeight" Value="ExtraBold" />
+    <Setter Property="LetterSpacing" Value="-0.5" />
+  </Style>
+  <Style Selector="TextBlock.h3">
+    <Setter Property="FontSize" Value="17" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="LetterSpacing" Value="-0.2" />
+  </Style>
+  <Style Selector="TextBlock.label">
+    <Setter Property="FontSize" Value="11.5" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="LetterSpacing" Value="1.4" />
+    <Setter Property="Foreground" Value="{StaticResource AccentInk}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Border.label-bar">
+    <Setter Property="Width" Value="24" />
+    <Setter Property="Height" Value="2" />
+    <Setter Property="CornerRadius" Value="2" />
+    <Setter Property="Background" Value="{StaticResource Accent}" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Margin" Value="0,0,8,0" />
+  </Style>
+  <Style Selector="TextBlock.muted">
+    <Setter Property="Foreground" Value="{StaticResource TextMuted}" />
+  </Style>
+  <Style Selector="TextBlock.small">
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+  <Style Selector="TextBlock.field">
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Margin" Value="0,0,0,6" />
+  </Style>
+
+  <!-- Accent mark under a word, like .mark on the site -->
+  <Style Selector="Border.mark">
+    <Setter Property="Background" Value="{StaticResource Accent}" />
+    <Setter Property="Height" Value="9" />
+    <Setter Property="CornerRadius" Value="3" />
+    <Setter Property="VerticalAlignment" Value="Bottom" />
+    <Setter Property="Margin" Value="-2,0,-2,0" />
+    <Setter Property="Opacity" Value="0.9" />
+  </Style>
+
+  <!-- Buttons: .btn (dark pill) plus the outline, accent, and sm modifiers -->
+  <Style Selector="Button.btn">
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusPill}" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="Padding" Value="24,13" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="Background" Value="{StaticResource Text}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Text}" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.25" />
+      </Transitions>
+    </Setter>
+  </Style>
+  <Style Selector="Button.btn:pointerover">
+    <Setter Property="RenderTransform" Value="translateY(-1px)" />
+  </Style>
+  <Style Selector="Button.btn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="White" />
+    <Setter Property="BorderBrush" Value="{StaticResource Text}" />
+    <Setter Property="Foreground" Value="{StaticResource Text}" />
+  </Style>
+  <Style Selector="Button.btn:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource BgAlt}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Text}" />
+    <Setter Property="Foreground" Value="{StaticResource Text}" />
+  </Style>
+  <Style Selector="Button.btn:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource Text}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Text}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.btn:disabled">
+    <Setter Property="Opacity" Value="0.35" />
+  </Style>
+
+  <Style Selector="Button.outline">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{StaticResource Text}" />
+  </Style>
+  <Style Selector="Button.outline:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource Text}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.outline:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{StaticResource Text}" />
+  </Style>
+
+  <Style Selector="Button.accent">
+    <Setter Property="Background" Value="{StaticResource Accent}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Accent}" />
+    <Setter Property="Foreground" Value="Black" />
+  </Style>
+  <Style Selector="Button.accent:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource Text}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Text}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+
+  <Style Selector="Button.sm">
+    <Setter Property="Padding" Value="16,9" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+
+  <!-- On the dark log panel, like the dark-section buttons -->
+  <Style Selector="Button.on-dark">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{StaticResource BorderDark}" />
+    <Setter Property="Foreground" Value="{StaticResource TextOnDark}" />
+  </Style>
+  <Style Selector="Button.on-dark:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource Accent}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Accent}" />
+    <Setter Property="Foreground" Value="Black" />
+  </Style>
+
+  <!-- Text link with underline, like .link-arrow -->
+  <Style Selector="Button.link">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Foreground" Value="{StaticResource Text}" />
+  </Style>
+  <Style Selector="Button.link:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{StaticResource AccentInk}" />
+  </Style>
+  <Style Selector="Button.link:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.link TextBlock">
+    <Setter Property="TextDecorations" Value="Underline" />
+  </Style>
+
+  <!-- Small round icon button -->
+  <Style Selector="Button.icon">
+    <Setter Property="Width" Value="26" />
+    <Setter Property="Height" Value="26" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="CornerRadius" Value="13" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{StaticResource TextMuted}" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="Button.icon:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource BgAlt}" />
+    <Setter Property="Foreground" Value="{StaticResource Text}" />
+  </Style>
+
+  <!-- Inputs -->
+  <Style Selector="TextBox">
+    <Setter Property="Background" Value="White" />
+    <Setter Property="BorderBrush" Value="{StaticResource Border}" />
+    <Setter Property="BorderThickness" Value="1.5" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusSm}" />
+    <Setter Property="Padding" Value="12,10" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="SelectionBrush" Value="{StaticResource Accent}" />
+    <Setter Property="SelectionForegroundBrush" Value="Black" />
+    <Setter Property="CaretBrush" Value="{StaticResource Text}" />
+  </Style>
+  <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="White" />
+    <Setter Property="BorderBrush" Value="#b8b8b8" />
+  </Style>
+  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="White" />
+    <Setter Property="BorderBrush" Value="{StaticResource Text}" />
+    <Setter Property="BorderThickness" Value="1.5" />
+  </Style>
+  <Style Selector="TextBox.title">
+    <Setter Property="FontSize" Value="22" />
+    <Setter Property="FontWeight" Value="ExtraBold" />
+    <Setter Property="Padding" Value="14,12" />
+  </Style>
+  <Style Selector="TextBox.mono">
+    <Setter Property="FontFamily" Value="{StaticResource FontMono}" />
+    <Setter Property="FontSize" Value="13.5" />
+    <Setter Property="Padding" Value="16,14" />
+  </Style>
+
+  <Style Selector="CalendarDatePicker">
+    <Setter Property="Background" Value="White" />
+    <Setter Property="BorderBrush" Value="{StaticResource Border}" />
+    <Setter Property="BorderThickness" Value="1.5" />
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusSm}" />
+    <Setter Property="Padding" Value="12,9" />
+    <Setter Property="FontSize" Value="14" />
+  </Style>
+
+  <!-- Category chips, like .filter-tab -->
+  <Style Selector="ToggleButton.chip">
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusPill}" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{StaticResource Border}" />
+    <Setter Property="BorderThickness" Value="1.5" />
+    <Setter Property="FontSize" Value="12.5" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Padding" Value="13,6" />
+    <Setter Property="Margin" Value="0,0,8,8" />
+    <Setter Property="Cursor" Value="Hand" />
+  </Style>
+  <Style Selector="ToggleButton.chip:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{StaticResource Text}" />
+    <Setter Property="Foreground" Value="{StaticResource Text}" />
+  </Style>
+  <Style Selector="ToggleButton.chip:checked /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource Text}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Text}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="ToggleButton.chip:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource BgAlt}" />
+  </Style>
+
+  <!-- Soft gold tag pill, like .chip on blog cards -->
+  <Style Selector="Border.pill">
+    <Setter Property="CornerRadius" Value="{StaticResource RadiusPill}" />
+    <Setter Property="Background" Value="{StaticResource AccentSoft}" />
+    <Setter Property="Padding" Value="10,3" />
+  </Style>
+  <Style Selector="Border.pill TextBlock">
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="{StaticResource AccentInk}" />
+  </Style>
+
+  <!-- Cards -->
+  <Style Selector="Border.card">
+    <Setter Property="Background" Value="White" />
+    <Setter Property="BorderBrush" Value="{StaticResource Border}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="{StaticResource Radius}" />
+    <Setter Property="Padding" Value="28" />
+    <Setter Property="Margin" Value="0,0,0,24" />
+  </Style>
+
+  <Style Selector="ProgressBar">
+    <Setter Property="Foreground" Value="{StaticResource Accent}" />
+    <Setter Property="Background" Value="{StaticResource Border}" />
+    <Setter Property="Height" Value="6" />
+    <Setter Property="MinHeight" Value="6" />
+    <Setter Property="CornerRadius" Value="3" />
+  </Style>
+
+  <!-- Step timeline -->
+  <Style Selector="Border.step-dot">
+    <Setter Property="Width" Value="28" />
+    <Setter Property="Height" Value="28" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="BorderThickness" Value="1.5" />
+    <Setter Property="BorderBrush" Value="{StaticResource Border}" />
+    <Setter Property="Background" Value="White" />
+  </Style>
+  <Style Selector="Border.step-dot.running">
+    <Setter Property="BorderBrush" Value="{StaticResource Accent}" />
+  </Style>
+  <Style Selector="Border.step-dot.done">
+    <Setter Property="Background" Value="{StaticResource Text}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Text}" />
+  </Style>
+  <Style Selector="Border.step-dot.warning">
+    <Setter Property="Background" Value="{StaticResource Accent}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Accent}" />
+  </Style>
+  <Style Selector="Border.step-dot.failed">
+    <Setter Property="Background" Value="{StaticResource Danger}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Danger}" />
+  </Style>
+  <Style Selector="Border.step-dot.skipped">
+    <Setter Property="Background" Value="{StaticResource BgAlt}" />
+  </Style>
+  <Style Selector="TextBlock.step-title">
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="{StaticResource TextMuted}" />
+  </Style>
+  <Style Selector="TextBlock.step-title.active">
+    <Setter Property="Foreground" Value="{StaticResource Text}" />
+  </Style>
+
+  <Style Selector="Arc.spinner">
+    <Setter Property="RenderTransform" Value="rotate(0deg)" />
+    <Style.Animations>
+      <Animation Duration="0:0:0.9" IterationCount="INFINITE">
+        <KeyFrame Cue="0%">
+          <Setter Property="RotateTransform.Angle" Value="0" />
+        </KeyFrame>
+        <KeyFrame Cue="100%">
+          <Setter Property="RotateTransform.Angle" Value="360" />
+        </KeyFrame>
+      </Animation>
+    </Style.Animations>
+  </Style>
+
+  <!-- Log lines on the dark panel -->
+  <Style Selector="SelectableTextBlock.log">
+    <Setter Property="FontFamily" Value="{StaticResource FontMono}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Foreground" Value="{StaticResource TextOnDark}" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+    <Setter Property="SelectionBrush" Value="{StaticResource Accent}" />
+  </Style>
+  <Style Selector="SelectableTextBlock.log.command">
+    <Setter Property="Foreground" Value="{StaticResource Accent}" />
+  </Style>
+  <Style Selector="SelectableTextBlock.log.output">
+    <Setter Property="Foreground" Value="{StaticResource TextOnDarkMuted}" />
+  </Style>
+  <Style Selector="SelectableTextBlock.log.success">
+    <Setter Property="Foreground" Value="#9fd8a3" />
+  </Style>
+  <Style Selector="SelectableTextBlock.log.warning">
+    <Setter Property="Foreground" Value="#e8c98f" />
+  </Style>
+  <Style Selector="SelectableTextBlock.log.error">
+    <Setter Property="Foreground" Value="{StaticResource DangerOnDark}" />
+  </Style>
+</Styles>
