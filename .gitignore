@@ -506,3 +506,4 @@ http-client.private.env.json
 /.idea
 .DS_Store
 /.claude
+/knowledge
