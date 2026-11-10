@@ -8,8 +8,10 @@ namespace BlogPostCreator.Tests;
 /// </summary>
 public class ImporterIntegrationTests
 {
-    [Fact]
-    public async Task Real_importer_accepts_the_apps_output()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task Real_importer_accepts_the_apps_output(bool emptyCategories)
     {
         var repo = RepoIndex.Locate(AppContext.BaseDirectory);
         if (repo is null || !Directory.Exists(Path.Combine(repo, "site", "node_modules", "gray-matter"))) return;
@@ -25,6 +27,7 @@ public class ImporterIntegrationTests
             var incoming = Directory.CreateDirectory(Path.Combine(tmp, "incoming", "blog")).FullName;
 
             var post = FrontMatterTests.Sample() with { Title = "What’s New: \"Quotes\" & Colons", Slug = Slug.From("What’s New: \"Quotes\" & Colons") };
+            if (emptyCategories) post = post with { Categories = [] };
             File.WriteAllText(Path.Combine(incoming, post.MarkdownFileName), FrontMatter.Render(post));
             File.WriteAllBytes(Path.Combine(incoming, post.Slug + ".png"), [0]);
             File.WriteAllBytes(Path.Combine(incoming, "diagram-1.png"), [0]);
@@ -37,7 +40,8 @@ public class ImporterIntegrationTests
             var parsed = FrontMatter.Parse(File.ReadAllText(index));
             Assert.Equal(post.Title, parsed.Data["title"]);
             Assert.Equal($"./images/{post.Slug}.png", parsed.Data["coverImage"]);
-            Assert.Equal(["patterns"], FrontMatter.AsList(parsed.Data["categories"]));
+            Assert.IsAssignableFrom<IEnumerable<object>>(parsed.Data["categories"]);
+            Assert.Equal(post.Categories, FrontMatter.AsList(parsed.Data["categories"]));
             Assert.Contains("](images/diagram-1.png)", parsed.Body);
             Assert.True(File.Exists(Path.Combine(Path.GetDirectoryName(index)!, "images", "diagram-1.png")));
             Assert.Empty(Directory.GetFiles(incoming));

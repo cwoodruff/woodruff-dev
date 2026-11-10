@@ -42,6 +42,7 @@ export function yamlValue(v) {
 }
 
 export function yamlList(items) {
+  if (items.length === 0) return '  []';
   return items.map((i) => `  - ${yamlValue(i)}`).join('\n');
 }
 
