@@ -1,10 +1,13 @@
 ---
 title: "The Shy Kid Who Did Not Speak"
 date: 2026-11-10
-slug: "the-shy-kid-who-did-not-speak"
 description: "Most people may not know that I could not speak until I was almost 3 years old."
-categories: []
-tags: ["personal", "speechimpediment"]
+categories:
+  []
+tags:
+  - "personal"
+  - "speechimpediment"
+coverImage: "./images/the-shy-kid-who-did-not-speak.png"
 draft: true
 ---
 I was the shy kid who did not make friends and did not speak in class growing up. I have always had a poor sense of self-confidence due to having a speech impediment as a child.
