@@ -63,7 +63,11 @@ export default defineConfig({
   redirects: wordpressRedirects(preview ? '/woodruff-dev' : ''),
   integrations: [sitemap()],
   image: {
-    service: { entrypoint: 'astro/assets/services/sharp' },
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      // Default encoder quality for every generated image, including images in post bodies.
+      config: { webp: { quality: 70 }, jpeg: { quality: 75 } },
+    },
   },
   markdown: {
     shikiConfig: { theme: 'github-light' },

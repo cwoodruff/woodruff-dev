@@ -18,7 +18,8 @@ const category = primaryCategory(post);
         <Image
           src={post.data.coverImage}
           alt=""
-          widths={[400, 640, 900]}
+          width={1080}
+          widths={[400, 720, 1080]}
           sizes="(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 380px"
           loading={eager ? 'eager' : 'lazy'}
         />
