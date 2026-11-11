@@ -8,7 +8,7 @@ tags:
   - "personal"
   - "speechimpediment"
 coverImage: "./images/the-shy-kid-who-did-not-speak.png"
-draft: true
+draft: false
 ---
 I was the shy kid who did not make friends and did not speak in class growing up. I have always had a poor sense of self-confidence due to having a speech impediment as a child.
 I could not speak until I was almost three. My parents and the doctors thought I might be deaf, and I almost went to a preschool for deaf children. Once I could speak, I spent the next nine years in speech therapy, until I was twelve. That is most of a childhood spent learning to do something the other kids never had to think about.
