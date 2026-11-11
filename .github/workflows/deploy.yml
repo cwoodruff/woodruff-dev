@@ -44,8 +44,20 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Pages sometimes stalls in "syncing_files" until deploy-pages gives up
+      # (~10 min). The artifact is already uploaded, so a second attempt is cheap.
       - name: Deploy to GitHub Pages
-        id: deployment
+        id: first
+        continue-on-error: true
         uses: actions/deploy-pages@v5
         with:
           timeout: 1800000
+      - name: Deploy to GitHub Pages (retry)
+        id: retry
+        if: steps.first.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 1800000
+      - name: Resolve page URL
+        id: deployment
+        run: echo "page_url=${{ steps.retry.outputs.page_url || steps.first.outputs.page_url }}" >> "$GITHUB_OUTPUT"

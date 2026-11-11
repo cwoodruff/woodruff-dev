@@ -44,7 +44,7 @@ const shareUrl = new URL(postHref(post), Astro.site).toString();
       {
         data.coverImage && (
           <div class="container post__cover">
-            <Image src={data.coverImage} alt="" widths={[720, 1080, 1440]} sizes="(max-width: 1200px) 94vw, 1152px" loading="eager" fetchpriority="high" />
+            <Image src={data.coverImage} alt="" width={1440} widths={[720, 1080, 1440]} sizes="(max-width: 1200px) 94vw, 1152px" loading="eager" fetchpriority="high" />
           </div>
         )
       }
