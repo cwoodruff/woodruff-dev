@@ -3,6 +3,9 @@ title: "Fractional Architect"
 navTitle: "Fractional Architect"
 tagline: "Senior architecture leadership, embedded in your team—without the full-time hire."
 short: "Senior architecture leadership, embedded in your team 4 to 16 hours per week. Decisions with receipts, engineers who grow, and a 90-day technical roadmap you can share with the board."
+group: ongoing
+engagement: "4–16 hours a week, embedded"
+image: "./images/fractional-architect.svg"
 order: 1
 ctaHeading: "Need an architect this quarter, not next fiscal year?"
 ctaText: "Let’s talk about where your team is and what kind of engagement makes sense."

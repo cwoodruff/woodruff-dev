@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#262421"/><stop offset="1" stop-color="#0e0d0c"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.7" cy="0.35" r="0.65">
+      <stop offset="0" stop-color="#c9a96e" stop-opacity="0.28"/><stop offset="1" stop-color="#c9a96e" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 H0 V40" fill="none" stroke="#c9a96e" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="750" fill="url(#bg)"/>
+  <rect width="1200" height="750" fill="url(#grid)"/>
+  <rect width="1200" height="750" fill="url(#glow)"/>
+  <path d="M330 190 C 350 190, 350 280, 370 280" fill="none" stroke="#c9a96e" stroke-opacity="0.7" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 14"/>
+  <path d="M330 370 C 350 370, 350 280, 370 280" fill="none" stroke="#c9a96e" stroke-opacity="0.7" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 14"/>
+  <path d="M260 230 V 330" fill="none" stroke="#c9a96e" stroke-opacity="0.7" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 14"/>
+  <path d="M330 370 C 350 370, 350 460, 370 460" fill="none" stroke="#c9a96e" stroke-opacity="0.7" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 14"/>
+  <g filter="url(#shadow)"><rect x="130" y="150" width="200" height="80" rx="14" fill="#2b2824" stroke="#c9a96e" stroke-opacity="0.55" stroke-width="2"/></g>
+  <text x="230" y="199" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="26" font-weight="700" fill="#e8d5ad" fill-opacity="1">web</text>
+  <g filter="url(#shadow)"><rect x="130" y="330" width="200" height="80" rx="14" fill="#2b2824" stroke="#c9a96e" stroke-opacity="0.55" stroke-width="2"/></g>
+  <text x="230" y="379" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="26" font-weight="700" fill="#e8d5ad" fill-opacity="1">api</text>
+  <g filter="url(#shadow)"><rect x="370" y="240" width="200" height="80" rx="14" fill="#2b2824" stroke="#c9a96e" stroke-opacity="0.55" stroke-width="2"/></g>
+  <text x="470" y="289" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="26" font-weight="700" fill="#e8d5ad" fill-opacity="1">queue</text>
+  <g filter="url(#shadow)"><rect x="370" y="420" width="200" height="80" rx="14" fill="#2b2824" stroke="#c9a96e" stroke-opacity="0.55" stroke-width="2"/></g>
+  <text x="470" y="469" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="26" font-weight="700" fill="#e8d5ad" fill-opacity="1">db</text>
+  <g filter="url(#shadow)"><rect x="660" y="120" width="420" height="330" rx="16" fill="#f5efe3"/></g>
+  <text x="695" y="180" xml:space="preserve" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="24" font-weight="800" fill="#8a6b36" fill-opacity="1">ADR-014</text>
+  <text x="695" y="222" xml:space="preserve" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="24" font-weight="700" fill="#1c1c1c" fill-opacity="1">Adopt the outbox pattern</text>
+  <rect x="695" y="252" width="340" height="12" rx="6.0" fill="#d6cfc2" fill-opacity="1"/>
+  <rect x="695" y="278" width="300" height="12" rx="6.0" fill="#d6cfc2" fill-opacity="1"/>
+  <rect x="695" y="304" width="320" height="12" rx="6.0" fill="#d6cfc2" fill-opacity="1"/>
+  <rect x="695" y="344" width="130" height="40" rx="20" fill="#c9a96e"/>
+  <text x="760" y="371" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" font-weight="800" fill="#1c1c1c" fill-opacity="1">Accepted</text>
+  <rect x="845" y="358" width="150" height="12" rx="6.0" fill="#d6cfc2" fill-opacity="1"/>
+  <rect x="660" y="520" width="66" height="110" rx="10" fill="#2b2824"/>
+  <rect x="660" y="531.0" width="66" height="99.0" rx="10" fill="#c9a96e" fill-opacity="0.90"/>
+  <text x="693" y="668" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#e8d5ad" fill-opacity="0.8">M</text>
+  <rect x="746" y="520" width="66" height="110" rx="10" fill="#2b2824"/>
+  <rect x="746" y="591.5" width="66" height="38.5" rx="10" fill="#c9a96e" fill-opacity="0.62"/>
+  <text x="779" y="668" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#e8d5ad" fill-opacity="0.8">T</text>
+  <rect x="832" y="520" width="66" height="110" rx="10" fill="#2b2824"/>
+  <rect x="832" y="553.0" width="66" height="77.0" rx="10" fill="#c9a96e" fill-opacity="0.80"/>
+  <text x="865" y="668" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#e8d5ad" fill-opacity="0.8">W</text>
+  <rect x="918" y="520" width="66" height="110" rx="10" fill="#2b2824"/>
+  <rect x="918" y="608.0" width="66" height="22.0" rx="10" fill="#c9a96e" fill-opacity="0.55"/>
+  <text x="951" y="668" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#e8d5ad" fill-opacity="0.8">T</text>
+  <rect x="1004" y="520" width="66" height="110" rx="10" fill="#2b2824"/>
+  <rect x="1004" y="569.5" width="66" height="60.50000000000001" rx="10" fill="#c9a96e" fill-opacity="0.73"/>
+  <text x="1037" y="668" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#e8d5ad" fill-opacity="0.8">F</text>
+  <text x="130" y="640" xml:space="preserve" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="26" font-weight="600" fill="#e8d5ad" fill-opacity="0.85">4–16 hrs / week, embedded</text>
+</svg>

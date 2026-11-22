@@ -64,17 +64,21 @@ const portfolio = defineCollection({
 /** Services: six detail pages. Body is the long-form page content. */
 const services = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/services' }),
-  schema: z.object({
-    title: z.string(),
-    navTitle: z.string().optional(),
-    short: z.string(),
-    tagline: z.string(),
-    order: z.number(),
-    ctaHeading: z.string(),
-    ctaText: z.string(),
-    ctaButton: z.string().default('Start the conversation'),
-    externalLink: z.object({ label: z.string(), url: z.string().url() }).optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      navTitle: z.string().optional(),
+      short: z.string(),
+      tagline: z.string(),
+      group: z.enum(['ongoing', 'defined', 'specialist']),
+      engagement: z.string(),
+      image: image().optional(),
+      order: z.number(),
+      ctaHeading: z.string(),
+      ctaText: z.string(),
+      ctaButton: z.string().default('Start the conversation'),
+      externalLink: z.object({ label: z.string(), url: z.string().url() }).optional(),
+    }),
 });
 
 /** Training: hands-on workshops and courses. Drafts are hidden from the index. */

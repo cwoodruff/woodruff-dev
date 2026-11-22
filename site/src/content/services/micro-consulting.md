@@ -3,6 +3,9 @@ title: "Micro-Consulting"
 navTitle: "Micro-Consulting"
 tagline: "One decision. One session. A senior architect’s read—in writing, the same week."
 short: "A 90-minute deep-dive plus a written decision brief, for the single sharp question your team needs answered this week, not next quarter."
+group: defined
+engagement: "90-minute session, written brief within 48 hours"
+image: "./images/micro-consulting.svg"
 order: 3
 ctaHeading: "Got one sharp question and want a sharp answer?"
 ctaText: "Send me the context and let’s put it on the calendar this week."

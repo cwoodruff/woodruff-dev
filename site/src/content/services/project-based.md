@@ -3,6 +3,9 @@ title: "Project-Based Contracts"
 navTitle: "Project-Based Contracts"
 tagline: "Scoped, owned, and delivered—with written trade-offs and a clean handoff."
 short: "Scoped, fixed-fee engagements for architecture assessments, modernization plans, cloud migrations, and technical due diligence. Owned end-to-end, with a clean handoff."
+group: defined
+engagement: "Fixed fee or capped budget, written scope"
+image: "./images/project-based.svg"
 order: 4
 ctaHeading: "Have a defined problem and a deadline?"
 ctaText: "Let’s scope it properly and get you a deliverable you can act on."

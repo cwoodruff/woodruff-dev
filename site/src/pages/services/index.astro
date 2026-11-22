@@ -1,24 +1,106 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Page from '../../layouts/Page.astro';
-import ServiceCard from '../../components/ServiceCard.astro';
+import { serviceGroups } from '../../lib/services';
+import { href } from '../../lib/url';
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const groups = serviceGroups.map((g) => ({ ...g, items: services.filter((s) => s.data.group === g.key) }));
 ---
 
 <Page
   title="Services"
-  description="Fractional architecture, expert witness work, micro-consulting, project-based contracts, agentic developer relations, and advisory roles."
+  description="Fractional architecture, advisory and board roles, micro-consulting, project-based contracts, software forensic expert witness work, and agentic developer relations."
   label="Services"
   heading="Essential services"
-  text="Senior technical leadership, forensic analysis, and developer-relations programs, shaped to the decision in front of you."
-  cta={{ label: 'Ready to start?', heading: "Let's solve what's slowing you down.", text: "Whether you need a fractional architect, expert witness, agentic developer relations lead, or strategic advisor, let's talk about the decision in front of you.", buttonText: 'Get in touch' }}
+  text="Senior technical leadership, forensic analysis, and developer-relations programs, shaped to the decision in front of you. Start with the situation you're in."
+  cta={{ label: 'Not sure which fits?', heading: "Tell me the situation. I'll tell you the shape.", text: "Describe the decision in front of you and I'll suggest the engagement that fits, even if it's none of these.", buttonText: 'Get in touch' }}
 >
   <section class="section">
     <div class="container">
-      <div class="grid grid--3">
-        {services.map((s, i) => <ServiceCard item={s} index={i + 1} linkText="Service details" />)}
-      </div>
+      <span class="label reveal">Which sounds like you?</span>
+      <ul class="situations" role="list">
+        {
+          groups.map((g) => (
+            <li class="reveal">
+              <a class="card situation" href={`#${g.key}`}>
+                <span class="situation__label">{g.label}</span>
+                <span class="situation__quote">“{g.situation}”</span>
+                <span class="situation__services">{g.items.map((s) => s.data.navTitle ?? s.data.title).join(' · ')}</span>
+                <span class="link-arrow">
+                  See the options <span aria-hidden="true">↓</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
+
+  {
+    groups.map((g, gi) => (
+      <section class:list={['section group', { 'section--alt': gi % 2 === 0 }]} id={g.key} aria-labelledby={`${g.key}-heading`}>
+        <div class="container">
+          <header class="group__header reveal">
+            <span class="label">{String(gi + 1).padStart(2, '0')} · {g.label}</span>
+            <h2 id={`${g.key}-heading`}>{g.situation}</h2>
+            <p class="lead">{g.text}</p>
+          </header>
+          <div class="grid grid--2">
+            {g.items.map((s) => (
+              <a class="card service reveal" href={href(`/services/${s.id}/`)}>
+                {s.data.image && (
+                  <div class="service__media">
+                    <Image src={s.data.image} alt="" widths={[480, 720, 960]} sizes="(max-width: 860px) 92vw, 580px" loading="lazy" />
+                  </div>
+                )}
+                <div class="service__body">
+                  <span class="service__engagement">{s.data.engagement}</span>
+                  <h3>{s.data.navTitle ?? s.data.title}</h3>
+                  <p>{s.data.short}</p>
+                  <span class="link-arrow">
+                    Service details <span aria-hidden="true">→</span>
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
 </Page>
+
+<style>
+  .situations { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-30); margin-top: var(--sp-30); }
+  @media (max-width: 960px) { .situations { grid-template-columns: 1fr; } }
+  .situations li { display: grid; }
+  .situation { display: grid; gap: var(--sp-20); align-content: start; border-top: 4px solid var(--c-accent); }
+  .situation__label { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-accent-ink); }
+  .situation__quote { font-size: var(--fs-small); font-weight: 700; line-height: var(--lh-snug); }
+  .situation__services { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+  .situation .link-arrow { margin-top: auto; }
+
+  .group { scroll-margin-top: var(--header-h-compact); }
+  .group__header { display: grid; gap: var(--sp-20); max-width: 760px; margin-bottom: var(--sp-50); }
+  .group__header h2 { font-size: var(--fs-medium-plus); line-height: var(--lh-snug); }
+
+  .service { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+  .service__media { aspect-ratio: 8 / 5; overflow: hidden; background: var(--c-bg-dark); }
+  .service__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+  .service:hover .service__media img { transform: scale(1.03); }
+  .service__body { display: grid; gap: var(--sp-20); padding: var(--sp-30) var(--sp-30) var(--sp-40); flex: 1; align-content: start; }
+  .service__engagement {
+    justify-self: start;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-accent-soft);
+    color: var(--c-accent-ink);
+    font-size: var(--fs-micro);
+    font-weight: 700;
+  }
+  .service h3 { font-size: var(--fs-small-plus); }
+  .service p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+</style>
