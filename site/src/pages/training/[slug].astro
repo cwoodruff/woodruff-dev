@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 import { formatDate, isoDate } from '../../lib/posts';
@@ -19,7 +20,7 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
 <Page
   title={data.title}
   description={data.short}
-  label={`${fmt[data.format]} · ${data.duration} · ${data.level}`}
+  label={[fmt[data.format], data.duration, data.level].filter(Boolean).join(' · ')}
   heading={data.title}
   text={data.short}
   cta={{ label: 'Private delivery', heading: 'Bring this to your team.', text: 'Delivered on site or remote and tailored to your codebase.', buttonText: 'Request a private session' }}
@@ -27,7 +28,37 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
   <article class="section">
     <div class="container course" style={`--course-accent:${data.accent ?? 'var(--c-accent)'}`}>
       <div class="course__main">
+        {
+          data.image && (
+            <div class="course__image reveal">
+              <Image src={data.image} alt="" widths={[640, 960, 1280]} sizes="(max-width: 1000px) 92vw, 760px" />
+            </div>
+          )
+        }
+
         <div class="prose reveal"><Content /></div>
+
+        {
+          data.build && (
+            <section class="course__build reveal">
+              <span class="label">What you'll build</span>
+              <p>{data.build}</p>
+            </section>
+          )
+        }
+
+        {
+          data.outcomes.length > 0 && (
+            <section class="reveal">
+              <h2 class="course__h2">What you'll be able to do</h2>
+              <ul class="course__outcomes" role="list">
+                {data.outcomes.map((o) => (
+                  <li>{o}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
 
         <section class="reveal">
           <h2 class="course__h2">Who it's for</h2>
@@ -67,6 +98,38 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
 
       <aside class="course__aside">
         <div class="card course__card reveal">
+          <dl class="course__facts">
+            <div><dt>Format</dt><dd>{fmt[data.format]}</dd></div>
+            {data.duration && <div><dt>Length</dt><dd>{data.duration}</dd></div>}
+            <div><dt>Level</dt><dd class="course__level">{data.level}</dd></div>
+            {data.modules.length > 0 && <div><dt>Modules</dt><dd>{data.modules.length}</dd></div>}
+          </dl>
+          {
+            data.tech.length > 0 && (
+              <ul class="course__tech" role="list">
+                {data.tech.map((x) => (
+                  <li>{x}</li>
+                ))}
+              </ul>
+            )
+          }
+          {
+            data.site && (
+              <a class="btn btn--block" href={data.site} target="_blank" rel="noopener">
+                Open the workshop guide <span aria-hidden="true">↗</span>
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            )
+          }
+          {
+            data.repo && (
+              <a class="course__repo" href={data.repo} target="_blank" rel="noopener">
+                Source code on GitHub <span aria-hidden="true">↗</span>
+              </a>
+            )
+          }
+        </div>
+        <div class="card course__card course__card--plain reveal">
           <span class="label">Upcoming dates</span>
           {
             upcoming.length === 0 ? (
@@ -87,7 +150,7 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
               </ul>
             )
           }
-          <a class="btn btn--block" href={href('/contact/')}>Request a private session <span class="arrow" aria-hidden="true">→</span></a>
+          <a class:list={['btn btn--block', { 'btn--outline': data.site }]} href={href('/contact/')}>Request a private session <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </aside>
     </div>
@@ -112,10 +175,40 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
   .course__num { font-weight: 800; color: var(--course-accent); font-size: var(--fs-micro); letter-spacing: 0.08em; }
   .course__module { font-weight: 600; }
   .course__len { font-size: var(--fs-micro); color: var(--c-text-muted); white-space: nowrap; }
-  .course__aside { position: sticky; top: calc(var(--header-h-compact) + 1.5rem); }
+  .course__aside { position: sticky; top: calc(var(--header-h-compact) + 1.5rem); display: grid; gap: var(--sp-30); }
   .course__card { display: grid; gap: var(--sp-20); border-top: 6px solid var(--course-accent); }
   .course__card:hover { transform: none; border-color: var(--c-border); border-top-color: var(--course-accent); }
   .course__card p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+  .course__card--plain { border-top-width: 1px; border-top-color: var(--c-border); }
+  .course__card--plain:hover { border-top-color: var(--c-border); }
+  .course__image img { width: 100%; height: auto; border-radius: var(--radius); }
+  .course__build { display: grid; gap: var(--sp-10); padding: var(--sp-40); border-left: 6px solid var(--course-accent); background: var(--c-bg-alt); border-radius: var(--radius-sm); }
+  .course__build p { font-size: var(--fs-small); line-height: var(--lh-snug); }
+  .course__outcomes { display: grid; gap: 0.75rem; }
+  .course__outcomes li { position: relative; padding-left: 2rem; }
+  .course__outcomes li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    display: grid;
+    place-items: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 50%;
+    background: var(--course-accent);
+    color: var(--c-white);
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+  .course__facts { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-20); }
+  .course__facts dt { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-text-muted); }
+  .course__facts dd { font-weight: 700; }
+  .course__level { text-transform: capitalize; }
+  .course__tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .course__tech li { padding: 0.2rem 0.6rem; border: 1px solid var(--c-border); border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 600; color: var(--c-text-muted); }
+  .course__repo { font-size: var(--fs-tiny); font-weight: 700; justify-self: center; }
+  .course__repo:hover { color: var(--course-accent); }
   .course__dates { display: grid; gap: 0.75rem; }
   .course__dates li { display: grid; gap: 0.15rem; font-size: var(--fs-tiny); }
   .course__dates time { font-weight: 700; }
