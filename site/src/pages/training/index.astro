@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 import { href } from '../../lib/url';
@@ -6,15 +7,20 @@ import { href } from '../../lib/url';
 const all = (await getCollection('training')).sort((a, b) => a.data.order - b.data.order);
 const live = all.filter((t) => !t.data.draft);
 const fmt: Record<string, string> = { workshop: 'Workshop', course: 'Course', bootcamp: 'Bootcamp' };
+const steps = [
+  { title: 'Concepts, then labs', text: 'Each module is a short live build with the decisions explained, followed by a lab where you build it yourself.' },
+  { title: 'Checkpoints, so nobody falls behind', text: 'Every lab ends at a known-good checkpoint in the workshop repo. Catch up or skip ahead at any time.' },
+  { title: 'The guide stays with you', text: 'Every workshop has its own site with the full material, so you can revisit any lab after the day is done.' },
+];
 ---
 
 <Page
-  title="In-Person Training"
-  description="In-person workshops and courses on Entity Framework Core, C# network programming, htmx with ASP.NET Core Razor Pages, and software architecture, delivered by Chris Woody Woodruff."
+  title="Training"
+  description="Hands-on workshops on htmx with ASP.NET Core, Minimal APIs, Web API, .NET AI with Claude, and Terraform, taught by Chris Woody Woodruff."
   label="Training"
-  heading="In-person training"
-  text="Hands-on workshops and multi-day courses for teams that want to level up together, taught by the author of the books and the host of the podcast."
-  cta={{ label: 'Private delivery', heading: 'Bring a workshop to your team.', text: 'Every course can be delivered privately, on site or remote, and tailored to your codebase. Tell me what your team needs.', buttonText: 'Tell me what you need' }}
+  heading="Hands-on workshops"
+  text="Workshops where you build real software, not watch slides: htmx, Minimal APIs, Web API, AI with Claude, and Terraform. Each one has an open workshop guide you can explore right now."
+  cta={{ label: 'Private delivery', heading: 'Bring a workshop to your team.', text: 'Every workshop can be delivered privately, on site or remote, and tailored to your codebase. Tell me what your team needs.', buttonText: 'Tell me what you need' }}
 >
   <section class="section">
     <div class="container">
@@ -23,10 +29,7 @@ const fmt: Record<string, string> = { workshop: 'Workshop', course: 'Course', bo
           <div class="soon card reveal">
             <span class="label">Coming soon</span>
             <h2>Workshop dates are being scheduled.</h2>
-            <p class="lead">
-              Public sessions on Entity Framework Core, C# network programming, and htmx with ASP.NET Core Razor Pages are
-              on the way. If your team can't wait, private delivery is available now.
-            </p>
+            <p class="lead">If your team can't wait, private delivery is available now.</p>
             <p>
               <a class="btn" href={href('/contact/')}>
                 Tell me what your team needs <span class="arrow" aria-hidden="true">→</span>
@@ -34,22 +37,63 @@ const fmt: Record<string, string> = { workshop: 'Workshop', course: 'Course', bo
             </p>
           </div>
         ) : (
-          <div class="grid grid--3">
+          <ul class="workshops" role="list">
             {live.map((t) => (
-              <a class="card course reveal" href={href(`/training/${t.id}/`)} style={`--course-accent:${t.data.accent ?? 'var(--c-accent)'}`}>
-                <span class="course__format">
-                  {fmt[t.data.format]} · {t.data.duration} · {t.data.level}
-                </span>
-                <h3>{t.data.title}</h3>
-                <p>{t.data.short}</p>
-                <span class="link-arrow">
-                  Course details <span aria-hidden="true">→</span>
-                </span>
-              </a>
+              <li class="card workshop reveal" style={`--course-accent:${t.data.accent ?? 'var(--c-accent)'}`}>
+                <a class="workshop__media" href={href(`/training/${t.id}/`)} tabindex="-1" aria-hidden="true">
+                  {t.data.image && <Image src={t.data.image} alt="" widths={[480, 720, 960]} sizes="(max-width: 860px) 92vw, 480px" loading="lazy" />}
+                </a>
+                <div class="workshop__body">
+                  <ul class="workshop__meta" role="list">
+                    <li>{fmt[t.data.format]}</li>
+                    {t.data.duration && <li>{t.data.duration}</li>}
+                    <li>{t.data.level}</li>
+                  </ul>
+                  <h2 class="workshop__title">
+                    <a href={href(`/training/${t.id}/`)}>{t.data.title}</a>
+                  </h2>
+                  <p class="workshop__short">{t.data.short}</p>
+                  {t.data.tech.length > 0 && (
+                    <ul class="workshop__tech" role="list">
+                      {t.data.tech.map((x) => (
+                        <li>{x}</li>
+                      ))}
+                    </ul>
+                  )}
+                  <div class="workshop__actions">
+                    <a class="btn" href={href(`/training/${t.id}/`)}>
+                      Workshop details <span class="arrow" aria-hidden="true">→</span>
+                    </a>
+                    {t.data.site && (
+                      <a class="btn btn--outline" href={t.data.site} target="_blank" rel="noopener">
+                        Open the guide <span aria-hidden="true">↗</span>
+                        <span class="sr-only">(opens in a new tab)</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </li>
             ))}
-          </div>
+          </ul>
         )
       }
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <span class="label reveal">How the workshops run</span>
+      <ol class="steps" role="list">
+        {
+          steps.map((s, i) => (
+            <li class="reveal">
+              <span class="steps__num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
 </Page>
@@ -57,8 +101,42 @@ const fmt: Record<string, string> = { workshop: 'Workshop', course: 'Course', bo
 <style>
   .soon { display: grid; gap: var(--sp-30); max-width: 760px; justify-items: start; }
   .soon:hover { transform: none; border-color: var(--c-border); }
-  .course { display: grid; gap: var(--sp-20); align-content: start; border-top: 6px solid var(--course-accent); }
-  .course__format { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-text-muted); }
-  .course h3 { font-size: var(--fs-small-plus); }
-  .course p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+
+  .workshops { display: grid; gap: var(--sp-50); }
+  .workshop {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    padding: 0;
+    overflow: hidden;
+    border-top: 6px solid var(--course-accent);
+  }
+  .workshop:hover { transform: none; border-color: var(--c-border); border-top-color: var(--course-accent); }
+  @media (max-width: 860px) { .workshop { grid-template-columns: 1fr; } }
+  .workshop__media { display: block; aspect-ratio: 8 / 5; overflow: hidden; background: var(--course-accent); }
+  @media (min-width: 861px) { .workshop__media { aspect-ratio: auto; min-height: 100%; } }
+  .workshop__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+  .workshop:hover .workshop__media img { transform: scale(1.03); }
+  .workshop__body { display: grid; gap: var(--sp-20); align-content: center; padding: var(--sp-40); }
+  .workshop__meta { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--course-accent); }
+  .workshop__meta li + li::before { content: '·'; margin-right: 1rem; color: var(--c-text-muted); }
+  .workshop__title { font-size: var(--fs-medium); line-height: var(--lh-snug); }
+  .workshop__title a:hover { color: var(--course-accent); }
+  .workshop__short { color: var(--c-text-muted); }
+  .workshop__tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .workshop__tech li {
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--c-text-muted);
+  }
+  .workshop__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: var(--sp-10); }
+
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-50); margin-top: var(--sp-30); }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+  .steps li { display: grid; gap: var(--sp-10); align-content: start; }
+  .steps__num { font-weight: 800; font-size: var(--fs-micro); letter-spacing: 0.08em; color: var(--c-accent-ink); }
+  .steps h3 { font-size: var(--fs-small); }
+  .steps p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
 </style>

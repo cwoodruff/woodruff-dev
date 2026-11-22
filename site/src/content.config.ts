@@ -77,7 +77,7 @@ const services = defineCollection({
   }),
 });
 
-/** Training: in-person workshops and courses. Drafts are hidden from the index. */
+/** Training: hands-on workshops and courses. Drafts are hidden from the index. */
 const training = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/training' }),
   schema: ({ image }) =>
@@ -85,13 +85,18 @@ const training = defineCollection({
       title: z.string(),
       short: z.string(),
       format: z.enum(['workshop', 'course', 'bootcamp']),
-      duration: z.string(),
-      level: z.enum(['intermediate', 'advanced']),
+      duration: z.string().optional(),
+      level: z.enum(['beginner', 'intermediate', 'advanced']),
       audience: z.string(),
       prerequisites: z.array(z.string()).default([]),
       modules: z.array(z.object({ title: z.string(), length: z.string().optional() })).default([]),
+      outcomes: z.array(z.string()).default([]),
+      build: z.string().optional(),
+      tech: z.array(z.string()).default([]),
       image: image().optional(),
       accent: z.string().optional(),
+      site: z.string().url().optional(),
+      repo: z.string().url().optional(),
       nextDates: z
         .array(z.object({ date: z.coerce.date(), city: z.string(), url: z.string().url().optional() }))
         .default([]),
