@@ -4,6 +4,7 @@ import BlogCard from '../../components/BlogCard.astro';
 import BlogListing from '../../components/BlogListing.astro';
 import { getPosts, postHref, POSTS_PER_PAGE } from '../../lib/posts';
 import { getSeries } from '../../lib/series';
+import { site } from '../../lib/site';
 import { href } from '../../lib/url';
 
 const posts = await getPosts();
@@ -19,7 +20,7 @@ const startHere = [
   .map((id) => posts.find((p) => p.id === id))
   .filter((p) => p !== undefined);
 const series = await getSeries();
-const substack = 'https://simplicityfirstphilosophy.substack.com/';
+const substack = site.social.substack;
 ---
 
 <Page
