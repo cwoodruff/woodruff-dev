@@ -9,8 +9,10 @@ interface Props {
   all?: boolean;
   /** Show the link to the full press page. */
   more?: boolean;
+  /** Maximum number of logos, to keep the strip on one row. */
+  limit?: number;
 }
-const { heading = 'Heard and read on', all = false, more = true } = Astro.props;
+const { heading = 'Heard and read on', all = false, more = true, limit = Infinity } = Astro.props;
 
 const items = (await getCollection('media', ({ data }) => all || data.featured)).sort((a, b) => a.data.order - b.data.order);
 // One logo per outlet.
@@ -20,7 +22,7 @@ const logos = items.filter((i) => {
   if (seen.has(key)) return false;
   seen.add(key);
   return true;
-});
+}).slice(0, limit);
 ---
 
 {
