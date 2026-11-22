@@ -49,10 +49,11 @@ const portfolio = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      category: z.enum(['open-source', 'book', 'course', 'workshop', 'podcast', 'article']),
+      category: z.enum(['open-source', 'book', 'course', 'workshop', 'podcast', 'article', 'website', 'newsletter', 'app']),
       description: z.string(),
       image: image().optional(),
       url: z.string().url().optional(),
+      externalLink: z.object({ label: z.string(), url: z.string().url() }).optional(),
       tech: z.array(z.string()).default([]),
       year: z.number().optional(),
       featured: z.boolean().default(false),

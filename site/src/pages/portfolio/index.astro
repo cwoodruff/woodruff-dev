@@ -11,10 +11,10 @@ const items = (await getCollection('portfolio')).sort(
 
 <Page
   title="Portfolio"
-  description="Books, courses, workshops, podcasts, and open-source work by Chris Woody Woodruff."
+  description="Books, websites, open-source components, a newsletter, and a podcast by Chris Woody Woodruff."
   label="Portfolio"
-  heading="Open source & writing"
-  text="Code I've shipped, books I've written, podcasts I host, and courses and workshops I've built over the years."
+  heading="Books, sites & shows"
+  text="The books I've written, the sites and tools I've built around them, and the places I write and talk every week."
   cta={{ heading: 'Got an idea worth building?', text: "If any of this work resonates, let's talk about what we could build together.", buttonText: 'Get in touch' }}
 >
   <section class="section">
@@ -23,8 +23,9 @@ const items = (await getCollection('portfolio')).sort(
         label="Portfolio filters"
         target="#portfolio-grid"
         tabs={[
-          { key: 'open-source', label: 'Open Source' },
-          { key: 'writing', label: 'Writing' },
+          { key: 'books', label: 'Books' },
+          { key: 'projects', label: 'Sites & Apps' },
+          { key: 'shows', label: 'Podcast & Newsletter' },
         ]}
       />
       <div class="grid grid--3" id="portfolio-grid">
