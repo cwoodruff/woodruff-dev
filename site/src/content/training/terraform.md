@@ -2,6 +2,7 @@
 title: "Terraform Workshop"
 short: "Infrastructure as code from the ground up: HCL, provisioning, variables and outputs, state, reusable modules, and advanced features, with a hands-on exercise in every module."
 format: workshop
+duration: "1 day"
 level: beginner
 audience: "Developers and DevOps engineers new to Terraform, and anyone looking to strengthen their infrastructure-as-code practices."
 prerequisites:
