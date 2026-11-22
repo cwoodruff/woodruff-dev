@@ -2,8 +2,8 @@
 title: "Beyond Boundaries Is Getting a Major Update for .NET 11 and C# 15"
 date: 2026-08-21
 description: "When I first published Beyond Boundaries: Networking Programming with C# and .NET, I knew it would need to evolve. Networking doesn’t stand still, and neither does the .NET platform. What I didn’t…"
-categories:
-  - "network-programming"
+categories: 
+  - "network-book-sample"
 tags:
   - "net"
   - "c"

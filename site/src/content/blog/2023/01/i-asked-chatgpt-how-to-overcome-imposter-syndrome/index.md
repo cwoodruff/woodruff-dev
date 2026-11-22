@@ -2,7 +2,7 @@
 title: "I asked ChatGPT how to overcome Imposter Syndrome."
 date: 2023-01-02
 categories: 
-  - "blog"
+  - "career-life"
 tags: 
   - "better-me"
   - "imposter-syndrome"

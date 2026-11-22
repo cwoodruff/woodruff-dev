@@ -2,7 +2,7 @@
 title: "The Journey of Self-Discovery: Exploring Your True Self at 50 as a Late Bloomer"
 date: 2023-02-09
 categories: 
-  - "blog"
+  - "career-life"
 tags: 
   - "better-me"
   - "personal"

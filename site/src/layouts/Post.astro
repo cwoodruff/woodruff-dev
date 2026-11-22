@@ -4,6 +4,7 @@ import Base from './Base.astro';
 import BlogCard from '../components/BlogCard.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { categoryHref, categoryLabel, excerpt, formatDate, isoDate, postHref, readingTime, tagHref, tagLabel, type Post } from '../lib/posts';
+import { seriesFor } from '../lib/series';
 import { site } from '../lib/site';
 import { href } from '../lib/url';
 import cartoon from '../assets/portraits/woody-cartoon-150.png';
@@ -18,16 +19,17 @@ const { post, prev, next, related } = Astro.props;
 const { data } = post;
 const og = data.coverImage ? (await getImage({ src: data.coverImage, width: 1200, format: 'jpeg' })).src : undefined;
 const shareUrl = new URL(postHref(post), Astro.site).toString();
+const inSeries = await seriesFor(post);
 ---
 
 <Base title={data.title} description={excerpt(post, 160)} image={og} type="article" publishedTime={data.date}>
-  <article class="post">
+  <article class="post" data-pagefind-body>
     <header class="post__header">
       <div class="container container--narrow post__header-inner">
         <div class="post__meta">
           {
             data.categories.map((c) => (
-              <a class="chip" href={categoryHref(c)}>
+              <a class="chip" href={categoryHref(c)} data-pagefind-filter="category">
                 {categoryLabel(c)}
               </a>
             ))
@@ -36,7 +38,21 @@ const shareUrl = new URL(postHref(post), Astro.site).toString();
           <span>{readingTime(post.body)} min read</span>
         </div>
         <h1>{data.title}</h1>
-        <div class="post__author">
+        {
+          inSeries && (
+            <p class="post__series" data-pagefind-ignore>
+              <span>
+                Part {inSeries.part} of {inSeries.series.posts.length} in{' '}
+                <a href={categoryHref(inSeries.series.category)}>{inSeries.series.title}</a>
+              </span>
+              {inSeries.part > 1 && <a href={postHref(inSeries.series.posts[0])}>Start from part 1</a>}
+              {inSeries.part < inSeries.series.posts.length && (
+                <a href={postHref(inSeries.series.posts[inSeries.part])}>Next part →</a>
+              )}
+            </p>
+          )
+        }
+        <div class="post__author" data-pagefind-ignore>
           <Image src={cartoon} alt="" width={44} height={44} />
           <span><strong>{site.name}</strong><span class="post__author-role">{site.roles[0]} · {site.roles[2]}</span></span>
         </div>
@@ -54,7 +70,7 @@ const shareUrl = new URL(postHref(post), Astro.site).toString();
       <slot />
     </div>
 
-    <footer class="container container--narrow post__footer">
+    <footer class="container container--narrow post__footer" data-pagefind-ignore>
       {
         data.tags.length > 0 && (
           <ul class="post__tags" role="list" aria-label="Tags">
@@ -119,6 +135,18 @@ const shareUrl = new URL(postHref(post), Astro.site).toString();
     font-size: 0.72rem;
   }
   .chip:hover { background: var(--c-accent); color: var(--c-black); }
+  .post__series {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    padding: 0.6rem 1rem;
+    border-left: 4px solid var(--c-accent);
+    border-radius: var(--radius-sm);
+    background: var(--c-bg-alt);
+    font-size: var(--fs-tiny);
+  }
+  .post__series a { font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
+  .post__series a:hover { color: var(--c-accent-ink); }
   .post__author { display: flex; align-items: center; gap: 0.75rem; }
   .post__author img { border-radius: 50%; background: var(--c-bg-alt); }
   .post__author > span { display: grid; line-height: 1.3; font-size: var(--fs-tiny); }

@@ -2,7 +2,7 @@
 title: "12 Months, 12 Books: My Yearlong Journey to Learn, Grow, and Level Up"
 date: 2024-12-31
 categories: 
-  - "blog"
+  - "career-life"
 tags: 
   - "books"
   - "developers"

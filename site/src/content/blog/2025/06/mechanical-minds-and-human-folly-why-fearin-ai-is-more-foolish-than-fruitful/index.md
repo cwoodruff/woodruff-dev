@@ -2,7 +2,7 @@
 title: "Mechanical Minds and Human Folly: Why Fearin' AI is More Foolish Than Fruitful"
 date: 2025-06-04
 categories: 
-  - "ai"
+  - "biz-software"
 tags: 
   - "ai"
 coverImage: "./images/Mechanical-Minds-and-Human-Folly-Why-Fearin-AI-is-More-Foolish-Than-Fruitful.png"

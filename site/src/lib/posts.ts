@@ -4,20 +4,17 @@ import { href } from './url';
 export type Post = CollectionEntry<'blog'>;
 
 const CATEGORY_LABELS: Record<string, string> = {
-  ai: 'AI',
   'biz-software': 'Business & Software',
-  blog: 'Blog',
+  'career-life': 'Career & Life',
+  'developer-experience': 'Developer Experience',
   efcore: 'EF Core',
-  'fun-tech': 'Fun Tech',
   'genetic-algorithms': 'Genetic Algorithms',
   htmx: 'htmx',
   'http-rest': 'HTTP & REST',
   'network-book-sample': 'Network Programming',
   patterns: 'Patterns',
-  'random-csharp': 'C#',
   rust: 'Rust',
   'simplicity-first': 'Simplicity-First',
-  speaking: 'Speaking',
   terraform: 'Terraform',
 };
 
