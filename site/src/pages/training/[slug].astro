@@ -8,10 +8,13 @@ import { href } from '../../lib/url';
 
 export async function getStaticPaths() {
   const items = (await getCollection('training', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
-  return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
+  return items.map((item, i) => ({
+    params: { slug: item.id },
+    props: { item, prev: items[(i - 1 + items.length) % items.length], next: items[(i + 1) % items.length] },
+  }));
 }
 
-const { item } = Astro.props;
+const { item, prev, next } = Astro.props;
 const { Content } = await render(item);
 const { data } = item;
 const fmt: Record<string, string> = { workshop: 'Workshop', course: 'Course', bootcamp: 'Bootcamp' };
@@ -39,6 +42,11 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
 
         <div class="prose reveal"><Content /></div>
 
+        <section class="reveal">
+          <h2 class="course__h2">Who it's for</h2>
+          <p class="lead">{data.audience}</p>
+        </section>
+
         {
           data.build && (
             <section class="course__build reveal">
@@ -61,24 +69,6 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
           )
         }
 
-        <section class="reveal">
-          <h2 class="course__h2">Who it's for</h2>
-          <p class="lead">{data.audience}</p>
-        </section>
-
-        {
-          data.prerequisites.length > 0 && (
-            <section class="reveal">
-              <h2 class="course__h2">Prerequisites</h2>
-              <ul class="course__list">
-                {data.prerequisites.map((p) => (
-                  <li>{p}</li>
-                ))}
-              </ul>
-            </section>
-          )
-        }
-
         {
           data.modules.length > 0 && (
             <section class="reveal">
@@ -92,6 +82,18 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
                   </li>
                 ))}
               </ol>
+            </section>
+          )
+        }
+        {
+          data.prerequisites.length > 0 && (
+            <section class="reveal">
+              <h2 class="course__h2">Prerequisites</h2>
+              <ul class="course__list">
+                {data.prerequisites.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
             </section>
           )
         }
@@ -122,6 +124,10 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
               </a>
             )
           }
+          <a class="btn btn--outline btn--block" href={href(contactPath('training'))}>
+            Request a private session <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <p class="course__delivery">Delivered privately for your team, on site or remote.</p>
           {
             data.repo && (
               <a class="course__repo" href={data.repo} target="_blank" rel="noopener">
@@ -130,12 +136,10 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
             )
           }
         </div>
-        <div class="card course__card course__card--plain reveal">
-          <span class="label">Upcoming dates</span>
-          {
-            upcoming.length === 0 ? (
-              <p>No public dates scheduled. Private delivery is available now.</p>
-            ) : (
+        {
+          upcoming.length > 0 && (
+            <div class="card course__card course__card--plain reveal">
+              <span class="label">Upcoming dates</span>
               <ul class="course__dates" role="list">
                 {upcoming.map((d) => (
                   <li>
@@ -149,12 +153,16 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
                   </li>
                 ))}
               </ul>
-            )
-          }
-          <a class:list={['btn btn--block', { 'btn--outline': data.site }]} href={href(contactPath('training'))}>Request a private session <span class="arrow" aria-hidden="true">→</span></a>
-        </div>
+            </div>
+          )
+        }
       </aside>
     </div>
+    <nav class="container course__nav" aria-label="Other workshops" style={`--course-accent:${data.accent ?? 'var(--c-accent)'}`}>
+      <a href={href(`/training/${prev.id}/`)}>← {prev.data.title}</a>
+      <a href={href('/training/')}>All workshops</a>
+      <a href={href(`/training/${next.id}/`)}>{next.data.title} →</a>
+    </nav>
   </article>
 </Page>
 
@@ -182,6 +190,19 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
   .course__card p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
   .course__card--plain { border-top-width: 1px; border-top-color: var(--c-border); }
   .course__card--plain:hover { border-top-color: var(--c-border); }
+  .course__delivery { text-align: center; }
+  .course__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sp-20);
+    margin-top: var(--sp-60);
+    padding-top: var(--sp-30);
+    border-top: 1px solid var(--c-border);
+    font-weight: 700;
+    font-size: var(--fs-tiny);
+  }
+  .course__nav a:hover { color: var(--course-accent); }
   .course__image img { width: 100%; height: auto; border-radius: var(--radius); }
   .course__build { display: grid; gap: var(--sp-10); padding: var(--sp-40); border-left: 6px solid var(--course-accent); background: var(--c-bg-alt); border-radius: var(--radius-sm); }
   .course__build p { font-size: var(--fs-small); line-height: var(--lh-snug); }
