@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import Page from '../../layouts/Page.astro';
+import { contactPath } from '../../lib/contact';
 import { href } from '../../lib/url';
 
 export async function getStaticPaths() {
@@ -34,7 +35,7 @@ const labels: Record<string, string> = {
   label={labels[data.category]}
   heading={data.title}
   text={data.description}
-  cta={{ heading: 'Want this for your team?', text: 'Books, courses, and workshops can all be delivered privately. Tell me what your team needs.', buttonText: 'Get in touch' }}
+  cta={{ heading: 'Want this for your team?', text: 'Books, courses, and workshops can all be delivered privately. Tell me what your team needs.', buttonText: 'Get in touch', buttonHref: contactPath('training') }}
 >
   <article class="section">
     <div class="container project">

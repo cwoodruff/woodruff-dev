@@ -5,6 +5,7 @@ import Page from '../../layouts/Page.astro';
 import MediaCard from '../../components/MediaCard.astro';
 import LogoStrip from '../../components/LogoStrip.astro';
 import { site } from '../../lib/site';
+import { contactPath } from '../../lib/contact';
 import { href } from '../../lib/url';
 import headThumb from '../../assets/portraits/woody-head.webp';
 import fullThumb from '../../assets/portraits/woody-full.webp';
@@ -61,7 +62,7 @@ const topics = [
   label="Press & Media"
   heading="Podcasts, talks & press"
   text="Conversations I've joined, talks I've given, and articles that feature my work. Writing about me or booking a speaker? The press kit has bios, photos, and topics ready to use."
-  cta={{ label: 'Media inquiries', heading: 'Need a guest, a speaker, or a quote?', text: 'I talk about software architecture, .NET, developer relations in the age of AI agents, and what it is like to explain code in a courtroom.', buttonText: 'Get in touch' }}
+  cta={{ label: 'Media inquiries', heading: 'Need a guest, a speaker, or a quote?', text: 'I talk about software architecture, .NET, developer relations in the age of AI agents, and what it is like to explain code in a courtroom.', buttonText: 'Get in touch', buttonHref: contactPath('press') }}
 >
   <section class="section section--tight">
     <div class="container">

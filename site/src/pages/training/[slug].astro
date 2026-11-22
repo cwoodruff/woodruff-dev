@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 import { formatDate, isoDate } from '../../lib/posts';
+import { contactPath } from '../../lib/contact';
 import { href } from '../../lib/url';
 
 export async function getStaticPaths() {
@@ -23,7 +24,7 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
   label={[fmt[data.format], data.duration, data.level].filter(Boolean).join(' · ')}
   heading={data.title}
   text={data.short}
-  cta={{ label: 'Private delivery', heading: 'Bring this to your team.', text: 'Delivered on site or remote and tailored to your codebase.', buttonText: 'Request a private session' }}
+  cta={{ label: 'Private delivery', heading: 'Bring this to your team.', text: 'Delivered on site or remote and tailored to your codebase.', buttonText: 'Request a private session', buttonHref: contactPath('training') }}
 >
   <article class="section">
     <div class="container course" style={`--course-accent:${data.accent ?? 'var(--c-accent)'}`}>
@@ -150,7 +151,7 @@ const upcoming = data.nextDates.filter((d) => d.date.valueOf() >= Date.now() - 8
               </ul>
             )
           }
-          <a class:list={['btn btn--block', { 'btn--outline': data.site }]} href={href('/contact/')}>Request a private session <span class="arrow" aria-hidden="true">→</span></a>
+          <a class:list={['btn btn--block', { 'btn--outline': data.site }]} href={href(contactPath('training'))}>Request a private session <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </aside>
     </div>
