@@ -2,6 +2,7 @@
 title: "htmx + ASP.NET Core Razor Pages"
 short: "Modern UX without JavaScript madness. Keep the server in charge of rules, validation, and rendering, and use htmx to swap HTML fragments for SPA-like interactivity."
 format: workshop
+duration: "1 day"
 level: intermediate
 audience: "ASP.NET Core developers who already ship server-rendered Razor Pages apps and want fast, modern, interactive UX without adopting a full SPA framework or moving UI state into the browser."
 prerequisites:

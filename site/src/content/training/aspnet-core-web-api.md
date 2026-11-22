@@ -2,6 +2,7 @@
 title: "ASP.NET Core Web API Workshop"
 short: "Learn to build RESTful APIs that web and mobile apps can rely on, from your first endpoint through n-tier design, caching, identity, versioning, OpenAPI, and testing."
 format: workshop
+duration: "1 day"
 level: beginner
 audience: "Developers new to ASP.NET Core Web API, and those looking to strengthen their API design, security, and testing practices on .NET 10."
 prerequisites:
