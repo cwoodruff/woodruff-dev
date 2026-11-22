@@ -1,0 +1,443 @@
+[
+ {
+  "slug": "code-review-is-the-bottleneck-thats",
+  "title": "Code Review Is the Bottleneck. That's the Good News.",
+  "subtitle": "A new Harvard study of 720,000 engineers corrects one thing I wrote this week and sharpens the rest.",
+  "post_date": "2026-11-20T11:22:45.664Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/code-review-is-the-bottleneck-thats",
+  "wordcount": 1504,
+  "type": "newsletter"
+ },
+ {
+  "slug": "ai-is-writing-code-faster-than-we",
+  "title": "AI Is Writing Code Faster Than We Can Read It",
+  "subtitle": "What the November 2026 outages tell us about unreviewed AI-generated code",
+  "post_date": "2026-11-19T00:06:46.380Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/ai-is-writing-code-faster-than-we",
+  "wordcount": 2008,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-worst-system-i-ever-built-turned",
+  "title": "The Worst System I Ever Built Turned Into a Book",
+  "subtitle": "Software Architecture Made Simple is out. Here's what it argues, how to use it, and where to start.",
+  "post_date": "2026-11-03T13:16:06.770Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-worst-system-i-ever-built-turned",
+  "wordcount": 1694,
+  "type": "newsletter"
+ },
+ {
+  "slug": "get-the-degree-write-the-code",
+  "title": "Get the Degree. Write the Code",
+  "subtitle": "Why I miss the late nights, and why today’s students shouldn’t skip them.",
+  "post_date": "2026-10-29T12:27:12.739Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/get-the-degree-write-the-code",
+  "wordcount": 1825,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-startup-architecture-trap-you",
+  "title": "The Startup Architecture Trap: You Are Paying for Scale in the Only Currency You Cannot Replace",
+  "subtitle": "The Architecture Was Built for the Pitch Deck. The Runway Paid for It.",
+  "post_date": "2026-10-21T00:18:25.550Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-startup-architecture-trap-you",
+  "wordcount": 2047,
+  "type": "newsletter"
+ },
+ {
+  "slug": "data-architecture-and-the-simplicity",
+  "title": "Data Architecture and the Simplicity Problem: Why the Data Layer Accumulates Fastest and Reverses Hardest",
+  "subtitle": "NOBODY DECIDED TO HAVE NINE DATASTORES",
+  "post_date": "2026-09-18T15:12:37.292Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/data-architecture-and-the-simplicity",
+  "wordcount": 2921,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-cost-of-the-platform-team-what",
+  "title": "The Cost of the Platform Team: What Happens When Your Internal Product Has Customers Who Cannot Leave",
+  "subtitle": "Every platform team acts as a monopoly, and most are priced that way.",
+  "post_date": "2026-09-06T19:24:19.579Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-cost-of-the-platform-team-what",
+  "wordcount": 2405,
+  "type": "newsletter"
+ },
+ {
+  "slug": "simplicity-as-a-leadership-signal",
+  "title": "Simplicity as a Leadership Signal: Your Engineers Build What You Celebrate, Not What You Request",
+  "subtitle": "The Prestige Economy Has One Owner, and It Is You",
+  "post_date": "2026-08-27T12:39:55.907Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/simplicity-as-a-leadership-signal",
+  "wordcount": 2017,
+  "type": "newsletter"
+ },
+ {
+  "slug": "stop-arguing-about-complexity-measure",
+  "title": "Stop Arguing About Complexity. Measure It.",
+  "subtitle": "Complexity is the last software cost we manage by opinion. Here is how to give it a number.",
+  "post_date": "2026-08-20T11:48:02.066Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/stop-arguing-about-complexity-measure",
+  "wordcount": 1636,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-code-is-free-the-understanding",
+  "title": "The Code Is Free. The Understanding Is Not.",
+  "subtitle": "Simplicity-First Architecture for the Agentic Era",
+  "post_date": "2026-07-22T23:09:44.043Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-code-is-free-the-understanding",
+  "wordcount": 1979,
+  "type": "newsletter"
+ },
+ {
+  "slug": "seven-ways-to-refuse-a-system-that",
+  "title": "Seven Ways to Refuse a System That Should Not Be Built",
+  "subtitle": "The Craft Almost Nobody Teaches, and the Career That Runs the Room",
+  "post_date": "2026-07-08T14:29:09.519Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/seven-ways-to-refuse-a-system-that",
+  "wordcount": 3048,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-most-expensive-decision-in-your",
+  "title": "The Most Expensive Decision in Your Company Has No Spreadsheet",
+  "subtitle": "Your architects commit the company to six-figure bills on a whiteboard, and nobody calls finance",
+  "post_date": "2026-06-23T13:50:50.310Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-most-expensive-decision-in-your",
+  "wordcount": 1039,
+  "type": "newsletter"
+ },
+ {
+  "slug": "incident-archaeology-how-to-read",
+  "title": "Incident Archaeology: How to Read a Post-Mortem for the Sentence It Could Not Bring Itself to Write",
+  "subtitle": "The Conclusion Every Outage Report Avoids",
+  "post_date": "2026-06-16T12:15:49.166Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/incident-archaeology-how-to-read",
+  "wordcount": 2472,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-abstraction-budget",
+  "title": "The Abstraction Budget",
+  "subtitle": "Why Every Interface, Generic, and Pattern in Your Codebase Has a Price You Have Not Paid Yet",
+  "post_date": "2026-06-02T12:38:07.871Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-abstraction-budget",
+  "wordcount": 2708,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-blueprint-moment",
+  "title": "The Blueprint Moment",
+  "subtitle": "What Software Engineering Stopped Measuring",
+  "post_date": "2026-05-30T23:34:40.295Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-blueprint-moment",
+  "wordcount": 3893,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-rewrite-trap-why-rebuilding-the",
+  "title": "The Rewrite Trap: Why Rebuilding the System Almost Never Fixes What Was Actually Broken",
+  "subtitle": "The Same Architecture, Now in TypeScript",
+  "post_date": "2026-05-29T07:00:51.311Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-rewrite-trap-why-rebuilding-the",
+  "wordcount": 2711,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-dependency-audit",
+  "title": "The Dependency Audit",
+  "subtitle": "Why Every Library, Framework, and Vendor on Your Stack Has a Cost You Never Wrote Down",
+  "post_date": "2026-05-19T12:05:43.222Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-dependency-audit",
+  "wordcount": 2537,
+  "type": "newsletter"
+ },
+ {
+  "slug": "what-would-justify-this-the-question",
+  "title": "What Would Justify This? The Question Teams Never Ask Before Adding Infrastructure",
+  "subtitle": "Cache First, Measure Never (And Other Confessions From the Design Review)",
+  "post_date": "2026-05-12T14:20:29.290Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/what-would-justify-this-the-question",
+  "wordcount": 2857,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-sunk-cost-architecture",
+  "title": "The Sunk Cost Architecture",
+  "subtitle": "Why Teams Can’t Stop Investing in What Isn’t Working",
+  "post_date": "2026-05-05T11:35:55.722Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-sunk-cost-architecture",
+  "wordcount": 3373,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-architecture-of-regret-why-reversibility",
+  "title": "The Architecture of Regret: Why Reversibility Is the Most Underpriced Quality in Software",
+  "subtitle": "Every One-Way Door Looks Like a Corridor Until You Need to Go Back",
+  "post_date": "2026-04-29T12:37:40.772Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-architecture-of-regret-why-reversibility",
+  "wordcount": 2283,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-status-architecture-why-complexity",
+  "title": "The Status Architecture: Why Complexity Is the Currency of Technical Prestige and Who Pays the Bill",
+  "subtitle": "The Architect Gets the Credit. The On-Call Engineer Gets the 2 A.M. Page.",
+  "post_date": "2026-04-23T12:27:37.619Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-status-architecture-why-complexity",
+  "wordcount": 2779,
+  "type": "newsletter"
+ },
+ {
+  "slug": "conways-revenge",
+  "title": "Conway's Revenge",
+  "subtitle": "How Your Org Chart Keeps Writing Code When Nobody Is Watching",
+  "post_date": "2026-04-14T12:46:16.732Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/conways-revenge",
+  "wordcount": 2220,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-governance-trap-how-architecture",
+  "title": "The Governance Trap: How Architecture Review Boards Manufacture the Complexity They Were Built to Prevent",
+  "subtitle": "The board that was built to catch over-engineering became its most reliable sponsor.",
+  "post_date": "2026-04-07T18:41:47.547Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-governance-trap-how-architecture",
+  "wordcount": 2999,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-system-nobody-designed",
+  "title": "The System Nobody Designed",
+  "subtitle": "Why every reasonable decision adds up to a system nobody wanted",
+  "post_date": "2026-03-31T17:05:24.940Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-system-nobody-designed",
+  "wordcount": 1314,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-tragedy-of-the-cloud-commons",
+  "title": "The Tragedy of the Cloud Commons",
+  "subtitle": "Why Shared Infrastructure Gets Over-Consumed",
+  "post_date": "2026-03-24T10:38:26.428Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-tragedy-of-the-cloud-commons",
+  "wordcount": 3356,
+  "type": "newsletter"
+ },
+ {
+  "slug": "technical-debt-has-an-interest-rate",
+  "title": "Technical Debt Has an Interest Rate",
+  "subtitle": "And You’re Not Calculating It",
+  "post_date": "2026-03-17T11:13:25.027Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/technical-debt-has-an-interest-rate",
+  "wordcount": 3592,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-principal-agent-problem",
+  "title": "The Principal-Agent Problem",
+  "subtitle": "Why Architects Build for Their Careers, Not Your Codebase",
+  "post_date": "2026-03-10T15:52:58.900Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-principal-agent-problem",
+  "wordcount": 3965,
+  "type": "newsletter"
+ },
+ {
+  "slug": "opportunity-cost-is-the-cost-architects",
+  "title": "Opportunity Cost Is the Cost Architects Never Count",
+  "subtitle": "The Hidden Price of Building the Wrong Things",
+  "post_date": "2026-03-03T13:02:35.339Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/opportunity-cost-is-the-cost-architects",
+  "wordcount": 3880,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-architecture-tax",
+  "title": "The Architecture Tax",
+  "subtitle": "Why Your Technical Decisions Are Your Biggest Budget Line Item",
+  "post_date": "2026-02-24T15:11:20.037Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-architecture-tax",
+  "wordcount": 3707,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-architecture-game",
+  "title": "The Architecture Game",
+  "subtitle": "Three Questions That Stop Over-Engineering Before It Starts",
+  "post_date": "2026-02-17T13:25:25.733Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-architecture-game",
+  "wordcount": 1388,
+  "type": "newsletter"
+ },
+ {
+  "slug": "your-testing-strategy-is-the-bug",
+  "title": "Your Testing Strategy Is the Bug: One Ruthless Happy Path Beats a Thousand Flaky Tests",
+  "subtitle": "How Simplicity-First teams trade massive flaky suites for a single trusted flow and a handful of high-value checks",
+  "post_date": "2026-02-10T10:51:40.191Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/your-testing-strategy-is-the-bug",
+  "wordcount": 2168,
+  "type": "newsletter"
+ },
+ {
+  "slug": "you-are-not-google-stop-copying-big",
+  "title": "You Are Not Google: Stop Copying Big Tech Architectures for Small Problem",
+  "subtitle": "How Simplicity-First teams ship faster by using one app and a database instead of hyperscaler cosplay stacks",
+  "post_date": "2026-02-03T13:32:32.066Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/you-are-not-google-stop-copying-big",
+  "wordcount": 2174,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-simplicity-code-designing-intelligent",
+  "title": "The Simplicity Code: Designing Intelligent Architecture Without the Buzzwords",
+  "subtitle": "Trade Buzzword Stack for Operational Clarity, Simpler Boundaries, and Faster Change",
+  "post_date": "2026-01-25T19:32:34.411Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-simplicity-code-designing-intelligent",
+  "wordcount": 140,
+  "type": "podcast"
+ },
+ {
+  "slug": "the-cloud-native-lie-when-modern",
+  "title": "The Cloud Native Lie: When “Modern” Architecture Is Just Lock-In with Extra Steps",
+  "subtitle": "A Simplicity-First guide to using the cloud without drowning in vendor features and operational complexity",
+  "post_date": "2026-01-21T11:16:40.055Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-cloud-native-lie-when-modern",
+  "wordcount": 2407,
+  "type": "newsletter"
+ },
+ {
+  "slug": "too-many-hands-in-the-code-why-abstractions",
+  "title": "Too Many Hands in the Code: Why Abstractions Are Not Fixing Your Architecture",
+  "subtitle": "A Simplicity-First argument for small owning teams, strict boundaries, and one clear way to use critical code",
+  "post_date": "2026-01-06T13:15:27.556Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/too-many-hands-in-the-code-why-abstractions",
+  "wordcount": 2393,
+  "type": "newsletter"
+ },
+ {
+  "slug": "stop-blaming-legacy-code-your-org",
+  "title": "Stop Blaming Legacy Code: Your Org Chart Is the Real Technical Debt",
+  "subtitle": "Why siloed teams, handoffs, and fake “platform” groups keep recreating the same broken architecture",
+  "post_date": "2025-12-16T13:05:33.992Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/stop-blaming-legacy-code-your-org",
+  "wordcount": 2409,
+  "type": "newsletter"
+ },
+ {
+  "slug": "from-data-lake-to-data-swamp-why",
+  "title": "From Data Lake to Data Swamp: Why Your Company Is Not Ready for Distributed Systems",
+  "subtitle": "A Simplicity-First Approach to Modeling, Governance, and Analytics That Actually Delivers Business Value",
+  "post_date": "2025-12-09T18:48:35.270Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/from-data-lake-to-data-swamp-why",
+  "wordcount": 2389,
+  "type": "newsletter"
+ },
+ {
+  "slug": "rethink-your-product-roadmap-replace",
+  "title": "Rethink Your Product Roadmap: Replace Quarterly Guessing with Real Customer Impact ",
+  "subtitle": "A Simplicity-First guide to replacing feature factory roadmaps with focused bets, real feedback, and measurable product impact",
+  "post_date": "2025-12-02T12:22:22.086Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/rethink-your-product-roadmap-replace",
+  "wordcount": 2521,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-backlog-is-lying-to-you-delete",
+  "title": "The Backlog Is Lying to You: Delete It and Build Products That Actually Ship",
+  "subtitle": "Techniques for teams that are tired of grooming sessions and ready to prioritize real customer value",
+  "post_date": "2025-11-25T13:24:30.646Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-backlog-is-lying-to-you-delete",
+  "wordcount": 2455,
+  "type": "newsletter"
+ },
+ {
+  "slug": "if-your-team-cannot-draw-the-architecture",
+  "title": "If Your Team Cannot Draw the Architecture From Memory, It Is Already Too Complex",
+  "subtitle": "Using human memory limits as a design constraint for diagrams, code, and system boundaries",
+  "post_date": "2025-11-18T12:41:48.974Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/if-your-team-cannot-draw-the-architecture",
+  "wordcount": 2206,
+  "type": "newsletter"
+ },
+ {
+  "slug": "simplicity-first-and-systems-thinking",
+  "title": "Simplicity-First and Systems Thinking: Understanding Complexity, Designing for Clarity",
+  "subtitle": "Applying Systems Awareness to Achieve Simplicity in Software and Strategy",
+  "post_date": "2025-11-04T13:37:04.207Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/simplicity-first-and-systems-thinking",
+  "wordcount": 1342,
+  "type": "newsletter"
+ },
+ {
+  "slug": "agile-has-lost-its-way-simplicity",
+  "title": "Agile Has Lost Its Way: Simplicity Beats Endless Ceremonies",
+  "subtitle": "",
+  "post_date": "2025-11-03T14:02:55.742Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/agile-has-lost-its-way-simplicity",
+  "wordcount": 865,
+  "type": "newsletter"
+ },
+ {
+  "slug": "microservices-were-a-mistake-why",
+  "title": "Microservices Were a Mistake: Why the Future is Simplicity",
+  "subtitle": "Untangling a decade of distributed confusion in the name of progress",
+  "post_date": "2025-10-31T16:22:13.800Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/microservices-were-a-mistake-why",
+  "wordcount": 1247,
+  "type": "newsletter"
+ },
+ {
+  "slug": "simplicity-meets-sustainability-aligning",
+  "title": "Simplicity Meets Sustainability: Aligning the Simplicity-First Initiative with the Green Software Principle",
+  "subtitle": "",
+  "post_date": "2025-10-30T18:28:01.087Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/simplicity-meets-sustainability-aligning",
+  "wordcount": 942,
+  "type": "newsletter"
+ },
+ {
+  "slug": "kill-the-bloat-the-controversial",
+  "title": "Kill the Bloat: The Controversial Clash Between SPAs, Server-Side Rendering, and the Power of Simplicity",
+  "subtitle": "Modern web development is drowning in excess.",
+  "post_date": "2025-10-29T10:29:26.833Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/kill-the-bloat-the-controversial",
+  "wordcount": 1097,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-simplicity-code-intelligent-software",
+  "title": "The Simplicity Code: Intelligent Software Architecture for Scalability and Resilience",
+  "subtitle": "What does it mean to focus on the simple?",
+  "post_date": "2025-10-28T10:59:42.008Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-simplicity-code-intelligent-software",
+  "wordcount": 1087,
+  "type": "newsletter"
+ },
+ {
+  "slug": "escaping-the-cult-of-clever-building",
+  "title": "Escaping the Cult of Clever: Building a Culture of Simplicity in Software and Leadership",
+  "subtitle": "The Recovery from Cleverness",
+  "post_date": "2025-10-24T10:39:07.139Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/escaping-the-cult-of-clever-building",
+  "wordcount": 1108,
+  "type": "newsletter"
+ },
+ {
+  "slug": "the-cult-of-clever-how-developer",
+  "title": "The Cult of Clever: How Developer Ego Destroys Simplicity",
+  "subtitle": "The Age of Over-Engineering",
+  "post_date": "2025-10-21T10:15:36.429Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/the-cult-of-clever-how-developer",
+  "wordcount": 1019,
+  "type": "newsletter"
+ },
+ {
+  "slug": "coming-soon",
+  "title": "Coming soon",
+  "subtitle": null,
+  "post_date": "2025-10-21T01:03:12.760Z",
+  "canonical_url": "https://simplicityfirstphilosophy.substack.com/p/coming-soon",
+  "wordcount": 3,
+  "type": "newsletter"
+ }
+]

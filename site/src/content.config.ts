@@ -26,6 +26,65 @@ const blog = defineCollection({
     }),
 });
 
+/**
+ * Essays from The Simplicity-First Philosophy Substack, fetched at build time.
+ * If Substack can't be reached, the committed snapshot in src/data keeps the build working.
+ */
+const SUBSTACK = 'https://simplicityfirstphilosophy.substack.com';
+
+type SubstackPost = {
+  slug: string;
+  title: string;
+  subtitle?: string | null;
+  post_date: string;
+  canonical_url: string;
+  wordcount?: number | null;
+  type: string;
+};
+
+const essays = defineCollection({
+  loader: {
+    name: 'substack-essays',
+    load: async ({ store, logger, parseData }) => {
+      let posts: SubstackPost[];
+      try {
+        const res = await fetch(`${SUBSTACK}/api/v1/posts?limit=50`, { signal: AbortSignal.timeout(15000) });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const body = await res.json();
+        // The endpoint returns either a bare array or { posts: [...] }.
+        posts = Array.isArray(body) ? body : body.posts;
+        if (!Array.isArray(posts)) throw new Error('unexpected response shape');
+        // The API caps a page at 50 and rejects offsets, so a full page may mean older essays are missing.
+        if (posts.length >= 50) logger.warn('Substack returned a full page of 50 posts; older essays may be missing.');
+      } catch (err) {
+        logger.warn(`Substack fetch failed (${err}); using the committed snapshot.`);
+        posts = (await import('./data/substack-posts.json')).default as SubstackPost[];
+      }
+      store.clear();
+      for (const p of posts.filter((p) => p.type === 'newsletter' && p.slug !== 'coming-soon')) {
+        const data = await parseData({
+          id: p.slug,
+          data: {
+            title: p.title,
+            subtitle: p.subtitle || undefined,
+            date: p.post_date,
+            url: p.canonical_url,
+            minutes: p.wordcount ? Math.max(1, Math.round(p.wordcount / 238)) : undefined,
+          },
+        });
+        store.set({ id: p.slug, data });
+      }
+    },
+  },
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string().optional(),
+    date: z.coerce.date(),
+    url: z.string().url(),
+    minutes: z.number().optional(),
+  }),
+});
+
 /** Press & Media: external appearances shown as logo cards. */
 const media = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/media' }),
@@ -121,4 +180,4 @@ const testimonials = defineCollection({
     }),
 });
 
-export const collections = { blog, media, portfolio, services, training, testimonials };
+export const collections = { blog, essays, media, portfolio, services, training, testimonials };

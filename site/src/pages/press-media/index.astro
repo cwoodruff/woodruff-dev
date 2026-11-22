@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 import MediaCard from '../../components/MediaCard.astro';
 import LogoStrip from '../../components/LogoStrip.astro';
+import { formatDate, isoDate } from '../../lib/posts';
 import { site } from '../../lib/site';
 import { contactPath } from '../../lib/contact';
 import { href } from '../../lib/url';
@@ -14,6 +15,13 @@ import portraitThumb from '../../assets/portraits/woody-photo.jpg';
 const items = (await getCollection('media')).sort(
   (a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0) || a.data.order - b.data.order,
 );
+const essays = (await getCollection('essays')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const latestEssays = essays.slice(0, 3);
+const essaysByYear = Object.entries(
+  Object.groupBy(essays, (e) => String(e.data.date.getFullYear())) as Record<string, typeof essays>,
+).sort(([a], [b]) => Number(b) - Number(a));
+const substack = 'https://simplicityfirstphilosophy.substack.com/';
+
 const groups = [
   { key: 'podcasts', label: 'Podcasts', types: ['podcast'] },
   { key: 'talks', label: 'Talks & videos', types: ['talk', 'video'] },
@@ -61,13 +69,14 @@ const topics = [
   description="Podcast appearances, talks, videos, and articles featuring Chris Woody Woodruff, plus a press kit with bios, photos, and speaking topics."
   label="Press & Media"
   heading="Podcasts, talks & press"
-  text="Conversations I've joined, talks I've given, and articles that feature my work. Writing about me or booking a speaker? The press kit has bios, photos, and topics ready to use."
+  text="Conversations I've joined, talks I've given, articles that feature my work, and the essays I write. Writing about me or booking a speaker? The press kit has bios, photos, and topics ready to use."
   cta={{ label: 'Media inquiries', heading: 'Need a guest, a speaker, or a quote?', text: 'I talk about software architecture, .NET, developer relations in the age of AI agents, and what it is like to explain code in a courtroom.', buttonText: 'Get in touch', buttonHref: contactPath('press') }}
 >
   <section class="section section--tight">
     <div class="container">
       <nav class="jump reveal" aria-label="On this page">
         <a href="#appearances">Appearances</a>
+        <a href="#essays">Essays</a>
         <a href="#press-kit">Press kit</a>
         <a href="#topics">Speaking topics</a>
       </nav>
@@ -95,7 +104,68 @@ const topics = [
     </div>
   </section>
 
-  <section class="section section--alt anchor" id="press-kit">
+  {
+    essays.length > 0 && (
+      <section class="section section--alt anchor" id="essays" aria-labelledby="essays-heading">
+        <div class="container">
+          <header class="kit__header reveal">
+            <span class="label">Essays</span>
+            <h2 id="essays-heading">The Simplicity-First Philosophy</h2>
+            <p class="lead">
+              My Substack on clarity, restraint, and purpose in software and leadership. {essays.length} essays so far, and
+              every one is free to read.
+            </p>
+            <p>
+              <a class="btn btn--outline" href={substack} target="_blank" rel="noopener">
+                Subscribe on Substack <span aria-hidden="true">↗</span>
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+            </p>
+          </header>
+
+          <h3 class="essays__h3 reveal">Latest</h3>
+          <ul class="grid grid--3 essays__latest" role="list">
+            {latestEssays.map((e) => (
+              <li class="reveal">
+                <a class="card essay" href={e.data.url} target="_blank" rel="noopener">
+                  <span class="essay__meta">
+                    <time datetime={isoDate(e.data.date)}>{formatDate(e.data.date)}</time>
+                    {e.data.minutes && <span> · {e.data.minutes} min read</span>}
+                  </span>
+                  <span class="essay__title">
+                    {e.data.title} <span class="ext" aria-label="opens in a new tab">↗</span>
+                  </span>
+                  {e.data.subtitle && <span class="essay__sub">{e.data.subtitle}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <details class="essays__all reveal">
+            <summary>Browse all {essays.length} essays</summary>
+            {essaysByYear.map(([year, list]) => (
+              <section class="essays__year" aria-label={year}>
+                <h4>{year}</h4>
+                <ul role="list">
+                  {list.map((e) => (
+                    <li>
+                      <time datetime={isoDate(e.data.date)}>{formatDate(e.data.date)}</time>
+                      <a href={e.data.url} target="_blank" rel="noopener">
+                        {e.data.title} <span class="ext" aria-label="opens in a new tab">↗</span>
+                      </a>
+                      {e.data.minutes && <span class="essays__min">{e.data.minutes} min</span>}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </details>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section anchor" id="press-kit">
     <div class="container">
       <header class="kit__header reveal">
         <span class="label">Press kit</span>
@@ -164,7 +234,7 @@ const topics = [
     </div>
   </section>
 
-  <section class="section anchor" id="topics">
+  <section class="section section--alt anchor" id="topics">
     <div class="container">
       <header class="kit__header reveal">
         <span class="label">Speaking topics</span>
@@ -261,6 +331,47 @@ const topics = [
   .facts { display: grid; gap: 0.6rem; font-size: var(--fs-tiny); }
   .facts li { position: relative; padding-left: 1.1rem; }
   .facts li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; border-radius: 50%; background: var(--c-accent); }
+
+  .essays__h3 { font-size: var(--fs-small); margin-bottom: var(--sp-20); }
+  .essay { display: grid; gap: var(--sp-10); align-content: start; height: 100%; }
+  .essay__meta { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.04em; color: var(--c-text-muted); }
+  .essay__title { font-size: var(--fs-small); font-weight: 700; line-height: var(--lh-snug); }
+  .essay:hover .essay__title { color: var(--c-accent-ink); }
+  .essay__sub { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+  .ext { color: var(--c-text-muted); }
+  .essays__all { margin-top: var(--sp-40); border-top: 1px solid var(--c-border); }
+  .essays__all summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--sp-30);
+    padding: 0.55rem 1.1rem;
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-tiny);
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+  .essays__all summary::-webkit-details-marker { display: none; }
+  .essays__all summary::after { content: '↓'; transition: transform var(--dur) var(--ease); }
+  .essays__all[open] summary::after { transform: rotate(180deg); }
+  .essays__all summary:hover { border-color: var(--c-text); }
+  .essays__year { margin-top: var(--sp-40); }
+  .essays__year h4 { font-size: var(--fs-micro); font-weight: 800; letter-spacing: 0.1em; color: var(--c-accent-ink); margin-bottom: var(--sp-10); }
+  .essays__year li {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--c-border);
+    font-size: var(--fs-tiny);
+  }
+  @media (max-width: 640px) { .essays__year li { grid-template-columns: 1fr; gap: 0.2rem; } }
+  .essays__year time, .essays__min { color: var(--c-text-muted); font-size: var(--fs-micro); }
+  .essays__year a { font-weight: 600; }
+  .essays__year a:hover { color: var(--c-accent-ink); }
 
   .topic { display: grid; gap: var(--sp-20); align-content: start; }
   .topic:hover { transform: none; border-color: var(--c-border); }
