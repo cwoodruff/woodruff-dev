@@ -1,3 +1,5 @@
+import { serviceGroups } from './services';
+
 export const site = {
   name: 'Chris Woody Woodruff',
   shortName: 'Woody',
@@ -32,45 +34,29 @@ export const site = {
     'Coined the term Agentic Developer Relations',
     'Founder, EcoSynt',
   ],
-  network: [
-    {
-      name: 'Simplicity-First',
-      url: 'https://simplicity-first.dev/',
-      blurb:
-        'Essays, patterns, and case studies on choosing boring technology, resisting complexity, and designing systems that stay readable at year five.',
-    },
-    {
-      name: 'Agentic Developer Relations',
-      url: 'https://agenticairelations.com/',
-      blurb:
-        'The discipline that makes sure AI coding agents can integrate with, consume, and represent your platform accurately. Frameworks, patterns, roles, and measurement.',
-    },
-  ],
 } as const;
 
 export const services = [
-  { slug: 'fractional-architect', name: 'Fractional Architect' },
-  { slug: 'advisory', name: 'Advisory & Board Roles' },
-  { slug: 'micro-consulting', name: 'Micro-Consulting' },
-  { slug: 'project-based', name: 'Project-Based Contracts' },
-  { slug: 'expert-witness', name: 'Expert Witness' },
-  { slug: 'agentic-developer-relations', name: 'Agentic Developer Relations' },
+  { slug: 'fractional-architect', name: 'Fractional Architect', group: 'ongoing' },
+  { slug: 'advisory', name: 'Advisory & Board Roles', group: 'ongoing' },
+  { slug: 'micro-consulting', name: 'Micro-Consulting', group: 'defined' },
+  { slug: 'project-based', name: 'Project-Based Contracts', group: 'defined' },
+  { slug: 'expert-witness', name: 'Expert Witness', group: 'specialist' },
+  { slug: 'agentic-developer-relations', name: 'Agentic Developer Relations', group: 'specialist' },
 ] as const;
 
 export const nav = [
-  { label: 'Home', path: '/' },
   {
     label: 'Services',
     path: '/services/',
-    children: services.map((s) => ({ label: s.name, path: `/services/${s.slug}/` })),
+    groups: serviceGroups.map((g) => ({
+      label: g.label,
+      children: services.filter((s) => s.group === g.key).map((s) => ({ label: s.name, path: `/services/${s.slug}/` })),
+    })),
   },
-  { label: 'Portfolio', path: '/portfolio/' },
-  { label: 'Press & Media', path: '/press-media/' },
-  { label: 'Blog & Insights', path: '/blog/' },
   { label: 'Training', path: '/training/' },
-  {
-    label: 'Network',
-    children: site.network.map((n) => ({ label: n.name, path: n.url, external: true })),
-  },
+  { label: 'Portfolio', path: '/portfolio/' },
+  { label: 'Blog', path: '/blog/' },
+  { label: 'Press', path: '/press-media/' },
   { label: 'About', path: '/about/' },
-] as const;
+];
