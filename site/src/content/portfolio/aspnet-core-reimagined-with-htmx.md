@@ -2,7 +2,7 @@
 title: "ASP.NET Core Reimagined with htmx"
 category: book
 description: "A practical guide to building modern web applications with ASP.NET Core and htmx, leveraging hypermedia-driven interactions without heavy JavaScript frameworks."
-image: "./images/book-cover-placeholder.png"
+image: "./images/aspnet-core-reimagined-with-htmx.png"
 externalLink: { label: "Read the book", url: "https://aspnet-htmx.com/" }
 tech: ["ASP.NET Core", "htmx", "Razor Pages"]
 year: 2025
