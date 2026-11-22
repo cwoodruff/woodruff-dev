@@ -2,7 +2,7 @@
 title: "New Year and the Art of the Restart"
 date: 2023-01-02
 categories: 
-  - "blog"
+  - "career-life"
 tags: 
   - "2023"
   - "goals"

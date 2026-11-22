@@ -2,7 +2,7 @@
 title: "I am Self-Publishing the Network Programming Book!"
 date: 2024-03-13
 categories: 
-  - "blog"
+  - "network-book-sample"
 tags: 
   - "net"
   - "book"

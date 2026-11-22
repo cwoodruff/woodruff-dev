@@ -1,12 +1,25 @@
 ---
 import Page from '../../layouts/Page.astro';
+import BlogCard from '../../components/BlogCard.astro';
 import BlogListing from '../../components/BlogListing.astro';
-import { getPosts, POSTS_PER_PAGE } from '../../lib/posts';
+import { getPosts, postHref, POSTS_PER_PAGE } from '../../lib/posts';
+import { getSeries } from '../../lib/series';
 import { href } from '../../lib/url';
 
 const posts = await getPosts();
 const total = Math.ceil(posts.length / POSTS_PER_PAGE);
 const urlFor = (p: number) => (p === 1 ? href('/blog/') : href(`/blog/page/${p}/`));
+
+// Cornerstone posts pinned at the top of the blog.
+const startHere = [
+  'systems-thinking-meets-simplicity-first-a-decision-framework-for-software-architects',
+  'the-strategic-case-for-use-what-works-why-smart-tech-leaders-stop-reinventing-the-wheel',
+  'why-fractional-architecture-is-the-future-of-technology-strategy',
+]
+  .map((id) => posts.find((p) => p.id === id))
+  .filter((p) => p !== undefined);
+const series = await getSeries();
+const substack = 'https://simplicityfirstphilosophy.substack.com/';
 ---
 
 <Page
@@ -17,5 +30,127 @@ const urlFor = (p: number) => (p === 1 ? href('/blog/') : href(`/blog/page/${p}/
   text={`${posts.length} articles on .NET, architecture, data, and the craft of building software that lasts.`}
   cta={false}
 >
+  <section class="section section--tight">
+    <div class="container blog-tools">
+      <div class="blog-search reveal" id="blog-search" data-base={href('/')}>
+        <noscript>Search needs JavaScript. Browse by category below instead.</noscript>
+      </div>
+      <p class="blog-follow reveal">
+        Follow along: <a href={href('/rss.xml')}>RSS feed</a> <span aria-hidden="true">·</span> <a href={substack} target="_blank" rel="noopener">Simplicity-First essays on Substack ↗</a>
+      </p>
+    </div>
+  </section>
+
+  {
+    startHere.length > 0 && (
+      <section class="section section--tight">
+        <div class="container">
+          <header class="blog-head reveal">
+            <span class="label">Start here</span>
+            <h2>New here? Read these first.</h2>
+          </header>
+          <div class="grid grid--3">
+            {startHere.map((p) => (
+              <BlogCard post={p} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    series.length > 0 && (
+      <section class="section section--tight">
+        <div class="container">
+          <header class="blog-head reveal">
+            <span class="label">Series</span>
+            <h2>Multi-part series, best read in order.</h2>
+          </header>
+          <ul class="series" role="list">
+            {series.map((s) => (
+              <li class="card series__card reveal">
+                <span class="series__count">{s.posts.length} parts</span>
+                <h3>{s.title}</h3>
+                <p>{s.blurb}</p>
+                <a class="link-arrow" href={postHref(s.posts[0])}>
+                  Start with part 1 <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <div class="container">
+    <header class="blog-head blog-head--all reveal">
+      <span class="label">All articles</span>
+    </header>
+  </div>
   <BlogListing posts={posts.slice(0, POSTS_PER_PAGE)} current={1} total={total} nextUrl={total > 1 ? urlFor(2) : undefined} urlFor={urlFor} />
 </Page>
+
+<style>
+  .blog-tools { display: grid; gap: var(--sp-20); }
+  .blog-follow { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+  .blog-follow a { font-weight: 700; color: var(--c-text); text-decoration: underline; text-underline-offset: 0.2em; }
+  .blog-follow a:hover { color: var(--c-accent-ink); }
+
+  .blog-head { display: grid; gap: var(--sp-10); margin-bottom: var(--sp-40); }
+  .blog-head h2 { font-size: var(--fs-medium); }
+  .blog-head--all { margin: var(--sp-40) 0 calc(-1 * var(--sp-60)); }
+
+  .series { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-30); }
+  @media (max-width: 1100px) { .series { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) { .series { grid-template-columns: 1fr; } }
+  .series__card { display: grid; gap: var(--sp-10); align-content: start; }
+  .series__card:hover { transform: none; border-color: var(--c-border); }
+  .series__count { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-accent-ink); }
+  .series__card h3 { font-size: var(--fs-small); }
+  .series__card p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+  .series__card .link-arrow { margin-top: auto; }
+
+  /* Pagefind UI, themed to the site. */
+  .blog-search {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: var(--c-text);
+    --pagefind-ui-text: var(--c-text);
+    --pagefind-ui-background: var(--c-bg);
+    --pagefind-ui-border: var(--c-border);
+    --pagefind-ui-tag: var(--c-accent-soft);
+    --pagefind-ui-border-width: 1.5px;
+    --pagefind-ui-border-radius: 999px;
+    --pagefind-ui-font: var(--font-sans);
+  }
+</style>
+
+<script>
+  // Pagefind's index is generated after `astro build` (npm "postbuild"). In dev,
+  // astro.config.mjs serves the index from the last build.
+  const mount = document.getElementById('blog-search');
+  if (mount) {
+    const base = mount.dataset.base ?? '/';
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = `${base}pagefind/pagefind-ui.css`;
+    document.head.append(css);
+    const js = document.createElement('script');
+    js.src = `${base}pagefind/pagefind-ui.js`;
+    js.onload = () => {
+      // @ts-expect-error PagefindUI is a global from the script above.
+      new PagefindUI({
+        element: '#blog-search',
+        baseUrl: base,
+        showSubResults: true,
+        showImages: false,
+        translations: { placeholder: 'Search all articles…' },
+      });
+    };
+    js.onerror = () => {
+      mount.textContent = 'Search index not found. Run npm run build once, then reload.';
+    };
+    document.head.append(js);
+  }
+</script>

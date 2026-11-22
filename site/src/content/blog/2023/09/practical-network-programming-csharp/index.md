@@ -2,7 +2,7 @@
 title: "The Ultimate Guide to Network Programming in C# 12 & .NET 8"
 date: 2023-09-06
 categories: 
-  - "blog"
+  - "network-book-sample"
 tags: 
   - "net"
   - "book"

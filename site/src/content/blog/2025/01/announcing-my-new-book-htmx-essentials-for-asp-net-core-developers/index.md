@@ -2,7 +2,7 @@
 title: "Announcing My New Book: htmx Essentials for ASP.NET Core Developers"
 date: 2025-01-24
 categories: 
-  - "blog"
+  - "htmx"
 tags: 
   - "net"
   - "asp-net"

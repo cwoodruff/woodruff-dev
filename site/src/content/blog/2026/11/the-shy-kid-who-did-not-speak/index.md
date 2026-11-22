@@ -2,8 +2,8 @@
 title: "The Shy Kid Who Did Not Speak"
 date: 2026-11-10
 description: "Most people may not know that I could not speak until I was almost 3 years old."
-categories:
-  []
+categories: 
+  - "career-life"
 tags:
   - "personal"
   - "speechimpediment"

@@ -2,8 +2,7 @@
 title: "Make Your GitHub Profile Update Itself (WordPress posts, GitHub releases, LinkedIn newsletters)"
 date: 2025-10-07
 categories: 
-  - "blog"
-  - "fun-tech"
+  - "developer-experience"
 tags: 
   - "github"
   - "python"

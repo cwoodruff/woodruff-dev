@@ -2,7 +2,7 @@
 title: "Looking at Writing Book Blurbs and How that can Help Conference Speakers"
 date: 2023-01-06
 categories: 
-  - "speaking"
+  - "career-life"
 tags: 
   - "creating-talks"
   - "speaking"

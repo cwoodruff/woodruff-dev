@@ -1,6 +1,6 @@
 // @ts-check
-import { existsSync, readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { createReadStream, existsSync, readdirSync, statSync } from 'node:fs';
+import { extname, join, normalize } from 'node:path';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
@@ -41,9 +41,47 @@ function wordpressRedirects(base = '') {
       }
     }
   }
-  const categories = ['rust', 'genetic-algorithms', 'efcore', 'terraform', 'patterns', 'htmx', 'http-rest', 'network-book-sample', 'biz-software', 'simplicity-first', 'speaking', 'ai', 'fun-tech', 'random-csharp'];
+  const categories = ['rust', 'genetic-algorithms', 'efcore', 'terraform', 'patterns', 'htmx', 'http-rest', 'network-book-sample', 'biz-software', 'simplicity-first', 'career-life', 'developer-experience'];
   for (const c of categories) map[`/category/${c}`] = `${base}/blog/category/${c}/`;
+  // Retired categories whose posts were folded into a broader one.
+  const retired = {
+    speaking: 'career-life',
+    ai: 'biz-software',
+    'fun-tech': 'developer-experience',
+    'random-csharp': 'network-book-sample',
+    'network-programming': 'network-book-sample',
+  };
+  for (const [from, to] of Object.entries(retired)) {
+    map[`/category/${from}`] = `${base}/blog/category/${to}/`;
+    map[`/blog/category/${from}`] = `${base}/blog/category/${to}/`;
+  }
+  map['/blog/category/blog'] = `${base}/blog/`;
   return map;
+}
+
+/**
+ * Blog search uses Pagefind, whose index is written to dist/pagefind after
+ * `npm run build`. `astro dev` has no build output, so this serves the index
+ * from the last build at /pagefind/ during development. Rebuild to refresh it.
+ * @param {string} base
+ * @returns {import('astro').AstroIntegration}
+ */
+function pagefindDevServer(base) {
+  const root = new URL('./dist/pagefind/', import.meta.url).pathname;
+  const types = { '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json' };
+  return {
+    name: 'pagefind-dev-server',
+    hooks: {
+      'astro:server:setup': ({ server }) => {
+        server.middlewares.use(`${base}/pagefind`, (req, res, next) => {
+          const file = normalize(join(root, decodeURIComponent((req.url ?? '/').split('?')[0])));
+          if (!file.startsWith(root) || !existsSync(file) || !statSync(file).isFile()) return next();
+          res.setHeader('Content-Type', types[/** @type {keyof typeof types} */ (extname(file))] ?? 'application/octet-stream');
+          createReadStream(file).pipe(res);
+        });
+      },
+    },
+  };
 }
 
 /**
@@ -61,7 +99,7 @@ export default defineConfig({
   base: preview ? '/woodruff-dev' : undefined,
   trailingSlash: 'always',
   redirects: wordpressRedirects(preview ? '/woodruff-dev' : ''),
-  integrations: [sitemap()],
+  integrations: [sitemap(), pagefindDevServer(preview ? '/woodruff-dev' : '')],
   image: {
     service: {
       entrypoint: 'astro/assets/services/sharp',

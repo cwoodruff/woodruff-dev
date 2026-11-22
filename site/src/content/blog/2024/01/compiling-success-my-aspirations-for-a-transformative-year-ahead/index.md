@@ -2,7 +2,7 @@
 title: "Compiling Success: My Aspirations for a Transformative Year Ahead"
 date: 2024-01-02
 categories: 
-  - "blog"
+  - "career-life"
 tags: 
   - "personal-journey"
 coverImage: "./images/DALL·E-2024-01-01-20.40.03-A-creative-image-for-a-WordPress-blog-post-feature-measuring-1200-x-628-pixels-themed-around-personal-growth-and-development-in-software-development.png"

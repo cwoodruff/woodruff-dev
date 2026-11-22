@@ -2,8 +2,7 @@
 title: "Think Beyond Synchronous: The Ultimate Guide to Tasks in C#"
 date: 2025-01-02
 categories: 
-  - "blog"
-  - "random-csharp"
+  - "network-book-sample"
 tags: 
   - "net"
   - "c"
