@@ -22,6 +22,9 @@ const labels: Record<string, string> = {
   workshop: 'Workshop',
   podcast: 'Podcast',
   article: 'Article',
+  website: 'Website',
+  newsletter: 'Newsletter',
+  app: 'Web App',
 };
 ---
 
@@ -58,6 +61,13 @@ const labels: Record<string, string> = {
             )
           }
         </dl>
+        {
+          data.externalLink && (
+            <a class="btn" href={data.externalLink.url} target="_blank" rel="noopener">
+              {data.externalLink.label} <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          )
+        }
       </aside>
     </div>
     <nav class="container project__nav" aria-label="Other work">

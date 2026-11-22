@@ -18,8 +18,12 @@ const labels: Record<string, string> = {
   workshop: 'Workshop',
   podcast: 'Podcast',
   article: 'Article',
+  website: 'Website',
+  newsletter: 'Newsletter',
+  app: 'Web App',
 };
-const filter = data.category === 'open-source' ? 'open-source' : 'writing';
+const filters: Record<string, string> = { book: 'books', podcast: 'shows', newsletter: 'shows', article: 'shows' };
+const filter = filters[data.category] ?? 'projects';
 ---
 
 <a
