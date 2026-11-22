@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import Page from '../../layouts/Page.astro';
+import { groupLabel } from '../../lib/services';
 import { href } from '../../lib/url';
 
 export async function getStaticPaths() {
@@ -23,20 +25,33 @@ const { data } = service;
 <Page
   title={data.title}
   description={data.short}
-  label="Service"
+  label={groupLabel(data.group)}
   heading={data.title}
   text={data.tagline}
   cta={{ label: 'Next step', heading: data.ctaHeading, text: data.ctaText, buttonText: data.ctaButton }}
 >
   <article class="section">
     <div class="container service">
-      <div class="prose service__body reveal">
-        <Content />
+      <div class="service__body">
+        {
+          data.image && (
+            <div class="service__image reveal">
+              <Image src={data.image} alt="" widths={[640, 960, 1280]} sizes="(max-width: 1000px) 92vw, 760px" />
+            </div>
+          )
+        }
+        <div class="prose reveal">
+          <Content />
+        </div>
       </div>
       <aside class="service__aside">
         <div class="card service__card reveal">
           <span class="label">In short</span>
           <p>{data.short}</p>
+          <div class="service__engagement">
+            <span>Engagement</span>
+            <strong>{data.engagement}</strong>
+          </div>
           <a class="btn btn--block" href={href('/contact/')}>{data.ctaButton} <span class="arrow" aria-hidden="true">→</span></a>
           {
             data.externalLink && (
@@ -64,7 +79,11 @@ const { data } = service;
     align-items: start;
   }
   @media (max-width: 1000px) { .service { grid-template-columns: 1fr; } }
-  .service__body { max-width: 760px; }
+  .service__body { display: grid; gap: var(--sp-50); max-width: 760px; }
+  .service__image img { width: 100%; height: auto; border-radius: var(--radius); }
+  .service__engagement { display: grid; gap: 0.2rem; padding-top: var(--sp-20); border-top: 1px solid var(--c-border); }
+  .service__engagement span { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-text-muted); }
+  .service__engagement strong { font-size: var(--fs-tiny); }
   .service__aside { position: sticky; top: calc(var(--header-h-compact) + 1.5rem); }
   .service__card { display: grid; gap: var(--sp-20); }
   .service__card:hover { transform: none; border-color: var(--c-border); }

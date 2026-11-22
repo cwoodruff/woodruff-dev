@@ -3,7 +3,10 @@ title: "Agentic Developer Relations"
 navTitle: "Agentic Developer Relations"
 tagline: "When a developer asks AI to integrate with your platform, does it work? I make the answer knowable, then improve it."
 short: "Make your platform work for AI coding agents as well as it works for people: FAISR baselines, agent-ready docs and SDKs, recipe libraries, and the human-facing DevRel programs that still matter."
-order: 5
+group: specialist
+engagement: "One-week diagnostic, then a quarter-long program"
+image: "./images/agentic-developer-relations.svg"
+order: 6
 ctaHeading: "Want to know your First-Attempt Integration Success Rate?"
 ctaText: "The week-one diagnostic answers it with real prompts against real AI tools. Let's talk about your platform and what the agents are seeing."
 ctaButton: "Start the conversation"

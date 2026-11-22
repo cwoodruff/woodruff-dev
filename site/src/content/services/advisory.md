@@ -3,7 +3,10 @@ title: "Advisory & Board Roles"
 navTitle: "Advisory & Board Roles"
 tagline: "An independent technical voice at the table where the real calls get made."
 short: "An independent technical voice for boards, founders, and PE operators: pressure-testing roadmaps, surfacing risk, and making trade-offs visible before the vote."
-order: 6
+group: ongoing
+engagement: "Monthly session plus async access, renewed quarterly"
+image: "./images/advisory.svg"
+order: 2
 ctaHeading: "Looking for an independent technical voice at the table?"
 ctaText: "Let’s talk about the decisions on your horizon and whether I’m the right fit."
 ctaButton: "Start the Conversation"

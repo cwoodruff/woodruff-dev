@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#262421"/><stop offset="1" stop-color="#0e0d0c"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.7" cy="0.35" r="0.65">
+      <stop offset="0" stop-color="#c9a96e" stop-opacity="0.28"/><stop offset="1" stop-color="#c9a96e" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 H0 V40" fill="none" stroke="#c9a96e" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="750" fill="url(#bg)"/>
+  <rect width="1200" height="750" fill="url(#grid)"/>
+  <rect width="1200" height="750" fill="url(#glow)"/>
+  <g filter="url(#shadow)"><rect x="110" y="150" width="320" height="400" rx="16" fill="#f5efe3"/></g>
+  <text x="145" y="205" xml:space="preserve" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="24" font-weight="800" fill="#1c1c1c" fill-opacity="1">Quickstart</text>
+  <rect x="145" y="232" width="240" height="12" rx="6.0" fill="#d6cfc2" fill-opacity="1"/>
+  <rect x="145" y="258" width="200" height="12" rx="6.0" fill="#d6cfc2" fill-opacity="1"/>
+  <rect x="145" y="290" width="250" height="110" rx="10" fill="#1a1917"/>
+  <text x="165" y="328" xml:space="preserve" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="700" fill="#c9a96e" fill-opacity="1">client.Charges</text>
+  <text x="165" y="360" xml:space="preserve" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="500" fill="#d6cfc2" fill-opacity="1">  .CreateAsync(...)</text>
+  <rect x="145" y="430" width="240" height="12" rx="6.0" fill="#d6cfc2" fill-opacity="1"/>
+  <rect x="145" y="456" width="170" height="12" rx="6.0" fill="#d6cfc2" fill-opacity="1"/>
+  <rect x="145" y="482" width="210" height="12" rx="6.0" fill="#d6cfc2" fill-opacity="1"/>
+  <path d="M440 350 H 490" fill="none" stroke="#c9a96e" stroke-opacity="0.7" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 14"/>
+  <g filter="url(#shadow)">
+    <rect x="500" y="270" width="120" height="110" rx="28" fill="#f5efe3"/>
+  </g>
+  <rect x="518" y="294" width="84" height="50" rx="14" fill="#1a1917"/>
+  <circle cx="542" cy="319" r="9" fill="#c9a96e"/><circle cx="578" cy="319" r="9" fill="#c9a96e"/>
+  <path d="M560 270 v-26" stroke="#f5efe3" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="560" cy="238" r="10" fill="#c9a96e"/>
+  <path d="M524 360 q36 18 72 0" fill="none" stroke="#8a6b36" stroke-width="5" stroke-linecap="round"/>
+  <path d="M630 350 H 720" fill="none" stroke="#c9a96e" stroke-opacity="0.7" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 14"/>
+  <path d="M740.0 400.0 A160 160 0 0 1 1060.0 400.0" fill="none" stroke="#3a3530" stroke-opacity="1" stroke-width="34" stroke-linecap="round"/>
+  <path d="M740.0 400.0 A160 160 0 0 1 1035.1 314.3" fill="none" stroke="#c9a96e" stroke-opacity="1" stroke-width="34" stroke-linecap="round"/>
+  <path d="M900 400 L992.9 341.1" stroke="#f5efe3" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="900" cy="400" r="16" fill="#f5efe3"/>
+  <text x="900" y="470" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="56" font-weight="800" fill="#f5efe3" fill-opacity="1">82%</text>
+  <text x="900" y="508" xml:space="preserve" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#e8d5ad" fill-opacity="0.8">FAISR</text>
+  <text x="110" y="660" xml:space="preserve" text-anchor="start" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="26" font-weight="600" fill="#e8d5ad" fill-opacity="0.85">Does the agent's first attempt work?</text>
+</svg>

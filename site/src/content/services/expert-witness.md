@@ -3,7 +3,10 @@ title: "Software Forensic Expert Witness"
 navTitle: "Expert Witness"
 tagline: "Defensible technical analysis for litigation—written for attorneys, grounded in the code."
 short: "Defensible technical analysis for litigation: contract, IP, negligence, and M&A disputes. Reports built for Daubert, testimony that holds up under cross-examination."
-order: 2
+group: specialist
+engagement: "Consult, analysis, report, and testimony"
+image: "./images/expert-witness.svg"
+order: 5
 ctaHeading: "Active litigation or pre-filing investigation?"
 ctaText: "Reach out for a confidential, conflict-checked consult."
 ctaButton: "Contact Me Confidentially"
