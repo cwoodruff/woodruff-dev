@@ -4,6 +4,7 @@ url: "https://www.infoworld.com/article/3849532/how-ai-is-transforming-ides-into
 image: "./images/infoworld.jpeg"
 outlet: "InfoWorld"
 type: "article"
+date: "2025-03-31"
 featured: true
 order: 3
 ---

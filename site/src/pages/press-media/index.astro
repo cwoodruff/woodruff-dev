@@ -1,30 +1,269 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 import MediaCard from '../../components/MediaCard.astro';
-import FilterTabs from '../../components/FilterTabs.astro';
+import LogoStrip from '../../components/LogoStrip.astro';
+import { site } from '../../lib/site';
+import { href } from '../../lib/url';
+import headThumb from '../../assets/portraits/woody-head.webp';
+import fullThumb from '../../assets/portraits/woody-full.webp';
+import portraitThumb from '../../assets/portraits/woody-photo.jpg';
 
 const items = (await getCollection('media')).sort(
   (a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0) || a.data.order - b.data.order,
 );
-const types = [...new Set(items.map((i) => i.data.type))];
-const labels: Record<string, string> = { podcast: 'Podcasts', video: 'Videos', article: 'Articles', talk: 'Talks' };
+const groups = [
+  { key: 'podcasts', label: 'Podcasts', types: ['podcast'] },
+  { key: 'talks', label: 'Talks & videos', types: ['talk', 'video'] },
+  { key: 'articles', label: 'Articles', types: ['article'] },
+]
+  .map((g) => ({ ...g, items: items.filter((i) => g.types.includes(i.data.type)) }))
+  .filter((g) => g.items.length > 0);
+
+const bios = [
+  {
+    key: 'one-line',
+    label: 'One line',
+    text: 'Chris Woody Woodruff is a software architect, author, and Microsoft MVP who helps teams untangle complexity in software systems.',
+  },
+  {
+    key: 'short',
+    label: 'Short (about 70 words)',
+    text: 'Chris Woody Woodruff is a software architect, author, and Microsoft MVP with more than 25 years of experience building and simplifying software systems. He is the author of Software Architecture Made Simple (Apress, 2026) and co-author of Developer Relations Activity Patterns (Apress, 2026), and he named the discipline of Agentic Developer Relations. He works as a fractional architect, strategic advisor, and software forensic expert witness, and lives in West Michigan.',
+  },
+  {
+    key: 'long',
+    label: 'Long (about 200 words)',
+    text: "Chris Woody Woodruff has been building software since before the first .COM boom, in a career that spans enterprise web development, cloud solutions, software analytics, and developer relations. As an architect he focuses on API design, distributed systems, and scalable architectures, and on keeping all of them simple enough to understand, change, and trust. He is a Microsoft MVP in .NET and Web Development, first awarded in 2008 and re-awarded in 2025, and a board director of the .NET Foundation.\n\nWoody is the author of Software Architecture Made Simple: A 'Simplicity-First' Approach to Software in the Age of Complexity (Apress, 2026), ASP.NET Core Reimagined with htmx, and Beyond Boundaries: Network Programming with C# and .NET, and co-author of Developer Relations Activity Patterns (Apress, 2026). He named the discipline of Agentic Developer Relations: making APIs, documentation, and SDKs work for the AI coding agents that now write a growing share of every integration.\n\nHe has given more than fifty conference talks across North America and Europe and co-hosts The Breakpoint Show podcast. Previously he led engineering and developer relations at Rocket Homes and Rocket Mortgage and was a Developer Advocate at JetBrains. Today he works as a fractional architect, strategic advisor, and software forensic expert witness from West Michigan.",
+  },
+];
+
+const photos = [
+  { file: '/press/chris-woodruff-headshot.png', label: 'Headshot', detail: 'PNG, transparent, 1600 × 1600', thumb: headThumb, aspect: 'square' },
+  { file: '/press/chris-woodruff-full-length.png', label: 'Full length', detail: 'PNG, transparent, 1600 × 2400', thumb: fullThumb, aspect: 'tall' },
+  { file: '/press/chris-woodruff-portrait.jpg', label: 'Portrait', detail: 'JPG, 1333 × 2000', thumb: portraitThumb, aspect: 'tall' },
+];
+
+const topics = [
+  { title: 'Simplicity-First architecture', text: 'Kill the bloat: why complexity is the default failure mode of modern software, and how to design systems people can understand, change, and trust.' },
+  { title: 'Agentic Developer Relations', text: 'When a developer asks an AI assistant to integrate with your platform, does it work? Measuring and improving how AI coding agents use your APIs, docs, and SDKs.' },
+  { title: 'Server-rendered UI with htmx', text: 'Modern, interactive ASP.NET Core apps without a SPA: fragment-first Razor Pages, hypermedia, and keeping the server in charge.' },
+  { title: 'Network programming in C# and .NET', text: 'From sockets to QUIC and HTTP/3, gRPC, WebSockets, and SignalR: choosing the right protocol and building it well.' },
+  { title: 'What C# can learn from Rust', text: 'Ownership, explicit errors, and immutability: the Rust ideas worth bringing back to a C# codebase.' },
+  { title: 'Explaining code in a courtroom', text: 'What software forensic expert witness work looks like, and how to make technical truth hold up under cross-examination.' },
+];
 ---
 
 <Page
   title="Press & Media"
-  description="Podcast appearances, conference talks, videos, and articles featuring Chris Woody Woodruff."
+  description="Podcast appearances, talks, videos, and articles featuring Chris Woody Woodruff, plus a press kit with bios, photos, and speaking topics."
   label="Press & Media"
-  heading="Podcasts, videos & articles"
-  text="Conversations I've hosted or joined, talks I've given, and articles published on other sites."
+  heading="Podcasts, talks & press"
+  text="Conversations I've joined, talks I've given, and articles that feature my work. Writing about me or booking a speaker? The press kit has bios, photos, and topics ready to use."
   cta={{ label: 'Media inquiries', heading: 'Need a guest, a speaker, or a quote?', text: 'I talk about software architecture, .NET, developer relations in the age of AI agents, and what it is like to explain code in a courtroom.', buttonText: 'Get in touch' }}
 >
-  <section class="section">
+  <section class="section section--tight">
     <div class="container">
-      <FilterTabs label="Media filters" target="#media-grid" tabs={types.map((t) => ({ key: t, label: labels[t] ?? t }))} />
-      <div class="grid grid--3" id="media-grid">
-        {items.map((item) => <MediaCard item={item} />)}
+      <nav class="jump reveal" aria-label="On this page">
+        <a href="#appearances">Appearances</a>
+        <a href="#press-kit">Press kit</a>
+        <a href="#topics">Speaking topics</a>
+      </nav>
+    </div>
+  </section>
+
+  <LogoStrip heading="Featured in" all more={false} />
+
+  <section class="section anchor" id="appearances">
+    <div class="container appearances">
+      {
+        groups.map((g) => (
+          <section class="appearances__group" aria-labelledby={`${g.key}-heading`}>
+            <h2 class="appearances__heading reveal" id={`${g.key}-heading`}>
+              {g.label} <span>{g.items.length}</span>
+            </h2>
+            <div class="grid grid--3">
+              {g.items.map((item) => (
+                <MediaCard item={item} />
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--alt anchor" id="press-kit">
+    <div class="container">
+      <header class="kit__header reveal">
+        <span class="label">Press kit</span>
+        <h2>Everything you need to write about or introduce me.</h2>
+        <p class="lead">Use any of these as-is. Name: <strong>Chris Woody Woodruff</strong> (Woody is fine on second reference).</p>
+      </header>
+
+      <div class="kit">
+        <div class="kit__bios">
+          {
+            bios.map((b) => (
+              <article class="card bio reveal">
+                <div class="bio__head">
+                  <h3>{b.label}</h3>
+                  <button class="bio__copy" type="button" data-copy={`bio-${b.key}`}>
+                    Copy
+                  </button>
+                </div>
+                <div class="bio__text" id={`bio-${b.key}`}>
+                  {b.text.split('\n\n').map((para) => (
+                    <p>{para}</p>
+                  ))}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <aside class="kit__aside">
+          <div class="card reveal">
+            <h3 class="kit__h3">Photos</h3>
+            <ul class="photos" role="list">
+              {
+                photos.map((p) => (
+                  <li>
+                    <a class:list={['photo', `photo--${p.aspect}`]} href={href(p.file)} download>
+                      <Image src={p.thumb} alt={`Chris Woody Woodruff, ${p.label.toLowerCase()}`} widths={[200, 400]} sizes="120px" loading="lazy" />
+                    </a>
+                    <a class="photo__link" href={href(p.file)} download>
+                      {p.label} <span aria-hidden="true">↓</span>
+                    </a>
+                    <span class="photo__detail">{p.detail}</span>
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="kit__note">Free to use with coverage, talks, and event listings. Credit not required.</p>
+          </div>
+
+          <div class="card reveal">
+            <h3 class="kit__h3">Fast facts</h3>
+            <ul class="facts" role="list">
+              {site.credentials.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="card reveal">
+            <h3 class="kit__h3">Media contact</h3>
+            <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+            <p><a class="link-arrow" href={href(site.resume)} download>Download CV <span aria-hidden="true">↓</span></a></p>
+          </div>
+        </aside>
       </div>
     </div>
   </section>
+
+  <section class="section anchor" id="topics">
+    <div class="container">
+      <header class="kit__header reveal">
+        <span class="label">Speaking topics</span>
+        <h2>Talks and conversations I can bring to your audience.</h2>
+      </header>
+      <ol class="grid grid--3 topics" role="list">
+        {
+          topics.map((t, i) => (
+            <li class="card topic reveal">
+              <span class="topic__num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{t.title}</h3>
+              <p>{t.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
 </Page>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const el = document.getElementById(btn.dataset.copy ?? '');
+      if (!el) return;
+      const text = [...el.querySelectorAll('p')].map((p) => p.textContent?.trim()).join('\n\n');
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Copied';
+      } catch {
+        // Clipboard can be blocked; select the text so it can be copied by hand.
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        window.getSelection()?.removeAllRanges();
+        window.getSelection()?.addRange(range);
+        btn.textContent = 'Selected';
+      }
+      setTimeout(() => (btn.textContent = 'Copy'), 2000);
+    });
+  });
+</script>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .jump a {
+    padding: 0.55rem 1.1rem;
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-tiny);
+    font-weight: 700;
+    transition: border-color var(--dur) var(--ease);
+  }
+  .jump a:hover { border-color: var(--c-text); }
+  .anchor { scroll-margin-top: var(--header-h-compact); }
+
+  .appearances { display: grid; gap: var(--sp-60); }
+  .appearances__group { display: grid; gap: var(--sp-30); }
+  .appearances__heading { display: flex; align-items: baseline; gap: 0.75rem; font-size: var(--fs-medium); }
+  .appearances__heading span { font-size: var(--fs-tiny); font-weight: 700; color: var(--c-text-muted); }
+
+  .kit__header { display: grid; gap: var(--sp-20); max-width: 760px; margin-bottom: var(--sp-50); }
+  .kit__header h2 { font-size: var(--fs-medium-plus); line-height: var(--lh-snug); }
+  .kit { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--sp-50); align-items: start; }
+  @media (max-width: 1000px) { .kit { grid-template-columns: 1fr; } }
+  .kit__bios { display: grid; gap: var(--sp-30); }
+  .kit__aside { display: grid; gap: var(--sp-30); }
+  .kit__aside .card, .bio { display: grid; gap: var(--sp-20); align-content: start; }
+  .kit__aside .card:hover, .bio:hover { transform: none; border-color: var(--c-border); }
+  .kit__h3 { font-size: var(--fs-small); }
+  .kit__note { font-size: var(--fs-micro); color: var(--c-text-muted); }
+
+  .bio__head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .bio__head h3 { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-accent-ink); }
+  .bio__copy {
+    padding: 0.35rem 0.9rem;
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-micro);
+    font-weight: 700;
+    transition: border-color var(--dur) var(--ease);
+  }
+  .bio__copy:hover { border-color: var(--c-text); }
+  .bio__text { display: grid; gap: var(--sp-20); }
+
+  .photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-20); }
+  .photos li { display: grid; gap: 0.25rem; align-content: start; }
+  .photo { display: block; aspect-ratio: 2 / 3; border-radius: var(--radius-sm); overflow: hidden; background: var(--c-accent-soft); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .photo--square img { object-fit: contain; object-position: bottom; }
+  .photo__link { font-size: var(--fs-micro); font-weight: 700; }
+  .photo__link:hover { color: var(--c-accent-ink); }
+  .photo__detail { font-size: 0.72rem; color: var(--c-text-muted); line-height: 1.4; }
+
+  .facts { display: grid; gap: 0.6rem; font-size: var(--fs-tiny); }
+  .facts li { position: relative; padding-left: 1.1rem; }
+  .facts li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 6px; border-radius: 50%; background: var(--c-accent); }
+
+  .topic { display: grid; gap: var(--sp-20); align-content: start; }
+  .topic:hover { transform: none; border-color: var(--c-border); }
+  .topic__num { font-size: var(--fs-micro); font-weight: 800; letter-spacing: 0.1em; color: var(--c-accent-ink); }
+  .topic h3 { font-size: var(--fs-small-plus); }
+  .topic p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
+</style>

@@ -4,6 +4,7 @@ url: "https://www.youtube.com/watch?v=si_U3Umqtm8"
 image: "./images/cdf.png"
 outlet: "CDF"
 type: "talk"
+date: "2024-10-07"
 description: "C# developers thinking about learning Rust: the why, the how, and what to watch for."
 featured: true
 order: 6
