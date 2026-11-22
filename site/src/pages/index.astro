@@ -4,13 +4,12 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
 import SectionHeader from '../components/SectionHeader.astro';
-import ServiceCard from '../components/ServiceCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import BlogCard from '../components/BlogCard.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import LogoStrip from '../components/LogoStrip.astro';
 import Stats from '../components/Stats.astro';
-import CompanionSites from '../components/CompanionSites.astro';
+import { serviceGroups } from '../lib/services';
 import { site } from '../lib/site';
 import { href } from '../lib/url';
 import { getPosts } from '../lib/posts';
@@ -22,16 +21,27 @@ import jbcc from '../assets/badges/jetbrains-jbcc.png';
 const typedWords = ['effortlessly.', 'at scale.', 'with AI agents.', 'at year five.'];
 
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
-const featured = (await getCollection('portfolio', ({ data }) => data.featured)).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+const groups = serviceGroups.map((g) => ({ ...g, items: services.filter((s) => s.data.group === g.key) }));
+const workshops = (await getCollection('training', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
+const portfolio = await getCollection('portfolio');
+
+// The newest book gets its own band; the portfolio row shows the next featured items.
+const book = portfolio.find((p) => p.id === 'software-architecture-made-simple');
+const featured = portfolio
+  .filter((p) => p.id !== book?.id)
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order)
+  .slice(0, 3);
 const testimonials = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
-const posts = (await getPosts()).slice(0, 3);
+const allPosts = await getPosts();
+const posts = allPosts.slice(0, 3);
 
 const stats = [
   { value: 25, suffix: '+', label: 'Years building software' },
   { value: 50, suffix: '+', label: 'Conference talks, North America and Europe' },
-  { value: 200, suffix: '+', label: 'Articles on this blog' },
-  { value: 3, label: 'Books written or in print' },
+  { value: Math.floor(allPosts.length / 10) * 10, suffix: '+', label: 'Articles on this blog' },
+  { value: portfolio.filter((p) => p.data.category === 'book').length, label: 'Books written or co-written' },
 ];
+const fmt: Record<string, string> = { workshop: 'Workshop', course: 'Course', bootcamp: 'Bootcamp' };
 ---
 
 <Base>
@@ -82,7 +92,37 @@ const stats = [
     </div>
   </section>
 
-  <!-- 2. Problem / Solution -->
+  <!-- 2. New book -->
+  {
+    book?.data.image && book.data.externalLink && (
+      <section class="section section--dark book" aria-labelledby="book-heading">
+        <div class="container book__grid">
+          <a class="book__cover reveal reveal--left" href={href(`/portfolio/${book.id}/`)} tabindex="-1" aria-hidden="true">
+            <Image src={book.data.image} alt="" widths={[240, 360, 480]} sizes="240px" loading="lazy" />
+          </a>
+          <div class="book__content reveal">
+            <span class="label">New from Apress · {book.data.year}</span>
+            <h2 id="book-heading">{book.data.title}</h2>
+            <p class="lead">
+              Kill the bloat. A Simplicity-First approach to software in the age of complexity, for developers, architects,
+              and tech leaders who want systems people can understand, change, and trust.
+            </p>
+            <div class="book__actions">
+              <a class="btn btn--accent" href={book.data.externalLink.url} target="_blank" rel="noopener">
+                Get the book <span aria-hidden="true">↗</span>
+                <span class="sr-only">(opens in a new tab)</span>
+              </a>
+              <a class="book__more" href={href(`/portfolio/${book.id}/`)}>
+                About the book <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- 3. Problem / Solution -->
   <section class="section section--alt problem">
     <div class="container grid grid--2">
       <div class="reveal">
@@ -104,7 +144,7 @@ const stats = [
     </div>
   </section>
 
-  <!-- 3. Intro -->
+  <!-- 4. Intro and numbers -->
   <section class="section intro">
     <div class="container intro__grid">
       <div class="intro__photo reveal reveal--left">
@@ -114,69 +154,81 @@ const stats = [
         <span class="label">Hi there</span>
         <h2>I'm Woody. Allow me to introduce myself.</h2>
         <p class="lead">
-          After two decades building distributed systems with .NET, C#, and Azure, I've shifted from full-time execution
+          After 25 years building distributed systems with .NET, C#, and Azure, I've shifted from full-time execution
           to strategic impact. Today I work as a fractional architect, technology advisor, and software expert witness,
           offering focused expertise exactly when and where it's needed.
         </p>
         <p>
-          I'm a Microsoft MVP (first awarded in 2008), co-host of The Breakpoint Show, author of
-          <em>ASP.NET Core Reimagined with htmx</em> and <em>Beyond Boundaries</em>, and the person who coined the term
-          Agentic Developer Relations. As AI writes more of the world's software, the scarce skill is knowing what not to
-          build.
+          I'm a Microsoft MVP (first awarded in 2008), co-host of The Breakpoint Show, author of <em>Software Architecture
+          Made Simple</em>, <em>ASP.NET Core Reimagined with htmx</em>, and <em>Beyond Boundaries</em>, and the person who
+          coined the term Agentic Developer Relations. As AI writes more of the world's software, the scarce skill is knowing
+          what not to build.
         </p>
         <a class="link-arrow" href={href('/about/')}>About me <span aria-hidden="true">→</span></a>
       </div>
     </div>
-  </section>
-
-  <!-- 4. Logo strip -->
-  <LogoStrip />
-
-  <!-- 5. Numbers -->
-  <section class="section section--alt">
-    <div class="container">
-      <SectionHeader label="The numbers don't lie" title="Notable milestones from a career that started before the first .COM boom" />
+    <div class="container intro__stats">
       <Stats items={stats} />
     </div>
   </section>
 
-  <!-- 6. What I do / How I do it -->
-  <section class="section">
-    <div class="container grid grid--2 whathow">
-      <div class="whathow__col reveal">
-        <span class="label">What I do</span>
-        <h2>I focus on the architecture so you can focus on the business.</h2>
-        <p class="lead">
-          Embedded architecture leadership, forensic code analysis for litigation, agentic developer relations, scoped
-          modernization projects, and an independent technical voice for boards and founders.
-        </p>
-        <a class="link-arrow" href={href('/services/')}>See the six services <span aria-hidden="true">→</span></a>
-      </div>
-      <div class="whathow__col reveal">
-        <span class="label">How I do it</span>
-        <h2>Discovery, engagement, execution, iteration.</h2>
-        <ol class="whathow__steps" role="list">
-          <li><strong>Discovery.</strong> We define your goals, pain points, and existing tech landscape in a focused kickoff.</li>
-          <li><strong>Engagement.</strong> I embed with your team on a fractional basis: guidance, architecture reviews, decision support.</li>
-          <li><strong>Execution.</strong> Clear deliverables and actionable recommendations, backed by experience and empathy.</li>
-          <li><strong>Iteration.</strong> As your needs evolve, so does my involvement: deeper during transitions, lighter when stable.</li>
-        </ol>
-      </div>
-    </div>
-  </section>
+  <!-- 5. Logo strip -->
+  <LogoStrip limit={6} />
 
-  <!-- 7. Services -->
+  <!-- 6. Services -->
   <section class="section section--alt">
     <div class="container">
-      <SectionHeader label="Services" title="Six ways to work together" />
-      <div class="grid grid--3">
-        {services.map((s, i) => <ServiceCard item={s} index={i + 1} />)}
-      </div>
+      <SectionHeader label="Services" title="I focus on the architecture so you can focus on the business." />
+      <ul class="situations" role="list">
+        {
+          groups.map((g) => (
+            <li class="card situation reveal">
+              <span class="situation__label">{g.label}</span>
+              <p class="situation__quote">“{g.situation}”</p>
+              <ul class="situation__services" role="list">
+                {g.items.map((svc) => (
+                  <li>
+                    <a href={href(`/services/${svc.id}/`)}>{svc.data.navTitle ?? svc.data.title}</a>
+                    <span>{svc.data.engagement}</span>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="text-center mt-60 reveal">
+        <a class="btn btn--outline" href={href('/services/')}>Compare all six services <span class="arrow" aria-hidden="true">→</span></a>
+      </p>
     </div>
   </section>
 
+  <!-- 7. Training -->
+  {
+    workshops.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <SectionHeader label="Training" title="Hands-on workshops your team can build along with." />
+          <ul class="workshops" role="list">
+            {workshops.map((w) => (
+              <li class="reveal">
+                <a class="card workshop" href={href(`/training/${w.id}/`)} style={`--course-accent:${w.data.accent ?? 'var(--c-accent)'}`}>
+                  <span class="workshop__meta">{[fmt[w.data.format], w.data.duration].filter(Boolean).join(' · ')}</span>
+                  <span class="workshop__title">{w.data.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="text-center mt-60 reveal">
+            <a class="btn btn--outline" href={href('/training/')}>See all workshops <span class="arrow" aria-hidden="true">→</span></a>
+          </p>
+        </div>
+      </section>
+    )
+  }
+
   <!-- 8. Portfolio -->
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <SectionHeader label="Portfolio" title="A curated selection of recent work" />
       <div class="grid grid--3">
@@ -189,7 +241,7 @@ const stats = [
   </section>
 
   <!-- 9. Testimonials -->
-  <section class="section section--alt">
+  <section class="section">
     <div class="container">
       <SectionHeader label="Testimonials" title="Some love from clients" center />
       <div class="grid grid--2 testimonials">
@@ -199,7 +251,7 @@ const stats = [
   </section>
 
   <!-- 10. Blog -->
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <SectionHeader label="Blog & Insights" title="Useful articles from the blog" />
       <div class="grid grid--3">
@@ -211,10 +263,7 @@ const stats = [
     </div>
   </section>
 
-  <!-- 11. Companion sites -->
-  <CompanionSites />
-
-  <!-- 12. CTA -->
+  <!-- 11. CTA -->
   <CtaBand heading="Ready to untangle your system?" buttonText="Hire me" />
 </Base>
 
@@ -308,33 +357,41 @@ const stats = [
   .intro__content { display: grid; gap: var(--sp-20); justify-items: start; }
   .intro__content h2 { margin-top: 0.25rem; }
 
-  /* What / how */
-  .whathow { align-items: start; }
-  .whathow__col { display: grid; gap: var(--sp-20); justify-items: start; }
-  .whathow__steps { display: grid; gap: var(--sp-20); counter-reset: step; }
-  .whathow__steps li {
-    position: relative;
-    padding-left: 3rem;
-    color: var(--c-text-muted);
-    counter-increment: step;
-  }
-  .whathow__steps li::before {
-    content: counter(step);
-    position: absolute;
-    left: 0;
-    top: 0.1em;
-    display: grid;
-    place-items: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: var(--c-text);
-    color: var(--c-white);
-    font-weight: 800;
-    font-size: 0.85rem;
-    box-shadow: inset 0 -3px 0 var(--c-accent);
-  }
-  .whathow__steps strong { color: var(--c-text); }
+  .intro__stats { margin-top: var(--sp-60); }
+
+  /* New book */
+  .book__grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: var(--sp-60); align-items: center; max-width: 960px; }
+  @media (max-width: 700px) { .book__grid { grid-template-columns: 1fr; } .book__cover { max-width: 200px; } }
+  .book__cover img { width: 100%; height: auto; border-radius: 6px; box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5); transition: transform var(--dur) var(--ease); }
+  .book__cover:hover img { transform: translateY(-4px) rotate(-1deg); }
+  .book__content { display: grid; gap: var(--sp-20); justify-items: start; }
+  .book__content h2 { font-size: var(--fs-large); color: var(--c-white); }
+  .book__content .lead { color: var(--c-text-on-dark-muted); }
+  .book__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-30); margin-top: var(--sp-10); }
+  .book__more { font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
+  .book__more:hover { color: var(--c-accent); }
+
+  /* Services by situation */
+  .situations { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-30); }
+  @media (max-width: 960px) { .situations { grid-template-columns: 1fr; } }
+  .situation { display: grid; gap: var(--sp-20); align-content: start; border-top: 4px solid var(--c-accent); }
+  .situation:hover { transform: none; border-color: var(--c-border); border-top-color: var(--c-accent); }
+  .situation__label { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-accent-ink); }
+  .situation__quote { font-size: var(--fs-small); font-weight: 700; line-height: var(--lh-snug); }
+  .situation__services { display: grid; gap: var(--sp-20); padding-top: var(--sp-20); border-top: 1px solid var(--c-border); }
+  .situation__services li { display: grid; gap: 0.15rem; }
+  .situation__services a { font-weight: 700; text-decoration: underline; text-underline-offset: 0.2em; }
+  .situation__services a:hover { color: var(--c-accent-ink); }
+  .situation__services span { font-size: var(--fs-micro); color: var(--c-text-muted); }
+
+  /* Training */
+  .workshops { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--sp-20); }
+  @media (max-width: 1100px) { .workshops { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 700px) { .workshops { grid-template-columns: 1fr; } }
+  .workshops li { display: grid; }
+  .workshop { display: grid; gap: var(--sp-10); align-content: start; border-top: 6px solid var(--course-accent); }
+  .workshop__meta { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--course-accent); }
+  .workshop__title { font-weight: 700; line-height: var(--lh-snug); }
 
   .testimonials { max-width: 1000px; margin-inline: auto; }
 </style>
