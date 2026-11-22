@@ -20,7 +20,7 @@ const latestEssays = essays.slice(0, 3);
 const essaysByYear = Object.entries(
   Object.groupBy(essays, (e) => String(e.data.date.getFullYear())) as Record<string, typeof essays>,
 ).sort(([a], [b]) => Number(b) - Number(a));
-const substack = 'https://simplicityfirstphilosophy.substack.com/';
+const substack = site.social.substack;
 
 const groups = [
   { key: 'podcasts', label: 'Podcasts', types: ['podcast'] },

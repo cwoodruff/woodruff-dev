@@ -20,6 +20,7 @@ export const site = {
     bluesky: 'https://bsky.app/profile/woodruff.dev',
     mastodon: 'https://mastodon.social/@cwoodruff',
     podcast: 'https://thebreakpoint.show/',
+    substack: 'https://simplicityfirstphilosophy.substack.com/',
   },
   credentials: [
     'Microsoft MVP in .NET and Web Development, first awarded 2008, re-awarded 2025',
