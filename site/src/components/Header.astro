@@ -37,15 +37,11 @@ function isActive(path?: string): boolean {
       <ul class="site-nav__list" role="list">
         {
           nav.map((item) =>
-            'children' in item ? (
+            'groups' in item ? (
               <li class="site-nav__item has-children">
-                {'path' in item && item.path ? (
-                  <a href={href(item.path)} class:list={['site-nav__link', { 'is-active': isActive(item.path) }]}>
-                    {item.label}
-                  </a>
-                ) : (
-                  <span class="site-nav__link">{item.label}</span>
-                )}
+                <a href={href(item.path)} class:list={['site-nav__link', { 'is-active': isActive(item.path) }]}>
+                  {item.label}
+                </a>
                 <button
                   type="button"
                   class="site-nav__caret"
@@ -56,25 +52,25 @@ function isActive(path?: string): boolean {
                     <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </button>
-                <ul class="site-nav__sub" role="list">
-                  {item.children.map((child) => (
-                    <li>
-                      <a
-                        href={href(child.path)}
-                        class:list={['site-nav__sublink', { 'is-active': isActive(child.path) }]}
-                        target={'external' in child && child.external ? '_blank' : undefined}
-                        rel={'external' in child && child.external ? 'noopener' : undefined}
-                      >
-                        {child.label}
-                        {'external' in child && child.external && (
-                          <span class="ext" aria-label="opens in a new tab">
-                            ↗
-                          </span>
-                        )}
-                      </a>
-                    </li>
+                <div class="site-nav__sub">
+                  {item.groups.map((group) => (
+                    <div class="site-nav__group">
+                      <span class="site-nav__group-label">{group.label}</span>
+                      <ul role="list">
+                        {group.children.map((child) => (
+                          <li>
+                            <a href={href(child.path)} class:list={['site-nav__sublink', { 'is-active': isActive(child.path) }]}>
+                              {child.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
+                  <a class="site-nav__all" href={href(item.path)}>
+                    All services <span aria-hidden="true">→</span>
+                  </a>
+                </div>
               </li>
             ) : (
               <li class="site-nav__item">
@@ -235,10 +231,25 @@ function isActive(path?: string): boolean {
   .site-nav__sublink.is-active {
     background: var(--c-bg-alt);
   }
-  .ext {
-    color: var(--c-text-muted);
-    font-size: 0.8em;
+  .site-nav__group + .site-nav__group { margin-top: 0.25rem; padding-top: 0.25rem; border-top: 1px solid var(--c-border); }
+  .site-nav__group-label {
+    display: block;
+    padding: 0.5rem 0.75rem 0.15rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-accent-ink);
   }
+  .site-nav__all {
+    display: block;
+    margin-top: 0.25rem;
+    padding: 0.6rem 0.75rem;
+    border-top: 1px solid var(--c-border);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  .site-nav__all:hover { color: var(--c-accent-ink); }
 
   .nav-toggle {
     display: none;
@@ -305,6 +316,8 @@ function isActive(path?: string): boolean {
     .has-children:hover .site-nav__sub:not(.is-open) { display: none; }
     .has-children.is-open .site-nav__sub { display: block; }
     .site-nav__sublink { white-space: normal; padding: 0.7rem 0.5rem; }
+    .site-nav__group-label { padding-inline: 0.5rem; }
+    .site-nav__all { padding-inline: 0.5rem; }
     .site-nav__cta { align-self: flex-start; }
   }
 </style>
