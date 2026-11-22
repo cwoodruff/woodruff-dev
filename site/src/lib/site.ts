@@ -49,11 +49,11 @@ export const site = {
 
 export const services = [
   { slug: 'fractional-architect', name: 'Fractional Architect' },
-  { slug: 'expert-witness', name: 'Expert Witness' },
+  { slug: 'advisory', name: 'Advisory & Board Roles' },
   { slug: 'micro-consulting', name: 'Micro-Consulting' },
   { slug: 'project-based', name: 'Project-Based Contracts' },
+  { slug: 'expert-witness', name: 'Expert Witness' },
   { slug: 'agentic-developer-relations', name: 'Agentic Developer Relations' },
-  { slug: 'advisory', name: 'Advisory & Board Roles' },
 ] as const;
 
 export const nav = [

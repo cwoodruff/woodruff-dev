@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Page from '../../layouts/Page.astro';
+import { contactPath } from '../../lib/contact';
 import { href } from '../../lib/url';
 
 const all = (await getCollection('training')).sort((a, b) => a.data.order - b.data.order);
@@ -20,7 +21,7 @@ const steps = [
   label="Training"
   heading="Hands-on workshops"
   text="Workshops where you build real software, not watch slides: htmx, Minimal APIs, Web API, AI with Claude, and Terraform. Each one has an open workshop guide you can explore right now."
-  cta={{ label: 'Private delivery', heading: 'Bring a workshop to your team.', text: 'Every workshop can be delivered privately, on site or remote, and tailored to your codebase. Tell me what your team needs.', buttonText: 'Tell me what you need' }}
+  cta={{ label: 'Private delivery', heading: 'Bring a workshop to your team.', text: 'Every workshop can be delivered privately, on site or remote, and tailored to your codebase. Tell me what your team needs.', buttonText: 'Tell me what you need', buttonHref: contactPath('training') }}
 >
   <section class="section">
     <div class="container">
@@ -31,7 +32,7 @@ const steps = [
             <h2>Workshop dates are being scheduled.</h2>
             <p class="lead">If your team can't wait, private delivery is available now.</p>
             <p>
-              <a class="btn" href={href('/contact/')}>
+              <a class="btn" href={href(contactPath('training'))}>
                 Tell me what your team needs <span class="arrow" aria-hidden="true">→</span>
               </a>
             </p>

@@ -1,15 +1,7 @@
 ---
+import { contactSubjects } from '../lib/contact';
 import { site } from '../lib/site';
 
-const subjects = [
-  'Fractional Leadership',
-  'Advisory & Board Roles',
-  'Consulting',
-  'Legal Work',
-  'Agentic Developer Relations',
-  'Training',
-  'Something else',
-];
 const redirect = new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/contact/?sent=1`, Astro.site).toString();
 ---
 
@@ -51,13 +43,19 @@ const redirect = new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/contact
     <label for="cf-subject">Subject <span aria-hidden="true">*</span></label>
     <select id="cf-subject" name="subject" required>
       <option value="">Your inquiry is about…</option>
-      {subjects.map((s) => <option value={s}>{s}</option>)}
+      {contactSubjects.map((s) => <option value={s.label} data-key={s.key}>{s.label}</option>)}
     </select>
   </div>
 
+  <p class="contact-form__legal" id="contact-legal" hidden>
+    <strong>Please don't include privileged or confidential case details here.</strong> This form is delivered by a
+    third-party service. For a first contact, the names of the parties and opposing counsel are enough for me to run a
+    conflict check; we can move to a secure channel once the check clears.
+  </p>
+
   <div class="field">
-    <label for="cf-message">Message</label>
-    <textarea id="cf-message" name="message" rows="6" placeholder="Tell me about your project or challenge…"></textarea>
+    <label for="cf-message">Message <span aria-hidden="true">*</span></label>
+    <textarea id="cf-message" name="message" rows="6" required placeholder="What's the situation, and what decision or deadline is in front of you?"></textarea>
   </div>
 
   <button class="btn btn--block" type="submit">Send message <span class="arrow" aria-hidden="true">→</span></button>
@@ -96,13 +94,35 @@ const redirect = new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/contact
     border: 1px solid var(--c-accent);
     color: var(--c-accent-ink);
   }
+  .contact-form__legal {
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--c-accent);
+    border-radius: var(--radius-sm);
+    background: var(--c-bg-alt);
+    font-size: var(--fs-tiny);
+  }
   .contact-form__note { font-size: var(--fs-micro); color: var(--c-text-muted); text-align: center; }
 </style>
 
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const sent = document.getElementById('contact-sent');
-  if (new URLSearchParams(location.search).get('sent') === '1' && sent) {
+  const subject = document.getElementById('cf-subject') as HTMLSelectElement | null;
+  const legal = document.getElementById('contact-legal');
+  const params = new URLSearchParams(location.search);
+
+  const syncLegal = () => {
+    if (legal && subject) legal.hidden = subject.selectedOptions[0]?.dataset.key !== 'expert-witness';
+  };
+  const preset = params.get('subject');
+  if (subject && preset) {
+    const match = [...subject.options].find((o) => o.dataset.key === preset);
+    if (match) subject.value = match.value;
+  }
+  subject?.addEventListener('change', syncLegal);
+  syncLegal();
+
+  if (params.get('sent') === '1' && sent) {
     sent.hidden = false;
     sent.scrollIntoView({ block: 'center' });
   }
@@ -120,6 +140,7 @@ const redirect = new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/contact
       const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
       if (!res.ok) throw new Error(String(res.status));
       form.reset();
+      syncLegal();
       if (sent) {
         sent.hidden = false;
         sent.scrollIntoView({ block: 'center' });

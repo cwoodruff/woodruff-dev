@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 import { groupLabel } from '../../lib/services';
+import { contactPath } from '../../lib/contact';
 import { href } from '../../lib/url';
 
 export async function getStaticPaths() {
@@ -28,7 +29,7 @@ const { data } = service;
   label={groupLabel(data.group)}
   heading={data.title}
   text={data.tagline}
-  cta={{ label: 'Next step', heading: data.ctaHeading, text: data.ctaText, buttonText: data.ctaButton }}
+  cta={{ label: 'Next step', heading: data.ctaHeading, text: data.ctaText, buttonText: data.ctaButton, buttonHref: contactPath(service.id) }}
 >
   <article class="section">
     <div class="container service">
@@ -52,7 +53,7 @@ const { data } = service;
             <span>Engagement</span>
             <strong>{data.engagement}</strong>
           </div>
-          <a class="btn btn--block" href={href('/contact/')}>{data.ctaButton} <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn--block" href={href(contactPath(service.id))}>{data.ctaButton} <span class="arrow" aria-hidden="true">→</span></a>
           {
             data.externalLink && (
               <a class="link-arrow" href={data.externalLink.url} target="_blank" rel="noopener">

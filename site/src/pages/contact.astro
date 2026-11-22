@@ -2,6 +2,12 @@
 import Page from '../layouts/Page.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { site } from '../lib/site';
+
+const steps = [
+  { title: 'A reply within 24 hours', text: 'I read every message myself and reply with any questions, or a few times to talk.' },
+  { title: 'A short call', text: "We talk through the situation and whether I'm the right fit. For legal matters, the conflict check comes first." },
+  { title: 'A written proposal', text: 'Scope, engagement shape, timeline, and price, in writing, before any work starts.' },
+];
 ---
 
 <Page
@@ -25,6 +31,20 @@ import { site } from '../lib/site';
           <div><dt>Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
           <div><dt>Location</dt><dd>{site.location}</dd></div>
         </dl>
+        <h3 class="contact__h3">What happens next</h3>
+        <ol class="contact__steps" role="list">
+          {
+            steps.map((st, i) => (
+              <li>
+                <span class="contact__num">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <strong>{st.title}</strong>
+                  <p>{st.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
         <h3 class="contact__h3">Connect</h3>
         <ul class="contact__social" role="list">
           <li><a href={site.social.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
@@ -55,6 +75,11 @@ import { site } from '../lib/site';
   .contact__details dd { font-weight: 600; font-size: var(--fs-small); }
   .contact__details a:hover { color: var(--c-accent-ink); }
   .contact__h3 { font-size: var(--fs-small); margin-top: var(--sp-20); }
+  .contact__steps { display: grid; gap: var(--sp-20); }
+  .contact__steps li { display: grid; grid-template-columns: 2.25rem 1fr; gap: 0.75rem; align-items: baseline; }
+  .contact__num { font-weight: 800; font-size: var(--fs-micro); letter-spacing: 0.08em; color: var(--c-accent-ink); }
+  .contact__steps strong { font-weight: 700; }
+  .contact__steps p { font-size: var(--fs-tiny); color: var(--c-text-muted); }
   .contact__social { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-weight: 700; font-size: var(--fs-tiny); }
   .contact__social a { text-decoration: underline; text-underline-offset: 0.2em; }
   .contact__social a:hover { color: var(--c-accent-ink); }
