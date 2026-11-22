@@ -28,9 +28,15 @@ const blog = defineCollection({
 
 /**
  * Essays from The Simplicity-First Philosophy Substack, fetched at build time.
- * If Substack can't be reached, the committed snapshot in src/data keeps the build working.
+ * If Substack can't be reached, the committed snapshot in src/data keeps the build working;
+ * refresh it with `npm run sync:essays`.
  */
 const SUBSTACK = 'https://simplicityfirstphilosophy.substack.com';
+// Substack rejects requests without a browser-like User-Agent (HTTP 403 in CI).
+const SUBSTACK_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36',
+  Accept: 'application/json',
+};
 
 type SubstackPost = {
   slug: string;
@@ -48,7 +54,7 @@ const essays = defineCollection({
     load: async ({ store, logger, parseData }) => {
       let posts: SubstackPost[];
       try {
-        const res = await fetch(`${SUBSTACK}/api/v1/posts?limit=50`, { signal: AbortSignal.timeout(15000) });
+        const res = await fetch(`${SUBSTACK}/api/v1/posts?limit=50`, { headers: SUBSTACK_HEADERS, signal: AbortSignal.timeout(15000) });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const body = await res.json();
         // The endpoint returns either a bare array or { posts: [...] }.
