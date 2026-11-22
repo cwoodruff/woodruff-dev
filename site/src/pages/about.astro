@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import Page from '../layouts/Page.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import { site } from '../lib/site';
@@ -30,6 +31,16 @@ const tabs = [
 ];
 
 const credentials = site.credentials;
+const books = (await getCollection('portfolio', ({ data }) => data.category === 'book')).sort((a, b) => a.data.order - b.data.order);
+const career = [
+  { org: 'Woody Technology Studio', role: 'Founder', text: 'My independent practice: fractional architecture, advisory, expert witness work, and agentic AI systems for regulated and enterprise environments.' },
+  { org: 'Real Time Technologies', role: 'Senior Solution Architect', text: 'A multi-tenant Azure platform built as a modular monolith, with infrastructure cost cut 35% at a 99.9% uptime SLA.' },
+  { org: 'Rocket Homes', role: 'Engineering Team Leader', text: 'Replaced point-to-point integrations with an event-driven Kafka platform and raised availability from 95% to 99.8%.' },
+  { org: 'Rocket Mortgage', role: 'Team Leader, Developer Relations', text: 'Built Developer Relations from scratch for a 200+ engineer organization and cut new-engineer ramp-up time by 42%.' },
+  { org: 'JetBrains', role: 'Developer Advocate', text: 'Brought ReSharper and Rider to .NET developers across North America through 50+ conference talks a year.' },
+  { org: 'Eidex', role: 'Principal Architect', text: 'Led the team behind an analytics platform serving more than 1,500 K-12 school districts.' },
+  { org: 'Enterprise consulting', role: 'Architect', text: 'Systems for Microsoft, MLB Advanced Media, and Fortune 500 clients, including web apps serving 1M+ concurrent users.' },
+];
 ---
 
 <Page
@@ -95,44 +106,74 @@ const credentials = site.credentials;
       <SectionHeader label="Bio" title="My journey in the world of software architecture" />
       <div class="prose reveal">
         <p>
-          Chris Woodruff has been at the forefront of software development since before the first .COM boom, building a
-          career that spans enterprise web development, cloud solutions, software analytics, and developer relations. As
-          an architect he applies deep technical expertise to complex challenges, with a particular focus on API design,
-          distributed systems, and scalable architectures. He is recognized as a Microsoft MVP specializing in .NET and
-          Web Development, first awarded in 2008 and re-awarded in 2025, and serves as a board director of the .NET
-          Foundation.
+          I've been building software since before the first .COM boom. Twenty-five years of enterprise web development,
+          cloud platforms, software analytics, and developer relations have left me with one strong conviction: complexity
+          is the default failure mode of software, and simplicity has to be chosen on purpose.
         </p>
         <p>
-          Woody's impact extends beyond his professional responsibilities; he is a dedicated mentor and educator,
-          teaching courses that help individuals transition into tech careers. His passion for sharing knowledge has
-          made him a sought-after speaker at international conferences, with more than fifty talks across North America
-          and Europe on database development, web APIs, and software architecture. He contributes to the developer
-          community by co-hosting <strong>The Breakpoint Show</strong> podcast, writing the Simplicity-First Review
-          newsletter, and creating content that helps engineers refine their skills.
+          Today I work independently as a fractional architect, strategic advisor, and software forensic expert witness. I
+          help teams make the architecture calls that are too consequential for the loudest voice in the room, give boards
+          and founders an independent technical read, and explain what code actually did to attorneys, judges, and juries.
+          I'm a Microsoft MVP in .NET and Web Development, first awarded in 2008 and re-awarded in 2025, and I serve on the
+          board of the .NET Foundation.
         </p>
         <p>
-          He is the author of <em>ASP.NET Core Reimagined with htmx</em> and <em>Beyond Boundaries: Network Programming
-          with C# 12 and .NET 8</em>, and co-author of <em>Developer Relations Activity Patterns</em> (Apress, 2026).
-          His current focus is <a href="https://agenticairelations.com/" target="_blank" rel="noopener">Agentic Developer
-          Relations</a>, a discipline he named: helping companies make their APIs, documentation, and SDKs work for the AI
-          coding agents that now write a growing share of every integration. As AI writes more of the world's software,
-          the scarce skill is knowing what not to build.
+          I also write and teach. My books cover Simplicity-First architecture, htmx with ASP.NET Core, C# network
+          programming, and developer relations, and my current focus
+          is <a href="https://agenticairelations.com/" target="_blank" rel="noopener">Agentic Developer Relations</a>, a
+          discipline I named: making APIs, documentation, and SDKs work for the AI coding agents that now write a growing
+          share of every integration. As AI writes more of the world's software, the scarce skill is knowing what not to
+          build. I've given more than fifty conference talks across North America and Europe, designed bootcamp curriculum
+          that helped people move into tech careers, and co-host <strong>The Breakpoint Show</strong>.
         </p>
         <p>
-          Previously, Woody led engineering teams at Rocket Homes, developed event-driven integration platforms, and
-          spearheaded developer relations initiatives at Rocket Mortgage. His experience also includes serving as a
-          Developer Advocate at JetBrains and architecting cloud-based analytics platforms at Eidex. Through his
-          consulting work he has assisted companies including Microsoft and MLB Advanced Media in building robust
-          software solutions.
+          Outside of tech I'm an avid bourbon enthusiast (neat, please), often out on the Bourbon Trail looking for unique
+          bottles to share with friends. I live in West Michigan and write about tech and life on this blog. You can find me
+          on <a href={site.social.bluesky} target="_blank" rel="noopener">Bluesky</a> and <a href={site.social.mastodon} target="_blank" rel="noopener me">Mastodon</a>.
         </p>
-        <p>
-          Beyond technology, Woody is an avid bourbon enthusiast (neat, please), often exploring the Bourbon Trail in
-          search of unique selections to share with friends. He lives in West Michigan and writes about his experiences
-          in tech and life on this blog. You can stay connected with him on
-          <a href={site.social.bluesky} target="_blank" rel="noopener">Bluesky</a> and
-          <a href={site.social.mastodon} target="_blank" rel="noopener me">Mastodon</a>.
+        <p class="about__press">
+          Writing about me or introducing me at an event? The <a href={href('/press-media/#press-kit')}>press kit</a> has
+          third-person bios and photos ready to use.
         </p>
       </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader label="Books" title="Books I've written" />
+      <ul class="books" role="list">
+        {
+          books.map((b) => (
+            <li class="reveal">
+              <a class="book" href={href(`/portfolio/${b.id}/`)}>
+                <span class="book__cover">
+                  {b.data.image && <Image src={b.data.image} alt="" widths={[240, 480]} sizes="200px" loading="lazy" />}
+                </span>
+                <span class="book__title">{b.data.title}</span>
+                {b.data.year && <span class="book__year">{b.data.year}</span>}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <SectionHeader label="Career" title="Where I've done the work" />
+      <ol class="career" role="list">
+        {
+          career.map((c) => (
+            <li class="career__item reveal">
+              <span class="career__org">{c.org}</span>
+              <span class="career__role">{c.role}</span>
+              <p>{c.text}</p>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
 
@@ -190,6 +231,47 @@ const credentials = site.credentials;
   .about__actions { display: flex; flex-wrap: wrap; gap: var(--sp-20); }
 
   .about__bio .prose { max-width: 760px; }
+  .about__press { padding-top: var(--sp-20); border-top: 1px solid var(--c-border); color: var(--c-text-muted); }
+
+  .books { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-40); }
+  @media (max-width: 900px) { .books { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .book { display: grid; gap: var(--sp-10); align-content: start; }
+  .book__cover { position: relative; aspect-ratio: 4 / 5; background: var(--c-accent-soft); border-radius: var(--radius); }
+  .book__cover img {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: auto;
+    height: auto;
+    max-width: calc(100% - 2 * var(--sp-30));
+    max-height: calc(100% - 2 * var(--sp-30));
+    border-radius: 4px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    transition: transform var(--dur) var(--ease);
+  }
+  .book:hover .book__cover img { transform: translateY(-4px); }
+  .book__title { font-weight: 700; line-height: var(--lh-snug); }
+  .book:hover .book__title { color: var(--c-accent-ink); }
+  .book__year { font-size: var(--fs-micro); color: var(--c-text-muted); }
+
+  .career { display: grid; gap: 0; max-width: 860px; border-left: 2px solid var(--c-border); }
+  .career__item { position: relative; display: grid; gap: 0.25rem; padding: 0 0 var(--sp-40) var(--sp-40); }
+  .career__item:last-child { padding-bottom: 0; }
+  .career__item::before {
+    content: '';
+    position: absolute;
+    left: calc(-0.5rem - 1px);
+    top: 0.3em;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--c-bg-alt);
+    border: 3px solid var(--c-accent);
+  }
+  .career__item:first-child::before { background: var(--c-accent); }
+  .career__org { font-size: var(--fs-small); font-weight: 800; }
+  .career__role { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-accent-ink); }
+  .career__item p { color: var(--c-text-muted); max-width: 680px; }
 
   .credentials__item {
     position: relative;
