@@ -38,9 +38,38 @@ const steps = [
             </p>
           </div>
         ) : (
+          <>
+          <div class="compare reveal">
+            <p class="compare__note">
+              Every workshop is delivered privately for your team, on site or remote, and can be tailored to your codebase.
+            </p>
+            <table class="compare__table">
+              <caption class="sr-only">Workshops at a glance</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Workshop</th>
+                  <th scope="col">Length</th>
+                  <th scope="col">Level</th>
+                  <th scope="col" class="compare__focus">Focus</th>
+                </tr>
+              </thead>
+              <tbody>
+                {live.map((t) => (
+                  <tr style={`--course-accent:${t.data.accent ?? 'var(--c-accent)'}`}>
+                    <th scope="row">
+                      <a href={`#${t.id}`}>{t.data.title}</a>
+                    </th>
+                    <td>{t.data.duration ?? '—'}</td>
+                    <td class="compare__level">{t.data.level}</td>
+                    <td class="compare__focus">{t.data.tech.join(', ')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <ul class="workshops" role="list">
             {live.map((t) => (
-              <li class="card workshop reveal" style={`--course-accent:${t.data.accent ?? 'var(--c-accent)'}`}>
+              <li class="card workshop reveal" id={t.id} style={`--course-accent:${t.data.accent ?? 'var(--c-accent)'}`}>
                 <a class="workshop__media" href={href(`/training/${t.id}/`)} tabindex="-1" aria-hidden="true">
                   {t.data.image && <Image src={t.data.image} alt="" widths={[480, 720, 960]} sizes="(max-width: 860px) 92vw, 480px" loading="lazy" />}
                 </a>
@@ -76,6 +105,7 @@ const steps = [
               </li>
             ))}
           </ul>
+          </>
         )
       }
     </div>
@@ -103,6 +133,21 @@ const steps = [
   .soon { display: grid; gap: var(--sp-30); max-width: 760px; justify-items: start; }
   .soon:hover { transform: none; border-color: var(--c-border); }
 
+  .compare { display: grid; gap: var(--sp-20); margin-bottom: var(--sp-60); }
+  .compare__note { color: var(--c-text-muted); }
+  .compare__table { width: 100%; border-collapse: collapse; font-size: var(--fs-tiny); }
+  .compare__table th,
+  .compare__table td { padding: 0.75rem 0.75rem 0.75rem 0; text-align: left; border-bottom: 1px solid var(--c-border); vertical-align: baseline; }
+  .compare__table thead th { font-size: var(--fs-micro); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-text-muted); }
+  .compare__table tbody th { font-weight: 700; }
+  .compare__table tbody th a { display: inline-flex; align-items: baseline; gap: 0.6rem; }
+  .compare__table tbody th a::before { content: ''; flex: none; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--course-accent); }
+  .compare__table tbody th a:hover { color: var(--course-accent); }
+  .compare__level { text-transform: capitalize; }
+  .compare__focus { color: var(--c-text-muted); }
+  @media (max-width: 700px) { .compare__focus { display: none; } }
+
+  .workshop { scroll-margin-top: calc(var(--header-h-compact) + 1rem); }
   .workshops { display: grid; gap: var(--sp-50); }
   .workshop {
     display: grid;
