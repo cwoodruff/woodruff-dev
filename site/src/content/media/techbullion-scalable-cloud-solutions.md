@@ -4,6 +4,7 @@ url: "https://techbullion.com/chris-woody-woodruff-architecting-scalable-cloud-s
 image: "./images/techbullion.png"
 outlet: "TechBullion"
 type: "article"
+date: "2025-03-05"
 description: "A conversation about building cloud-native solutions on Azure and the decisions that make them last."
 featured: true
 order: 4

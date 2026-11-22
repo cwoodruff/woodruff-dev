@@ -21,6 +21,16 @@ export const site = {
     mastodon: 'https://mastodon.social/@cwoodruff',
     podcast: 'https://thebreakpoint.show/',
   },
+  credentials: [
+    'Microsoft MVP in .NET and Web Development, first awarded 2008, re-awarded 2025',
+    'Board director, .NET Foundation',
+    'JetBrains Community Contributor',
+    '50+ conference talks across North America and Europe',
+    'Co-host, The Breakpoint Show',
+    'Author of the Simplicity-First Review newsletter',
+    'Coined the term Agentic Developer Relations',
+    'Founder, EcoSynt',
+  ],
   network: [
     {
       name: 'Simplicity-First',

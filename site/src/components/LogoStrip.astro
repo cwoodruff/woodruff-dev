@@ -3,7 +3,16 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { href } from '../lib/url';
 
-const items = (await getCollection('media', ({ data }) => data.featured)).sort((a, b) => a.data.order - b.data.order);
+interface Props {
+  heading?: string;
+  /** Include every outlet, not just featured ones. */
+  all?: boolean;
+  /** Show the link to the full press page. */
+  more?: boolean;
+}
+const { heading = 'Heard and read on', all = false, more = true } = Astro.props;
+
+const items = (await getCollection('media', ({ data }) => all || data.featured)).sort((a, b) => a.data.order - b.data.order);
 // One logo per outlet.
 const seen = new Set<string>();
 const logos = items.filter((i) => {
@@ -19,7 +28,7 @@ const logos = items.filter((i) => {
     <section class="logos section--tight" aria-labelledby="logos-heading">
       <div class="container">
         <p class="logos__heading reveal" id="logos-heading">
-          Heard and read on
+          {heading}
         </p>
         <ul class="logos__list reveal" role="list">
           {logos.map((l) => (
@@ -30,11 +39,15 @@ const logos = items.filter((i) => {
             </li>
           ))}
         </ul>
-        <p class="logos__more reveal">
-          <a class="link-arrow" href={href('/press-media/')}>
-            All press and media <span aria-hidden="true">→</span>
-          </a>
-        </p>
+        {
+          more && (
+            <p class="logos__more reveal">
+              <a class="link-arrow" href={href('/press-media/')}>
+                All press and media <span aria-hidden="true">→</span>
+              </a>
+            </p>
+          )
+        }
       </div>
     </section>
   )
