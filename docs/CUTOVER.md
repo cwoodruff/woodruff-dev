@@ -5,7 +5,7 @@ Follow in order. Each step says what to check before moving on. Total active tim
 ## 0. Before the day
 
 - [ ] PRs #4, #5, #6, #7, and the Phase 4 PR are merged to `main` and the preview at https://cwoodruff.github.io/woodruff-dev/ has been reviewed.
-- [ ] Web3Forms: create an access key at https://web3forms.com with `chris@woodruff.dev` as the destination, confirm the verification email, and replace `REPLACE_WITH_WEB3FORMS_ACCESS_KEY` in `site/src/lib/site.ts`. Send one test message from the preview site.
+- [ ] Web3Forms: create an access key at https://web3forms.com with `cwoodruff@live.com` as the destination, confirm the verification email, and replace `REPLACE_WITH_WEB3FORMS_ACCESS_KEY` in `site/src/lib/site.ts`. Send one test message from the preview site.
 - [ ] Confirm the Ted Neward testimonial wording (`site/src/content/testimonials/ted-neward.md`) or remove the file.
 - [ ] Optional: real book covers into `site/src/content/portfolio/images/` and update the three `image:` lines.
 - [ ] Pull anything published on WordPress since the last sync:

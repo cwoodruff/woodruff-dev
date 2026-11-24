@@ -93,7 +93,7 @@ Material to lift into the service page and the home copy:
 - The week-one exercise from For DevRel Teams (ten integration tasks, typical prompts, two AI tools, scored output) becomes the Micro-Consulting-sized entry offer.
 - Credentials to add to About: coined the term Agentic Developer Relations; co-author of *Developer Relations Activity Patterns* (Apress, 2026, with Ted Neward, Scott McAllister, and David Neal); founder of EcoSynt.
 
-Note the About page there lists `cwoodruff@live.com`; woodruff.dev keeps `chris@woodruff.dev`.
+Note the About page there lists `cwoodruff@live.com`; woodruff.dev keeps `cwoodruff@live.com`.
 
 Plan for these: downscale the two large sources once (hero to 2400px tall, head to 1600px) and commit the downscaled copies under `site/src/assets/portraits/`. Astro's `<Image>`/`<Picture>` components then emit WebP/AVIF at the exact rendered widths at build time. The 39 MB original stays in `/images` as the master but is not referenced by the site, so it never enters the build.
 
@@ -594,7 +594,7 @@ The Razor Pages POST handler cannot run on GitHub Pages. **Decided: Web3Forms.**
 - Plain HTML `<form action="https://api.web3forms.com/submit" method="POST">` with the same fields as today (Name, Email, Phone, Company, Subject select, Message) plus Training in the Subject list.
 - Hidden fields: `access_key` (Web3Forms keys are designed to be public and are stored in `lib/site.ts`, not in a secret), `subject` built from the select, `from_name`, `redirect` to `https://woodruff.dev/contact/?sent=1`.
 - Spam: Web3Forms' `botcheck` honeypot checkbox, hidden with CSS. hCaptcha can be switched on later from the Web3Forms dashboard without a code change.
-- Setup: create the key at web3forms.com with `chris@woodruff.dev` as the destination, verify the address, paste the key into `lib/site.ts`.
+- Setup: create the key at web3forms.com with `cwoodruff@live.com` as the destination, verify the address, paste the key into `lib/site.ts`.
 - Progressive enhancement: a small inline script submits via `fetch` and shows the success state in place; without JavaScript the plain POST and redirect still work.
 
 ---

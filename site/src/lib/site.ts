@@ -8,7 +8,7 @@ export const site = {
   description:
     'Chris Woody Woodruff helps teams untangle complexity in software systems: fractional architecture, agentic developer relations, expert witness work, and strategic technology advice.',
   roles: ['Fractional Architect', 'Strategic Advisor', 'Expert Witness'],
-  email: 'chris@woodruff.dev',
+  email: 'cwoodruff@live.com',
   phone: '+1 616.724.6885',
   phoneHref: 'tel:+16167246885',
   location: 'Wyoming, MI 49418',
