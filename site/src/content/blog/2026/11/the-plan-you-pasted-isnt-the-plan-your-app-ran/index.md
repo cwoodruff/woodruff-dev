@@ -1,8 +1,9 @@
 ---
 title: "The Plan You Pasted Isn’t the Plan Your App Ran"
 date: 2026-11-24
-slug: "the-plan-you-pasted-isnt-the-plan-your-app-ran"
-categories: ["efcore"]
+categories:
+  - "efcore"
+coverImage: "./images/the-plan-you-pasted-isnt-the-plan-your-app-ran.png"
 ---
 # The Plan You Pasted Isn’t the Plan Your App Ran
 
