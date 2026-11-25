@@ -11,8 +11,6 @@ coverImage: "./images/the-plan-you-pasted-isnt-the-plan-your-app-ran.png"
 draft: false
 ---
 
-# The Plan You Pasted Isn’t the Plan Your App Ran
-
 Every developer has worked this case at least once. The ticket reads like this:
 
 *Team page is slow for the Cubs. All right for everybody else. Nothing deployed this week.*
