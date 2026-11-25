@@ -16,7 +16,8 @@ interface Props {
 }
 
 const props = Astro.props;
-const gaId = "G-346496664";
+const gaId = 'G-ZGNC3D2CKX';
+const isProd = import.meta.env.PROD;
 ---
 
 <!doctype html>
@@ -31,6 +32,17 @@ const gaId = "G-346496664";
     <link rel="preload" href={fontUrl} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#ffffff" />
     <meta name="generator" content={Astro.generator} />
+    {isProd && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        <script is:inline define:vars={{ gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
