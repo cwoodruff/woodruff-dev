@@ -1,0 +1,54 @@
+{
+  "schema": "squad-agent-provenance/v1",
+  "schema_version": 1,
+  "revision": 6,
+  "generated_at": "2026-11-25T19:22:15.550Z",
+  "agents": {
+    "mal": {
+      "display_name": "Mal",
+      "persistent_name": "Mal",
+      "role": "Lead / Architect",
+      "universe": "cli-cast",
+      "status": "active",
+      "created_at": "2026-11-25T19:22:14.436Z",
+      "updated_at": "2026-11-25T19:22:14.436Z"
+    },
+    "kaylee": {
+      "display_name": "Kaylee",
+      "persistent_name": "Kaylee",
+      "role": "Astro Frontend Engineer",
+      "universe": "cli-cast",
+      "status": "active",
+      "created_at": "2026-11-25T19:22:14.780Z",
+      "updated_at": "2026-11-25T19:22:14.780Z"
+    },
+    "wash": {
+      "display_name": "Wash",
+      "persistent_name": "Wash",
+      "role": "Build & Deploy Engineer",
+      "universe": "cli-cast",
+      "status": "active",
+      "created_at": "2026-11-25T19:22:15.039Z",
+      "updated_at": "2026-11-25T19:22:15.039Z"
+    },
+    "inara": {
+      "display_name": "Inara",
+      "persistent_name": "Inara",
+      "role": "Content & SEO Specialist",
+      "universe": "cli-cast",
+      "status": "active",
+      "created_at": "2026-11-25T19:22:15.293Z",
+      "updated_at": "2026-11-25T19:22:15.293Z"
+    },
+    "simon": {
+      "display_name": "Simon",
+      "persistent_name": "Simon",
+      "role": "Test Engineer",
+      "universe": "cli-cast",
+      "status": "active",
+      "created_at": "2026-11-25T19:22:15.550Z",
+      "updated_at": "2026-11-25T19:22:15.550Z"
+    }
+  },
+  "transaction_id": "dd16afb3-9378-4e4a-ac3d-931f6babff79"
+}
