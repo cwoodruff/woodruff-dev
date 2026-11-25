@@ -1,10 +1,16 @@
 ---
 title: "The Plan You Pasted Isn’t the Plan Your App Ran"
 date: 2026-11-24
+description: "Most people may not know that I could not speak until I was almost 3 years old."
 categories:
   - "efcore"
+tags:
+  - "efcore"
+  - "mssqlk"
 coverImage: "./images/the-plan-you-pasted-isnt-the-plan-your-app-ran.png"
+draft: false
 ---
+
 # The Plan You Pasted Isn’t the Plan Your App Ran
 
 Every developer has worked this case at least once. The ticket reads like this:
